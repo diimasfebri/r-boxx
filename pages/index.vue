@@ -8,12 +8,12 @@
         <span>Masuk</span>
       </div>
     </div>
-    <new-cust v-if="bukaPopup" @tutup-popup="bukaPopup = false" />
+    <new-member v-if="bukaPopup" @tutup-popup="bukaPopup = false" />
   </div>
 </template>
 
 <script>
-import NewCust from '../components/NewCust.vue'
+import NewCust from '../components/NewMember.vue'
 export default {
   components: { NewCust },
   middleware: 'auth',
