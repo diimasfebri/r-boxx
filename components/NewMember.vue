@@ -48,9 +48,7 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-    daftar() {
-      
-    }
+    daftar() {},
   },
 }
 </script>
