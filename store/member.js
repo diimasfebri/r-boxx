@@ -3,6 +3,7 @@ export const state = () => {
   return {
     NIK: '',
     name: '',
+    rewards: null,
   }
 }
 
@@ -14,6 +15,9 @@ export const getters = {
   name(state) {
     return state.name
   },
+  rewards(state) {
+    return state.rewards
+  },
 }
 
 // modifikasi atau merubah data
@@ -23,6 +27,9 @@ export const mutations = {
   },
   SET_NAME(state, name) {
     state.name = name
+  },
+  SET_REWARDS(state, rewards) {
+    state.rewards = rewards
   },
 }
 
@@ -34,14 +41,18 @@ export const actions = {
   setName({ commit }, name) {
     commit('SET_NAME', name)
   },
+  setRewards({ commit }, rewards) {
+    commit('SET_REWARDS', rewards)
+  },
 
-  async daftar({ dispatch }, { name, NIK }) {
+  async daftar({ dispatch }, { name, NIK, rewards }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/members/newmember',
         {
-          NIK,
           name,
+          NIK,
+          rewards,
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)

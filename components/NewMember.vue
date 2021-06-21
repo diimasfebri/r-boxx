@@ -52,11 +52,13 @@ export default {
       const member = {
         name: this.name.model,
         NIK: this.NIK.model,
+        rewards: 0,
       }
       try {
-        const memberSignUp = await this.$store.dispatch('member/daftar', {
+        const memberSignUp = await this.$store.dispatch('daftar/member', {
           name: member.name,
           NIK: member.NIK,
+          rewards: member.rewards,
         })
         if (memberSignUp.message !== 'SUCCESS')
           throw new Error(memberSignUp.message)
