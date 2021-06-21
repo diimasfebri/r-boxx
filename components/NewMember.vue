@@ -54,7 +54,7 @@ export default {
         NIK: this.NIK.model,
       }
       try {
-        const memberSignUp = await this.$store.dispatch('member/daftar', {
+        const memberSignUp = await this.$store.dispatch('newmember', {
           name: member.name,
           NIK: member.NIK,
         })

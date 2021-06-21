@@ -9,7 +9,7 @@ export const state = () => {
 // ambil data ke variabel
 export const getters = {
   NIK(state) {
-    return state.NIK
+    return state.nik
   },
   name(state) {
     return state.name
@@ -18,8 +18,8 @@ export const getters = {
 
 // modifikasi atau merubah data
 export const mutations = {
-  SET_NIK(state, NIK) {
-    state.NIK = NIK
+  SET_NIK(state, nik) {
+    state.nik = nik
   },
   SET_NAME(state, name) {
     state.name = name
@@ -28,47 +28,44 @@ export const mutations = {
 
 // memberi aksi pada variabel fungsi, parameter "commit" untuk memanggil mutations & parameter "getters" demikian pula
 export const actions = {
-  setNIK({ commit }, NIK) {
-    commit('SET_NIK', NIK)
+  setNIK({ commit }, nik) {
+    commit('SET_NIK', nik)
   },
   setName({ commit }, name) {
     commit('SET_NAME', name)
   },
 
-  async daftar({ dispatch }, { name, NIK }) {
+  async daftar({ dispatch }, { name, nik }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/members/newmember',
         {
-          NIK,
           name,
+          nik,
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      console.log(data)
+      dispatch('setnik', data.nik)
+      dispatch('setNAME', data.name)
       return { message: 'SUCCESS' }
     } catch (e) {
       return { message: e.message }
     }
   },
 
-  async login({ dispatch }, { username, password }) {
+  async masuk({ dispatch }, { nik }) {
     try {
       const { data } = await this.$axios.post(
-        'http://localhost:8000/users/signin',
+        'http://localhost:8000/members/memberinput',
         {
-          username,
-          password,
+          nik,
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
       console.log(data)
-      dispatch('setIdUser', data.user)
-      dispatch('setAvatar', data.avatar)
-      dispatch('setName', data.name)
+      // dispatch('setNIK', data.NIK)
       return { message: 'SUCCESS' }
     } catch (e) {
-      console.log(e)
       return { message: e.message }
     }
   },

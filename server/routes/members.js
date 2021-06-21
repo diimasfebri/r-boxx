@@ -26,6 +26,26 @@ router.post('/newmember', async (req, res) => {
   }
 })
 
+router.post('/memberinput', async (req, res) => {
+  const {
+    body: { NIK }
+  } = req
+  try {
+    //CEK
+    const attendee = await member.findOne({ NIK }).exec()
+    if (!attendee)
+      throw new Error('USER_NOT_FOUND')
+    // mengambil id dari mongodb nya langsung 
+    return res.send({
+      message: 'SUCCESS', nama: attendee.name, NIK: attendee.NIK
+    })
+
+  } catch (e) {
+    const { message } = e
+    if (message === 'INVALID_REQUEST') res.status(404).send({ message })
+    else res.status(500).send({ message })
+  }
+})
 
 router.get('/', async (req, res)=>{
 	try{
