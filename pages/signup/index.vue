@@ -3,8 +3,7 @@
     <div class="main-card">
       <div class="error-container"></div>
       <div class="header">
-        <h1 class="name">Welcome to Susmed!</h1>
-        <p class="message subtext-dark">Social media yang suspicious</p>
+        <h1 class="name">Welcome to R-BOXX</h1>
       </div>
       <!-- body menggunakan componen TextInput.vue -->
       <div class="body">
@@ -25,7 +24,7 @@
         />
         <div v-ripple class="button" @click="tambahAkun">Enter</div>
         <div class="sign-up">
-          Already sussy?
+          Sudah punya akun?
           <span @click="signIn">Sign in</span>
         </div>
       </div>
