@@ -4,18 +4,19 @@
       <div v-ripple class="button" @click="daftar">
         <span>Daftar</span>
       </div>
-      <div v-ripple class="button">
+      <div v-ripple class="button" @click="masuk">
         <span>Masuk</span>
       </div>
     </div>
-    <new-member v-if="bukaPopup" @tutup-popup="bukaPopup = false" />
+    <new-member v-if="bukaDaftar" @tutup-popup="bukaDaftar = false" />
+    <member-input v-if="bukaMasuk" @tutup-popup="bukaMasuk = false" />
   </div>
 </template>
 
 <script>
-import NewCust from '../components/NewMember.vue'
+import NewMember from '../components/NewMember.vue'
 export default {
-  components: { NewCust },
+  components: { NewMember },
   middleware: 'auth',
 
   data() {
@@ -23,11 +24,16 @@ export default {
       // insialisasi object
       messageSelected: null,
       bukaPopup: false,
+      bukaDaftar: false,
+      bukaMasuk: false,
     }
   },
   methods: {
     daftar() {
-      this.bukaPopup = true
+      this.bukaDaftar = true
+    },
+    masuk() {
+      this.bukaMasuk = true
     },
   },
 }
@@ -56,11 +62,12 @@ export default {
       cursor: pointer;
       display: flex;
       position: relative;
-      border: 1px solid &subtext-color;
+      border: 2px solid $subtext-color;
       justify-content: center;
       align-items: center;
-      width: 50%;
-      height: 100%;
+      margin: 0 5rem;
+      width: 30%;
+      height: 50%;
       span {
         display: flex;
         position: relative;
