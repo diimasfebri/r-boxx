@@ -17,7 +17,7 @@
       <div class="body">
         <text-input :input="name" style="margin-bottom: 0.5rem" />
         <text-input :input="NIK" style="margin-bottom: 1rem" />
-        <div v-ripple class="button">Enter</div>
+        <div v-ripple class="button" @click="daftar">Enter</div>
       </div>
     </div>
   </div>
@@ -48,7 +48,23 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-    daftar() {},
+    async daftar() {
+      const member = {
+        name: this.name.model,
+        NIK: this.NIK.model,
+      }
+      try {
+        const memberSignUp = await this.$store.dispatch('signup', {
+          name: member.name,
+          NIK: member.NIK,
+        })
+        if (memberSignUp.message !== 'SUCCESS')
+          throw new Error(memberSignUp.message)
+        // this.$router.push('/login')
+      } catch (e) {
+        window.alert(e.message)
+      }
+    },
   },
 }
 </script>
