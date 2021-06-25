@@ -144,6 +144,11 @@ export default {
     },
   },
   methods: {
+    // lll
+    logout() {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+    },
     changePage(navSelected) {
       this.navSelected = navSelected
       const pages = navSelected
