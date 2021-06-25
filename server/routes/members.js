@@ -15,7 +15,7 @@ router.post('/newmember', async (req, res) => {
       throw new Error('INVALID_REQUEST')
     //INPUT DATA KE DATABASE
     const newMember = new member({
-      name, NIK, rewards, transaction, create_date: new Date()
+      name, NIK, rewards: null, transaction: null, reate_date: new Date()
     })
     await newMember.save()
     return res.send({ message: 'SUCCESS', member: newMember })

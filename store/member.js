@@ -42,9 +42,9 @@ export const actions = {
   setName({ commit }, name) {
     commit('SET_NAME', name)
   },
-  setRewards({ commit }, rewards) {
-    commit('SET_REWARDS', rewards)
-  },
+  // setRewards({ commit }, rewards) {
+  //   commit('SET_REWARDS', rewards)
+  // },
 
   async daftar({ dispatch }, { name, NIK,}) {
     try {
@@ -53,8 +53,6 @@ export const actions = {
         {
           name,
           NIK,
-          rewards,
-          transaction,
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)

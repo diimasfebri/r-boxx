@@ -11,7 +11,7 @@ const membersSchema = Schema({
   },
   transaction: {
     type: String,
-    required: true,
+    required: false,
   }, 
   rewards: {
     type: Number,
