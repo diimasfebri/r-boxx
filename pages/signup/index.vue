@@ -19,9 +19,28 @@
         />
         <text-input
           :input="password"
-          style="margin-bottom: 1.5rem"
+          style="margin-bottom: 0.5rem"
           @update-val="changePasswordVal"
         />
+        <div class="radio-btn">
+          <input
+            id="Admin"
+            v-model="role"
+            type="radio"
+            name="roleSelect"
+            value="Admin"
+          />
+          <label for="Admin"> Admin</label>
+
+          <input
+            id="Owner"
+            v-model="role"
+            type="radio"
+            name="roleSelect"
+            value="Owner"
+          />
+          <label for="Owner"> Owner</label>
+        </div>
         <div v-ripple class="button" @click="tambahAkun">Enter</div>
         <div class="sign-up">
           Sudah punya akun?
@@ -37,6 +56,7 @@ export default {
   layout: 'auth',
   data() {
     return {
+      role: '',
       loading: false,
       loadingData: true,
       errorMesage: '',
@@ -64,6 +84,7 @@ export default {
       },
     }
   },
+
   methods: {
     changeNameVal(val) {
       this.name.model = val
@@ -82,12 +103,14 @@ export default {
         name: this.name.model,
         username: this.username.model,
         password: this.password.model,
+        role: this.role,
       }
       try {
         const userSignUp = await this.$store.dispatch('signup', {
           name: user.name,
           username: user.username,
           password: user.password,
+          role: user.role,
         })
         if (userSignUp.message !== 'SUCCESS')
           throw new Error(userSignUp.message)
@@ -184,6 +207,15 @@ export default {
           margin-left: 0.125rem;
           cursor: pointer;
           font-family: 'quicksand';
+        }
+      }
+      .radio-btn {
+        font-size: 1rem;
+        position: relative;
+        font-family: Quicksand;
+        margin-bottom: 0.5rem;
+        input {
+          margin-left: 0.5rem;
         }
       }
     }
