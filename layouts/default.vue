@@ -39,7 +39,7 @@
           class="actions-container"
           @click="userActionsOpened = false"
         >
-          <div
+          <!-- <div
             v-if="role === 'owner'"
             v-ripple
             class="action"
@@ -112,7 +112,7 @@
           >
             <v-icon class="icon">mdi-star-outline</v-icon>
             <h3 class="name">Aktivasi</h3>
-          </div>
+          </div> -->
           <div class="divider"></div>
           <div v-ripple class="action error" @click="logout">
             <v-icon class="icon">mdi-logout-variant</v-icon>
@@ -128,26 +128,8 @@
 export default {
   data() {
     return {
-      // array navList isinya nicon dan nama
-      navList: [
-        {
-          name: 'Home',
-          icon: 'mdi-home-variant-outline',
-          path: '/',
-        },
-        {
-          name: 'Message',
-          icon: 'mdi-message-outline',
-          path: '/message',
-        },
-        {
-          name: 'Contact',
-          icon: 'mdi-account-box-outline',
-          path: '/contact',
-        },
-      ],
-      // navSelected
-      navSelected: '/',
+      userActionsOpened: false,
+
       bukaAlert: true,
     }
   },
@@ -265,6 +247,9 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        .icon {
+          color: $font-color;
+        }
       }
       .actions-container {
         z-index: 1000000;
