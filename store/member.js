@@ -56,7 +56,7 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      dispatch('setnik', data.nik)
+      dispatch('setNIK', data.nik)
       dispatch('setNAME', data.name)
       return { message: 'SUCCESS' }
     } catch (e) {

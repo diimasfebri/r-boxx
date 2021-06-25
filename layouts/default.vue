@@ -151,7 +151,6 @@ export default {
       bukaAlert: true,
     }
   },
-
   // fungsi yang dapat berubah terus
   computed: {
     pageTitle() {
@@ -162,7 +161,6 @@ export default {
       return this.$store.getters.avatar
     },
   },
-
   methods: {
     changePage(navSelected) {
       this.navSelected = navSelected

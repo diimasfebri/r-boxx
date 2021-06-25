@@ -25,7 +25,7 @@
           style="margin-bottom: 1rem"
           @update-val="changeNIKVal"
         />
-        <div v-ripple class="button" @click="newMem">Enter</div>
+        <div v-ripple class="button" @click="daftar">Enter</div>
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@ export default {
       },
       NIK: {
         label: 'NIK',
-        type: 'text',
+        type: 'number',
         icon: '',
         placeholder: 'masukkan nomor induk/nomor kartu di sini',
         model: '',
@@ -62,7 +62,7 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-    async newMem() {
+    async daftar() {
       const member = {
         name: this.name.model,
         NIK: this.NIK.model,
