@@ -66,7 +66,7 @@ export const actions = {
     }
   },
 
-  async signup({ dispatch }, { name, username, password }) {
+  async signup({ dispatch }, { name, username, password, role }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/users/signup',
@@ -74,6 +74,7 @@ export const actions = {
           name,
           username,
           password,
+          role
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)

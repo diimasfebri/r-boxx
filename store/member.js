@@ -4,6 +4,7 @@ export const state = () => {
     NIK: '',
     name: '',
     rewards: null,
+    transaction: null,
   }
 }
 
@@ -45,7 +46,7 @@ export const actions = {
     commit('SET_REWARDS', rewards)
   },
 
-  async daftar({ dispatch }, { name, NIK, rewards }) {
+  async daftar({ dispatch }, { name, NIK,}) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/members/newmember',
@@ -53,6 +54,7 @@ export const actions = {
           name,
           NIK,
           rewards,
+          transaction,
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)

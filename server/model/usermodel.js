@@ -14,9 +14,9 @@ const UserSchema = Schema({
     required: true
   },
   //ini buat gambar
-  avatar:{
+  role:{
     type: String,
-    required : false
+    required : true
   },
   create_date: {
     type: Date,

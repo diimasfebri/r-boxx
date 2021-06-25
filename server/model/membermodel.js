@@ -9,6 +9,10 @@ const membersSchema = Schema({
     type: String,
     required: true
   },
+  transaction: {
+    type: String,
+    required: true,
+  }, 
   rewards: {
     type: Number,
     required:false

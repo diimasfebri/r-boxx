@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post('/newmember', async (req, res) => {
   const {
-    body: { name, NIK, rewards }
+    body: { name, NIK, }
   } = req
   try {
     if (typeof name !== 'string' || name.length === 0)
@@ -15,7 +15,7 @@ router.post('/newmember', async (req, res) => {
       throw new Error('INVALID_REQUEST')
     //INPUT DATA KE DATABASE
     const newMember = new member({
-      name, NIK, rewards, create_date: new Date()
+      name, NIK, rewards, transaction, create_date: new Date()
     })
     await newMember.save()
     return res.send({ message: 'SUCCESS', member: newMember })
@@ -28,7 +28,7 @@ router.post('/newmember', async (req, res) => {
 
 router.post('/memberinput', async (req, res) => {
   const {
-    body: { NIK }
+    body: { NIK , }
   } = req
   try {
     //CEK
@@ -37,7 +37,7 @@ router.post('/memberinput', async (req, res) => {
       throw new Error('USER_NOT_FOUND')
     // mengambil id dari mongodb nya langsung 
     return res.send({
-      message: 'SUCCESS', nama: attendee.name, NIK: attendee.NIK
+      message: 'SUCCESS', nama: attendee.name, NIK: attendee.NIK, rewards: attendee.rewards, transaction: attendee.transaction
     })
 
   } catch (e) {

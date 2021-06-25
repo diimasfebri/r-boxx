@@ -10,7 +10,6 @@ const socketIO = require('socket.io')
 
 //inisialisasi router
 const users = require ('./routes/users')
-const rooms = require ('./routes/rooms')
 const members = require ('./routes/members')
 
 // Create the express app
@@ -41,7 +40,6 @@ app
 //panggil router  
 app
 .use('/users', users)
-.use('/rooms', rooms)
 .use('/members', members)
 
 // Error handlers

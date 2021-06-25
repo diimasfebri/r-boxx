@@ -23,15 +23,16 @@
       </div>
       <div class="actions">
         <div class="applied-filters">
-        <div
-          v-if="!isExpired"
-          v-ripple
-          class="square-btn"
-          style="margin: 0"
-          @click="tambahMember = true"
-        >
-          <v-icon class="icon">mdi-plus</v-icon>
-          <span class="text">Member</span>
+          <div
+            v-if="!isExpired"
+            v-ripple
+            class="square-btn"
+            style="margin: 0"
+            @click="tambahMember = true"
+          >
+            <v-icon class="icon">mdi-plus</v-icon>
+            <span class="text">Member</span>
+          </div>
         </div>
       </div>
     </div>
@@ -39,9 +40,7 @@
 </template>
 
 <script>
-import NewMember from '../components/NewMember.vue'
 export default {
-  components: { NewMember },
   middleware: 'auth',
 
   data() {
