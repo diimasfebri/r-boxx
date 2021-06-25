@@ -15,9 +15,17 @@
       </div>
       <!-- body menggunakan componen TextInput.vue -->
       <div class="body">
-        <text-input :input="name" style="margin-bottom: 0.5rem" />
-        <text-input :input="NIK" style="margin-bottom: 1rem" />
-        <div v-ripple class="button" @click="daftar()">Enter</div>
+        <text-input
+          :input="name"
+          style="margin-bottom: 0.5rem"
+          @update-val="changeNameVal"
+        />
+        <text-input
+          :input="NIK"
+          style="margin-bottom: 1rem"
+          @update-val="changeNIKVal"
+        />
+        <div v-ripple class="button" @click="newMem">Enter</div>
       </div>
     </div>
   </div>
@@ -45,17 +53,23 @@ export default {
   },
 
   methods: {
+    changeNameVal(val) {
+      this.name.model = val
+    },
+    changeNIKVal(val) {
+      this.NIK.model = val
+    },
     keluar() {
       this.$emit('tutup-popup')
     },
-    async daftar() {
+    async newMem() {
       const member = {
         name: this.name.model,
         NIK: this.NIK.model,
-        rewards: 0,
+        rewards: null,
       }
       try {
-        const memberSignUp = await this.$store.dispatch('daftar/member', {
+        const memberSignUp = await this.$store.dispatch('members/daftar', {
           name: member.name,
           NIK: member.NIK,
           rewards: member.rewards,

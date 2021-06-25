@@ -11,7 +11,7 @@ router.post('/newmember', async (req, res) => {
   try {
     if (typeof name !== 'string' || name.length === 0)
       throw new Error('INVALID_REQUEST')
-    if (NIK.length === 0 && typeof NIK !== 'integer')
+    if (NIK.length === 0)
       throw new Error('INVALID_REQUEST')
     //INPUT DATA KE DATABASE
     const newMember = new member({

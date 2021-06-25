@@ -48,10 +48,10 @@ export default {
         model: '',
       },
       username: {
-        label: 'Email',
+        label: 'Username',
         type: 'text',
-        icon: 'mdi-email',
-        placeholder: 'sus@sus.com',
+        icon: 'mdi-username',
+        placeholder: 'Username goes here',
         model: '',
       },
       password: {
