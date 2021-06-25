@@ -1,19 +1,15 @@
 // deklarasi variabel global
 export const state = () => {
   return {
-    idUser: '',
-    avatar: '',
     name: '',
+    role: '',
   }
 }
 
 // ambil data ke variabel
 export const getters = {
-  idUser(state) {
-    return state.idUser
-  },
-  avatar(state) {
-    return state.avatar
+  role(state) {
+    return state.role
   },
   name(state) {
     return state.name
@@ -22,10 +18,8 @@ export const getters = {
 
 // modifikasi atau merubah data
 export const mutations = {
-  SET_ID_USER(state, newidUser) {
-    state.idUser = newidUser
-  },
-  SET_AVATAR(state, avatar) {
+
+  SET_ROLE(state, role) {
     state.avatar = avatar
   },
   SET_NAME(state, name) {
@@ -35,11 +29,8 @@ export const mutations = {
 
 // memberi aksi pada variabel fungsi, parameter "commit" untuk memanggil mutations & parameter "getters" demikian pula
 export const actions = {
-  setIdUser({ commit }, idUser) {
-    commit('SET_ID_USER', idUser)
-  },
-  setAvatar({ commit }, avatar) {
-    commit('SET_AVATAR', avatar)
+  setRole({ commit }, role) {
+    commit('SET_ROLE', role)
   },
   setName({ commit }, name) {
     commit('SET_NAME', name)
@@ -78,7 +69,6 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      dispatch('setIdUser', data.user)
       return { message: 'SUCCESS' }
     } catch (e) {
       return { message: e.message }
@@ -87,7 +77,7 @@ export const actions = {
 
   logout({ commit }) {
     commit('SET_ID_USER', '')
-    commit('SET_AVATAR', '')
+    commit('SET_ROLE', '')
     commit('SET_NAME', '')
   },
 }

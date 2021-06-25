@@ -4,13 +4,12 @@ const user = require('../model/usermodel')
 
 const router = express.Router()
 
-
 router.post('/signup', async (req, res) => {
   const {
     body: { name, username, password, role }
   } = req
   try {
-    if (typeof username !== 'string' || username.length === 0)
+    if (typeof username !== 'string' && username.length === 0)
       throw new Error('INVALID_REQUEST')
     if (password.length === 0 && typeof password !== 'string')
       throw new Error('INVALID_REQUEST')
@@ -30,7 +29,6 @@ router.post('/signup', async (req, res) => {
     else res.status(500).send({ message })
   }
 })
-
 
 
 router.post('/signin', async (req, res) => {

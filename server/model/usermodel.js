@@ -13,11 +13,12 @@ const UserSchema = Schema({
     type: String,
     required: true
   },
-  //ini buat gambar
+
   role:{
     type: String,
     required : true
   },
+  
   create_date: {
     type: Date,
     default: Date.now()
