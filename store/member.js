@@ -45,22 +45,14 @@ export const actions = {
     commit('SET_REWARDS', rewards)
   },
 
-<<<<<<< HEAD
-  async daftar({ dispatch }, { name, nik }) {
-=======
   async daftar({ dispatch }, { name, NIK, rewards }) {
->>>>>>> 0d9c3a64e5dc1fc65289dd48b1fb1ce6ae09eacc
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/members/newmember',
         {
           name,
-<<<<<<< HEAD
-          nik,
-=======
           NIK,
           rewards,
->>>>>>> 0d9c3a64e5dc1fc65289dd48b1fb1ce6ae09eacc
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)

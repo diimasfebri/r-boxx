@@ -1,52 +1,131 @@
 <template>
   <div class="layout">
-    <div class="nav">
-      <div class="top-section">
-        <div class="profile">
-          <v-img class="img" :src="setAvatar" />
-        </div>
+    <div class="header">
+      <div class="venture-details">
+        <h1 class="name">R-BOXX</h1>
+        <h4 class="address subtext">Sumenep</h4>
       </div>
-      <div class="center-section">
-        <!-- looping object navlist, akan memunculkan icon-icon.
-         navSelected untuk membedakan aktif atau ga-->
+      <div
+        v-if="status === 'trial'"
+        :class="
+          new Date(expiration).getTime() > new Date().getTime() ? '' : 'expired'
+        "
+        class="trial-notification"
+      >
+        <v-icon class="icon">mdi-alert-circle-outline</v-icon>
+        <h1 class="message">
+          {{
+            isExpired
+              ? 'Masa trial sudah habis!'
+              : `Masa trial akan habis pada: ${formatDateNoTime(expiration)}`
+          }}
+        </h1>
+      </div>
+      <div class="user-actions">
+        <div class="user-details">
+          <h1 class="name">Om pepeng</h1>
+          <h4 class="role subtext">Admin</h4>
+        </div>
+        <div v-ripple class="action-btn" @click="userActionsOpened = true">
+          <v-icon
+            :style="userActionsOpened ? 'transform: rotate(180deg)' : ''"
+            class="icon"
+            >mdi-chevron-down</v-icon
+          >
+        </div>
         <div
-          v-for="nav in navList"
-          :key="nav.path"
-          v-ripple
-          :class="navSelected === nav.path ? 'active' : ''"
-          class="button"
-          @click="changePage(nav.path)"
+          v-if="userActionsOpened"
+          v-click-outside="{ handler: () => (userActionsOpened = false) }"
+          class="actions-container"
+          @click="userActionsOpened = false"
         >
-          <v-icon class="icon">{{ nav.icon }}</v-icon>
-        </div>
-      </div>
-      <div class="bottom-section" @click="masukSignIn">
-        <div v-ripple class="logout">
-          <v-icon class="icon">mdi-power</v-icon>
+          <div
+            v-if="role === 'owner'"
+            v-ripple
+            class="action"
+            @click="backupData"
+          >
+            <v-icon class="icon">mdi-download-outline</v-icon>
+            <h3 class="name">Backup data</h3>
+          </div>
+          <div
+            v-if="role === 'owner'"
+            v-ripple
+            class="action"
+            @click="openRestoreData = true"
+          >
+            <v-icon class="icon">mdi-backup-restore</v-icon>
+            <h3 class="name">Restore data</h3>
+          </div>
+          <div v-if="role === 'owner'" class="divider"></div>
+          <div
+            v-if="role === 'owner'"
+            v-ripple
+            class="action"
+            @click="openConfigFirm = true"
+          >
+            <v-icon class="icon">mdi-information-outline</v-icon>
+            <h3 class="name">Informasi perusahaan</h3>
+          </div>
+          <div v-if="role === 'owner'" class="divider"></div>
+          <div
+            v-if="role !== 'operator'"
+            v-ripple
+            class="action"
+            @click="openUserManagement = true"
+          >
+            <v-icon class="icon">mdi-account-multiple-outline</v-icon>
+            <h3 class="name">Atur pengguna</h3>
+          </div>
+          <div v-ripple class="action" @click="openChangePassword = true">
+            <v-icon class="icon">mdi-key-outline</v-icon>
+            <h3 class="name">Ubah sandi</h3>
+          </div>
+          <div v-if="role !== 'operator'" class="divider"></div>
+          <div
+            v-if="role !== 'operator'"
+            v-ripple
+            class="action"
+            @click="openSupplierManagement = true"
+          >
+            <v-icon class="icon">mdi-badge-account-outline</v-icon>
+            <h3 class="name">Atur supplier</h3>
+          </div>
+          <div
+            v-if="role !== 'operator'"
+            v-ripple
+            class="action"
+            @click="openCustomerManagement = true"
+          >
+            <v-icon class="icon">mdi-briefcase-account-outline</v-icon>
+            <h3 class="name">Atur customer</h3>
+          </div>
+          <div
+            v-if="status === 'trial' && role !== 'operator'"
+            class="divider"
+          ></div>
+          <div
+            v-if="status === 'trial' && role !== 'operator'"
+            v-ripple
+            class="action"
+            @click="openActivateApp = true"
+          >
+            <v-icon class="icon">mdi-star-outline</v-icon>
+            <h3 class="name">Aktivasi</h3>
+          </div>
+          <div class="divider"></div>
+          <div v-ripple class="action error" @click="logout">
+            <v-icon class="icon">mdi-logout-variant</v-icon>
+            <h3 class="name">Keluar</h3>
+          </div>
         </div>
       </div>
     </div>
-    <div class="body">
-      <div class="header">
-        <div class="nav-container">
-          <!-- pageTitle merupakan properties -->
-          <v-icon class="icon">{{ pageTitle.icon }}</v-icon>
-          <div class="nama">{{ pageTitle.name }}</div>
-        </div>
-        <div v-ripple class="notification">
-          <v-icon class="icon">mdi-bell-outline</v-icon>
-        </div>
-      </div>
-      <nuxt class="main" />
-    </div>
-    <alerts-container v-if="bukaAlert" @keluar-popup="bukaAlert = false" />
   </div>
 </template>
 
 <script>
-import AlertsContainer from '../components/AlertsContainer.vue'
 export default {
-  components: { AlertsContainer },
   data() {
     return {
       // array navList isinya nicon dan nama
@@ -107,153 +186,172 @@ export default {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  > .nav {
+  .header {
     position: relative;
+    width: 100%;
+    height: 4rem;
+    padding: 0 2rem;
+    box-sizing: border-box;
     display: flex;
-    justify-content: flex-start;
     justify-content: space-between;
-    flex-direction: column;
-    width: 5rem;
-    height: 100%;
-    background-color: $background-color;
-    .top-section {
+    align-items: center;
+    .venture-details {
       position: relative;
+      height: 100%;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
-      width: 100%;
-      height: 5rem;
-      .profile {
-        cursor: pointer;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        .img {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
+      justify-content: center;
+      align-items: flex-start;
+      h1.name {
+        font-family: 'Quicksand';
+      }
+      h4.address {
+        font-family: 'Quicksand';
       }
     }
-    .center-section {
-      position: relative;
+    .trial-notification {
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      height: 2rem;
+      padding: 0 0.5rem;
+      transform: translateX(-50%);
+      background: $error-color;
+      border-radius: 1rem;
+      color: #fff;
       display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
       align-items: center;
-      width: 100%;
-      .button {
+      h1.message {
+        font-family: 'Quicksand';
+        line-height: 1;
+        margin-right: 0.25rem;
+        transform: translateY(-0.03125rem);
+      }
+      .icon {
+        color: inherit;
+        font-size: 1.25rem !important;
+        margin-right: 0.25rem;
+      }
+      &.expired {
+        background: $error-color;
+      }
+    }
+    .user-actions {
+      position: relative;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .user-details {
+        position: relative;
+        height: 100%;
+        margin-right: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+        h1.name {
+          font-family: 'Quicksand';
+        }
+        h4.role {
+          font-family: 'Quicksand';
+          text-transform: capitalize;
+        }
+      }
+      .action-btn {
         cursor: pointer;
         position: relative;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0.5rem 0;
-        border-radius: 0.5rem;
-        width: 3rem;
-        height: 3rem;
-        .icon {
+      }
+      .actions-container {
+        z-index: 1000000;
+        position: absolute;
+        top: calc(100% - 0.5rem);
+        right: 0;
+        border-radius: 18px;
+        border: 1px solid $border-color;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        .action {
+          cursor: pointer;
           position: relative;
-          font-size: 1rem;
-          color: $subtext-color;
-        }
-        &.active {
-          background-color: rgba($primary-color, 0.2);
-          .icon {
-            color: $primary-color;
+          width: 10rem;
+          height: 1.5rem;
+          flex-shrink: 0;
+          background: rgba(255, 255, 255, 0);
+          transition: 0.25s background-color;
+          padding: 0 0.5rem;
+          box-sizing: border-box;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          h3.name {
+            font-family: 'Quicksand';
+            margin-left: 0.5rem;
+          }
+          &.error {
+            color: $error-color;
+            .icon {
+              color: inherit;
+            }
+            h3.name {
+              color: inherit;
+            }
+          }
+          &:hover {
+            background: rgba(230, 230, 230, 0.5);
+          }
+          &:first-child {
+            border-top-left-radius: 18px;
+            border-top-right-radius: 18px;
+          }
+          &:last-child {
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
           }
         }
-      }
-    }
-    .bottom-section {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 5rem;
-      width: 100%;
-      .logout {
-        cursor: pointer;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 0.5rem;
-        width: 3rem;
-        height: 3rem;
-        .icon {
+        .divider {
           position: relative;
-          font-size: 1rem;
-          color: $error-color;
+          width: calc(100% - 1rem);
+          height: 1px;
+          flex-shrink: 0;
+          margin: 0 0.5rem;
+          background: rgba(0, 0, 0, 0.05);
+        }
+        &::before {
+          content: '';
+          pointer-events: none;
+          position: absolute;
+          z-index: -2;
+          top: calc(4rem / 3);
+          right: calc(4rem / 3);
+          left: calc(4rem / 3);
+          bottom: calc(-4rem / 3);
+          border-radius: 1rem;
+          background: #cfcfcf;
+          -webkit-filter: blur(86.985px);
+          filter: blur(86.985px);
+        }
+        &::after {
+          content: '';
+          pointer-events: none;
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          border-radius: 1rem;
+          z-index: -1;
+          background: #fff;
         }
       }
-    }
-  }
-  > .body {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: calc(100% - 5rem);
-    height: 100%;
-    // ksih box sizing agar tidak overflow
-    box-sizing: border-box;
-    border-left: 1px solid $border-color;
-    .header {
-      position: relative;
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      justify-content: space-between;
-      width: 100%;
-      height: 5rem;
-      border-bottom: 1px solid $border-color;
-      .nav-container {
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        padding: 0 1rem;
-        box-sizing: border-box;
-        .icon {
-          position: relative;
-          color: $primary-color;
-          font-size: 1rem;
-          padding: 0 1rem;
-        }
-        .nama {
-          color: $font-color;
-        }
-      }
-      .notification {
-        cursor: pointer;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 0.5rem;
-        width: 3rem;
-        height: 3rem;
-        margin: 0 2rem;
-        .icon {
-          position: relative;
-          font-size: 1rem;
-          color: $subtext-color;
-        }
-      }
-    }
-    .main {
-      display: flex;
-      position: relative;
-      width: calc(100vw - 5rem);
-      height: calc(100vh - 5rem);
     }
   }
 }
