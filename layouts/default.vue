@@ -23,8 +23,8 @@
       </div>
       <div class="user-actions">
         <div class="user-details">
-          <h1 class="name">Om pepeng</h1>
-          <h4 class="role subtext">Admin</h4>
+          <h1 class="name">{{ name }}</h1>
+          <h4 class="role subtext">{{ role }}</h4>
         </div>
         <div v-ripple class="action-btn" @click="userActionsOpened = true">
           <v-icon
@@ -135,6 +135,12 @@ export default {
   },
   // fungsi yang dapat berubah terus
   computed: {
+    username() {
+      return this.$store.getters.name
+    },
+    role() {
+      return this.$store.getters.role
+    },
     pageTitle() {
       //  mencari yang navSelected atau yang Aktif
       return this.navList.find((a) => a.path === this.navSelected)
@@ -144,6 +150,11 @@ export default {
     },
   },
   methods: {
+    // lll
+    logout() {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+    },
     changePage(navSelected) {
       this.navSelected = navSelected
       const pages = navSelected
