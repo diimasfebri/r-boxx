@@ -37,7 +37,11 @@
         </div>
       </div>
     </div>
-    <new-member v-if="tambahMember" @tutup-popup="tambahMember = false" />
+    <new-member
+      v-if="tambahMember"
+      @tutup-popup="tambahMember = false"
+      @tambah-member="tambah"
+    />
   </div>
 </template>
 
@@ -58,9 +62,18 @@ export default {
     }
   },
   methods: {
-    daftar() {
-      this.bukaDaftar = true
+    // input dan delete data member baru
+    async tambah(member) {
+      const { data } = await this.$axios.post(
+        `http://localhost:8000/members/newmember`,
+        member
+      )
+      // script  input untuk masuk server.
+      if (data.message === 'SUCCESS') {
+        console.log(data)
+      }
     },
+
     masuk() {
       this.bukaMasuk = true
     },

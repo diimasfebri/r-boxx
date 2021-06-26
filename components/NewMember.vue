@@ -62,23 +62,15 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-    async daftar() {
+    daftar() {
       const member = {
         name: this.name.model,
         NIK: this.NIK.model,
         rewards: null,
+        transaction: null,
       }
-      try {
-        const memberSignUp = await this.$store.dispatch('members/daftar', {
-          name: member.name,
-          NIK: member.NIK,
-          rewards: member.rewards,
-        })
-        if (memberSignUp.message !== 'SUCCESS')
-          throw new Error(memberSignUp.message)
-      } catch (e) {
-        window.alert(e.message)
-      }
+      this.$emit('tambah-member', member)
+      this.$emit('tutup-popup')
     },
   },
 }
