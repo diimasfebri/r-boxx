@@ -44,7 +44,7 @@ router.post('/signin', async (req, res) => {
       throw new Error('PASSWORD_NOT_FOUND')
     // mengambil id dari mongodb nya langsung 
     return res.send({
-      message: 'SUCCESS', user: attendee._id, nama: attendee.name , role: attendee.role 
+      message: 'SUCCESS', user: attendee._id, name: attendee.name , role: attendee.role 
     })
 
   } catch (e) {

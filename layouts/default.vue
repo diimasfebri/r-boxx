@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="header">
-      <div class="venture-details">
+      <div class="venture-details" @click="home">
         <h1 class="name">R-BOXX</h1>
         <h4 class="address subtext">Sumenep</h4>
       </div>
@@ -23,8 +23,8 @@
       </div>
       <div class="user-actions">
         <div class="user-details">
-          <h1 class="name">{{ name }}</h1>
-          <h4 class="role subtext">{{ role }}</h4>
+          <h1 class="name">{{ names }}</h1>
+          <h4 class="role subtext">{{ roles }}</h4>
         </div>
         <div v-ripple class="action-btn" @click="userActionsOpened = true">
           <v-icon
@@ -39,80 +39,6 @@
           class="actions-container"
           @click="userActionsOpened = false"
         >
-          <!-- <div
-            v-if="role === 'owner'"
-            v-ripple
-            class="action"
-            @click="backupData"
-          >
-            <v-icon class="icon">mdi-download-outline</v-icon>
-            <h3 class="name">Backup data</h3>
-          </div>
-          <div
-            v-if="role === 'owner'"
-            v-ripple
-            class="action"
-            @click="openRestoreData = true"
-          >
-            <v-icon class="icon">mdi-backup-restore</v-icon>
-            <h3 class="name">Restore data</h3>
-          </div>
-          <div v-if="role === 'owner'" class="divider"></div>
-          <div
-            v-if="role === 'owner'"
-            v-ripple
-            class="action"
-            @click="openConfigFirm = true"
-          >
-            <v-icon class="icon">mdi-information-outline</v-icon>
-            <h3 class="name">Informasi perusahaan</h3>
-          </div>
-          <div v-if="role === 'owner'" class="divider"></div>
-          <div
-            v-if="role !== 'operator'"
-            v-ripple
-            class="action"
-            @click="openUserManagement = true"
-          >
-            <v-icon class="icon">mdi-account-multiple-outline</v-icon>
-            <h3 class="name">Atur pengguna</h3>
-          </div>
-          <div v-ripple class="action" @click="openChangePassword = true">
-            <v-icon class="icon">mdi-key-outline</v-icon>
-            <h3 class="name">Ubah sandi</h3>
-          </div>
-          <div v-if="role !== 'operator'" class="divider"></div>
-          <div
-            v-if="role !== 'operator'"
-            v-ripple
-            class="action"
-            @click="openSupplierManagement = true"
-          >
-            <v-icon class="icon">mdi-badge-account-outline</v-icon>
-            <h3 class="name">Atur supplier</h3>
-          </div>
-          <div
-            v-if="role !== 'operator'"
-            v-ripple
-            class="action"
-            @click="openCustomerManagement = true"
-          >
-            <v-icon class="icon">mdi-briefcase-account-outline</v-icon>
-            <h3 class="name">Atur customer</h3>
-          </div>
-          <div
-            v-if="status === 'trial' && role !== 'operator'"
-            class="divider"
-          ></div>
-          <div
-            v-if="status === 'trial' && role !== 'operator'"
-            v-ripple
-            class="action"
-            @click="openActivateApp = true"
-          >
-            <v-icon class="icon">mdi-star-outline</v-icon>
-            <h3 class="name">Aktivasi</h3>
-          </div> -->
           <div class="divider"></div>
           <div v-ripple class="action error" @click="logout">
             <v-icon class="icon">mdi-logout-variant</v-icon>
@@ -135,10 +61,10 @@ export default {
   },
   // fungsi yang dapat berubah terus
   computed: {
-    username() {
+    names() {
       return this.$store.getters.name
     },
-    role() {
+    roles() {
       return this.$store.getters.role
     },
     pageTitle() {
@@ -150,6 +76,9 @@ export default {
     },
   },
   methods: {
+    home() {
+      this.$router.push('/')
+    },
     // lll
     logout() {
       this.$store.dispatch('logout')
@@ -187,6 +116,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     .venture-details {
+      cursor: pointer;
       position: relative;
       height: 100%;
       display: flex;
