@@ -37,7 +37,6 @@
         </div>
       </div>
     </div>
-    <new-member v-if="tambahMember" @tutup-popup="tambahMember = false" />
     <div class="table-header">
       <div class="head number">
         <p>NIK</p>
@@ -71,6 +70,12 @@
         <v-progress-circular v-else indeterminate :size="20" :width="3" />
       </div>
     </div>
+
+    <new-member
+      v-if="tambahMember"
+      @tutup-popup="tambahMember = false"
+      @tambah-member="tambah"
+    />
   </div>
 </template>
 
@@ -91,12 +96,44 @@ export default {
       tambahMember: false,
     }
   },
+
+  watch: {
+    // belum jadi
+    searchModel(val) {
+      this.searchModel = val.trim()
+      if (this.searchModel)
+        this.searchModel = this.licenseModel = val
+          .match(/[a-zA-Z]+|[0-9]+/g)
+          .join(' ')
+          .toUpperCase()
+      else this.licenseModel = ''
+    },
+    queryFilter() {
+      this.skip = 0
+      this.$store.dispatch('members/load', {
+        query: this.fullQuery,
+        reset: true,
+      })
+      this.skip += 20
+    },
+  },
+
   methods: {
     daftar() {
       this.bukaDaftar = true
     },
     masuk() {
       this.bukaMasuk = true
+    },
+    async tambah(member) {
+      const { data } = await this.$axios.post(
+        `http://localhost:8000/members/newmember`,
+        member
+      ) // script  input untuk masuk server.
+      if (data.message === 'SUCCESS') {
+        console.log(data)
+        this.tambahMember = false
+      }
     },
   },
 }
@@ -166,6 +203,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        color: $font-color;
       }
     }
     .actions {
