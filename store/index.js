@@ -18,9 +18,8 @@ export const getters = {
 
 // modifikasi atau merubah data
 export const mutations = {
-
   SET_ROLE(state, role) {
-    state.avatar = avatar
+    state.role = role
   },
   SET_NAME(state, name) {
     state.name = name
@@ -46,10 +45,9 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      console.log(data)
-      dispatch('setIdUser', data.user)
-      dispatch('setAvatar', data.avatar)
+      dispatch('setRole', data.role)
       dispatch('setName', data.name)
+
       return { message: 'SUCCESS' }
     } catch (e) {
       console.log(e)
@@ -65,7 +63,7 @@ export const actions = {
           name,
           username,
           password,
-          role
+          role,
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
@@ -76,7 +74,6 @@ export const actions = {
   },
 
   logout({ commit }) {
-    commit('SET_ID_USER', '')
     commit('SET_ROLE', '')
     commit('SET_NAME', '')
   },
