@@ -47,5 +47,20 @@ router.post('/memberinput', async (req, res) => {
   }
 })
 
-
+router.get('/', async  (req, res) => {
+  try {
+    const {
+      query: { id }
+    } = req  
+    if (!id) throw new Error('UNAUTHORIZED')
+    //ngambil semua data dari database ke variabel "members"
+    const members = await member.find({ u_id: id }).exec()
+    //kita tambahhkan field "editMode" agar dapat diedit di frontend. "_doc" tempat menyimpan data members, memang dari mongoDB
+    return res.send({ message: 'SUCCESS', members: members  .map((member) => ({ ...member._doc, editMode: false })) })
+  } catch (e) {
+    const { message } = e
+    if (message === 'UNAUTHORIZED') res.status(401).send({ message })
+    return res.status(500).send({ message })
+  }
+})
 module.exports = router

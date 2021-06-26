@@ -135,11 +135,11 @@ export default {
   },
   // fungsi yang dapat berubah terus
   computed: {
-    username() {
-      return this.$store.getters.name
+    name() {
+      return this.$store.getters['index/name']
     },
     role() {
-      return this.$store.getters.role
+      return this.$store.getters['index/role']
     },
     pageTitle() {
       //  mencari yang navSelected atau yang Aktif

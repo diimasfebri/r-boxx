@@ -56,8 +56,8 @@ export const actions = {
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
       dispatch('setIdUser', data.user)
-      dispatch('setRole', data.role)
       dispatch('setName', data.name)
+      dispatch('setRole', data.role)
       return { message: 'SUCCESS' }
     } catch (e) {
       console.log(e)

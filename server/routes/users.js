@@ -54,19 +54,5 @@ router.post('/signin', async (req, res) => {
   }
 })
 
-router.get('/', async (req, res)=>{
-	try{
-		const {
-			query: { id }
-		} = req
-		console.log(req)
-		let payload = null
-		if (id) payload = await taskModel.findById(id).exec()
-		else payload = await taskModel.find({}).exec()
-		res.send(payload)
-	}catch(e){
-		res.status(400).send(e.message)
-	}
-})
 
 module.exports = router
