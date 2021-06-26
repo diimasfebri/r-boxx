@@ -37,7 +37,6 @@
         </div>
       </div>
     </div>
-    <new-member v-if="tambahMember" @tutup-popup="tambahMember = false" />
     <div v-if="type === 1" class="table-header">
       <div class="head number">
         <p>NIK</p>
@@ -45,14 +44,14 @@
       <div class="head name">
         <p>Nama</p>
       </div>
-      <div class="head rewards">
+      <div class="head name">
         <p>rewards</p>
       </div>
-      <div class="head transaction">
+      <div class="head name">
         <p>transaction</p>
       </div>
-      <div class="head actions">
-        <p>Actions</p>
+      <div class="head name">
+        <p>Nama</p>
       </div>
     </div>
     <div v-else-if="type === 2" class="table-header">
@@ -120,6 +119,7 @@
         <p>Action</p>
       </div>
     </div>
+    <new-member v-if="tambahMember" @tutup-popup="tambahMember = false" />
   </div>
 </template>
 
@@ -146,6 +146,17 @@ export default {
     },
     masuk() {
       this.bukaMasuk = true
+    },
+
+    async tambah(member) {
+      const { data } = await this.$axios.post(
+        `http://localhost:8000/members/newmember`,
+        member
+      ) // script  input untuk masuk server.
+      if (data.message === 'SUCCESS') {
+        console.log(data)
+        this.tambahMember = false
+      }
     },
   },
 }
@@ -289,15 +300,6 @@ export default {
       height: 100%;
       display: flex;
       align-items: center;
-      p {
-        position: relative;
-        font-weight: 600;
-        font-family: 'Quicksand';
-        font-size: 0.5rem;
-        text-transform: uppercase;
-        color: $font-color;
-        user-select: none;
-      }
     }
   }
 }
