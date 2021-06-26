@@ -9,7 +9,7 @@
           v-model="searchModel"
           type="text"
           class="text-input"
-          placeholder="Cari ID (KTP / Kartu Pelajar )"
+          placeholder="Cari ID"
         />
         <span
           class="icon-container"
