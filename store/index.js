@@ -1,9 +1,9 @@
 // deklarasi variabel global
 export const state = () => {
   return {
-    idUser: '',
-    name: '',
-    role: '',
+    idUser: null,
+    name: null,
+    role: null,
   }
 }
 
