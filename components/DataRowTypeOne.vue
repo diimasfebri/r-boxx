@@ -2,97 +2,22 @@
   <div class="data-row">
     <div class="data NIK">
       <p>{{ data.nik }}</p>
-    </div>
-    <div class="data entry-date">
-      <p>{{ formatDate(data.entry_date) }}</p>
-    </div>
-    <div class="data exit-date">
-      <p>
-        {{ data.exit_date ? formatDate(data.exit_date) : '-' }}
-      </p>
-    </div>
-    <div class="data license-plate">
-      <p>{{ data.license }}</p>
-    </div>
-    <div class="data material">
-      <p>{{ data.material }}</p>
-    </div>
-    <div class="data customer">
-      <p>{{ data.customer ? data.customer : '-' }}</p>
-    </div>
-    <div class="data supplier">
-      <p>{{ data.supplier ? data.supplier : '-' }}</p>
-    </div>
-    <div class="data entry-weight">
-      <p>
-        {{
-          data.entry_weight
-            ? `${data.entry_weight.toLocaleString().split(',').join('.')} Kg`
-            : ''
-        }}
-      </p>
-    </div>
-    <div class="data exit-weight">
-      <p>
-        {{
-          data.exit_weight
-            ? `${data.exit_weight.toLocaleString().split(',').join('.')} Kg`
-            : ''
-        }}
-      </p>
-    </div>
-    <div class="data net">
-      <p>
-        {{
-          data.exit_weight && data.entry_weight
-            ? `${Math.abs(data.exit_weight - data.entry_weight)
-                .toLocaleString()
-                .split(',')
-                .join('.')} Kg`
-            : ''
-        }}
-      </p>
-    </div>
-    <div class="data status">
-      <p :class="data.status">
-        {{ data.status }}
-      </p>
-    </div>
-    <div v-if="data.status === 'inside'" class="data action">
-      <div
-        v-ripple
-        class="btn"
-        style="margin-right: 0.5rem"
-        @click="$emit('edit-data', data)"
-      >
-        <v-icon class="icon">mdi-pencil</v-icon>
-        <tooltips class="tooltips" :name="'Timbang keluar'" />
-      </div>
-      <div
-        v-ripple
-        :style="role !== 'operator' ? 'margin-right: 0.5rem' : ''"
-        class="btn"
-        @click="printReceipt(data)"
-      >
-        <v-icon v-if="!loadingReceipt" class="icon"
-          >mdi-ticket-confirmation</v-icon
-        >
-        <v-progress-circular v-else indeterminate :size="20" :width="3" />
-        <tooltips class="tooltips" :name="'Print tiket'" />
-      </div>
-      <div
-        v-if="role !== 'operator'"
-        v-ripple
-        class="btn"
-        @click="$emit('delete-data', data._id)"
-      >
-        <v-icon class="icon">mdi-delete</v-icon>
-        <tooltips class="tooltips" :name="'Hapus data'" />
+      <div class="data name">
+        <p>{{ data.name }}</p>
       </div>
     </div>
-    <div v-else class="data action">
+    <div class="data transaction">
+      <p>{{ data.transaction }}</p>
+    </div>
+    <div class="data rewards">
+      <p>{{ data.rewards }}</p>
+    </div>
+    <div class="data create_date">
+      <p>{{ formatDate(data.create_date) }}</p>
+    </div>
+
+    <div class="data action">
       <div
-        v-if="role !== 'operator'"
         v-ripple
         class="btn"
         :style="role !== 'operator' ? 'margin-right: 0.5rem' : ''"
@@ -154,10 +79,7 @@ export default {
   },
   computed: {
     role() {
-      return this.$store.getters['users/role']
-    },
-    plugins() {
-      return this.$store.getters.plugins
+      return this.$store.getters.role
     },
   },
   methods: {
