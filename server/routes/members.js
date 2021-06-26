@@ -26,6 +26,37 @@ router.post('/newmember', async (req, res) => {
   }
 })
 
+router.put('/edit', async (req, res) => {
+  const {
+    body: { name, NIK, transaction , rewards },
+    params: { _id },
+    query : { id } 
+  }
+  
+   = req
+
+  try {
+    //cek id 
+    const issuer = await member.findById({ _id }).exec()
+    if (!issuer) throw new Error('MEMBER_NOT_FOUND')
+    if (typeof name === 'string') issuer.name = name 
+    if (typeof NIK === 'string') issuer.NIK = NIK
+    if (typeof transaction === 'string') issuer.transaction = transaction
+    if (typeof rewards === 'string') issuer.rewards = rewards
+    if (id !== issuer.u_id) throw new Error('UNAUTHORIZED')
+    //script untuk update data 
+    await member.updateOne({ _id }, {
+      //"task" sudah mencakup notes,titles,is_done seperti script diatas
+      $set: issuer 
+    }).exec()
+    return res.send({ message: 'SUCCESS', member: issuer })
+  } catch (e) {
+    const {message} = e
+    if (message === 'TASK_NOT_FOUND') res.status(404).send({ message })
+    else res.status(500).send({message})
+  }
+})
+
 router.post('/memberinput', async (req, res) => {
   const {
     body: { NIK , }

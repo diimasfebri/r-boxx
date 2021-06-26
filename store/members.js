@@ -131,6 +131,63 @@ export const actions = {
     }
   },
 
+  async edit({ dispatch }, payload) {
+    try {
+      const { data } = await $axios.put(
+        `http://localhost:8000/members/memberedit'`,
+        payload
+      )
+      if (data.message !== 'SUCCESS') throw new Error(data.message)
+      dispatch(
+        {
+          type: 'success',
+          message: 'Data berhasil diubah!',
+        },
+        { root: true }
+      )
+      return { message: 'SUCCESS', data: data.data }
+    } catch (e) {
+      dispatch(
+        {
+          type: 'error',
+          message: e.message,
+        },
+        {
+          root: true,
+        }
+      )
+      return { message: e.message }
+    }
+  },
+  async delete({ dispatch }, id) {
+    try {
+      const { $axios, $config } = this
+      const { data } = await $axios.delete(`${$config.apiURL}/scales/${id}`)
+      if (data.message !== 'SUCCESS') throw new Error(data.message)
+      dispatch(
+        'alerts/add',
+        {
+          type: 'success',
+          message: 'Data berhasil dihapus!',
+        },
+        { root: true }
+      )
+      return { message: 'SUCCESS' }
+    } catch (e) {
+      dispatch(
+        'alerts/add',
+        {
+          type: 'error',
+          message: e.message,
+        },
+        {
+          root: true,
+        }
+      )
+      return { message: e.message }
+    }
+  },
+
   logout({ commit }) {
     commit('SET_ID_USER', '')
     commit('SET_AVATAR', '')
