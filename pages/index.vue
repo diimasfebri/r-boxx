@@ -4,7 +4,7 @@
       :style="type === 2 ? 'justify-content: flex-end' : ''"
       class="query-header"
     >
-      <div v-if="type === 1" class="search-bar">
+      <div class="search-bar">
         <input
           v-model="searchModel"
           type="text"
@@ -29,6 +29,7 @@
             class="square-btn"
             style="margin: 0"
             @click="tambahMember = true"
+            @tutup-popup="tambahMember = false"
           >
             <v-icon class="icon">mdi-plus</v-icon>
             <span class="text">Member</span>
@@ -36,11 +37,14 @@
         </div>
       </div>
     </div>
+    <new-member v-if="tambahMember" @tutup-popup="tambahMember = false" />
   </div>
 </template>
 
 <script>
+import NewMember from '../components/NewMember.vue'
 export default {
+  components: { NewMember },
   middleware: 'auth',
 
   data() {
@@ -50,6 +54,7 @@ export default {
       bukaPopup: false,
       bukaDaftar: false,
       bukaMasuk: false,
+      tambahMember: false,
     }
   },
   methods: {
