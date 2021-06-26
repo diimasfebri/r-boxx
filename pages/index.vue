@@ -38,7 +38,7 @@
       </div>
     </div>
     <new-member v-if="tambahMember" @tutup-popup="tambahMember = false" />
-    <div v-if="type === 1" class="table-header">
+    <div class="table-header">
       <div class="head number">
         <p>NIK</p>
       </div>
@@ -55,69 +55,20 @@
         <p>Actions</p>
       </div>
     </div>
-    <div v-else-if="type === 2" class="table-header">
-      <div
-        class="head record"
-        :class="sort.name === 'record' ? 'active' : ''"
-        @click="changeSort('record')"
-      >
-        <span class="arrow" :class="sort.type">
-          <v-icon class="icon">mdi-chevron-down</v-icon>
-        </span>
-        <p>No</p>
-      </div>
-      <div
-        class="head entry-date"
-        :class="sort.name === 'entry-date' ? 'active' : ''"
-        @click="changeSort('entry-date')"
-      >
-        <span class="arrow" :class="sort.type">
-          <v-icon class="icon">mdi-chevron-down</v-icon>
-        </span>
-        <p>Tanggal Timbang</p>
-      </div>
-      <div
-        class="head material"
-        :class="sort.name === 'material' ? 'active' : ''"
-        @click="changeSort('material')"
-      >
-        <span class="arrow" :class="sort.type">
-          <v-icon class="icon">mdi-chevron-down</v-icon>
-        </span>
-        <p>Material</p>
-      </div>
-      <div
-        class="head customer"
-        :class="sort.name === 'customer' ? 'active' : ''"
-        @click="changeSort('customer')"
-      >
-        <span class="arrow" :class="sort.type">
-          <v-icon class="icon">mdi-chevron-down</v-icon>
-        </span>
-        <p>Customer</p>
-      </div>
-      <div
-        class="head supplier"
-        :class="sort.name === 'supplier' ? 'active' : ''"
-        @click="changeSort('supplier')"
-      >
-        <span class="arrow" :class="sort.type">
-          <v-icon class="icon">mdi-chevron-down</v-icon>
-        </span>
-        <p>Supplier</p>
-      </div>
-      <div
-        class="head weight"
-        :class="sort.name === 'weight' ? 'active' : ''"
-        @click="changeSort('weight')"
-      >
-        <span class="arrow" :class="sort.type">
-          <v-icon class="icon">mdi-chevron-down</v-icon>
-        </span>
-        <p>Berat</p>
-      </div>
-      <div class="head action">
-        <p>Action</p>
+    <div class="table-body">
+      <data-row-type-one
+        v-for="(data, i) in datas"
+        :key="i"
+        v-intersect="dataIntersect"
+        :data="data"
+        @edit-data="editScaleData"
+        @print-receipt="printReceipt"
+        @print-invoice="printInvoice"
+        @delete-data="(a) => (deleteData = a)"
+      />
+      <div v-intersect="loadData" class="loader">
+        <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
+        <v-progress-circular v-else indeterminate :size="20" :width="3" />
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="data-row">
     <div class="data NIK">
-      <p>{{ data.NIK }}</p>
+      <p>{{ data.nik }}</p>
     </div>
     <div class="data entry-date">
       <p>{{ formatDate(data.entry_date) }}</p>
