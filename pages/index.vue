@@ -68,33 +68,6 @@
         <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
       </div>
     </div>
-    <div class="badan">
-      <div v-for="i in 100" :key="i" class="table-body">
-        <div class="body number">
-          <p>asdasd</p>
-        </div>
-        <div class="body name">
-          <p>asdasd</p>
-        </div>
-        <div class="body rewards">
-          <p>asddas</p>
-        </div>
-        <div class="body transaction">
-          <p>asdsa</p>
-        </div>
-        <div class="body actions">
-          <div v-ripple class="button edit" @click="editMember = true">
-            <v-icon class="icon">mdi-pencil</v-icon>
-          </div>
-          <div v-ripple class="button transactions">
-            <v-icon class="icon">mdi-currency-usd</v-icon>
-          </div>
-          <div v-ripple class="button delete">
-            <v-icon class="icon">mdi-delete</v-icon>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <new-member
       v-if="tambahMember"
