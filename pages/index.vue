@@ -53,6 +53,21 @@
         <p>Actions</p>
       </div>
     </div>
+    <div class="tables-body">
+      <data-row
+        v-for="(data, i) in datas"
+        :key="i"
+        v-intersect="dataIntersect"
+        :data="data"
+        @edit-data="editScaleData"
+        @print-receipt="printReceipt"
+        @print-invoice="printInvoice"
+        @delete-data="(a) => (deleteData = a)"
+      />
+      <div v-intersect="loadData" class="loader">
+        <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
+      </div>
+    </div>
     <div class="badan">
       <div v-for="(data, i) in datas" :key="i" class="table-body">
         <div class="body number">

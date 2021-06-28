@@ -43,7 +43,10 @@ export default {
     async deleteData() {
       try {
         this.loading = true
-        const { message } = await this.$store.dispatch('scales/delete', this.id)
+        const { message } = await this.$store.dispatch(
+          'members/delete',
+          this.id
+        )
         if (message === 'SUCCESS') this.$emit('close-panel')
         else throw new Error(message)
       } catch (e) {
