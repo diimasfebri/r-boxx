@@ -101,6 +101,11 @@
       @tutup-popup="tambahMember = false"
       @tambah-member="tambah"
     />
+    <delete-data
+      v-if="deleteData"
+      :id="deleteData"
+      @close-panel="closeDeletePanel"
+    />
   </div>
 </template>
 
@@ -118,6 +123,8 @@ export default {
       bukaDaftar: false,
       bukaMasuk: false,
       tambahMember: false,
+      deleteData: null,
+      editData: null,
     }
   },
 
