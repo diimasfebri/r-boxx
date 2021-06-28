@@ -20,7 +20,7 @@
       <div
         v-ripple
         class="btn"
-        :style="role !== 'operator' ? 'margin-right: 0.5rem' : ''"
+        :style="role !== 'Owner' ? 'margin-right: 0.5rem' : ''"
         @click="$emit('edit-data', data)"
       >
         <v-icon class="icon">mdi-pencil</v-icon>
@@ -41,7 +41,7 @@
       <div
         v-if="plugins.includes(0)"
         v-ripple
-        :style="role !== 'operator' ? 'margin-right: 0.5rem' : ''"
+        :style="role !== 'Owner' ? 'margin-right: 0.5rem' : ''"
         class="btn"
         @click="printInvoice(data)"
       >
@@ -50,7 +50,7 @@
         <tooltips class="tooltips" :name="'Print surat jalan'" />
       </div>
       <div
-        v-if="role !== 'operator'"
+        v-if="role !== 'Owner'"
         v-ripple
         class="btn"
         @click="$emit('delete-data', data._id)"
