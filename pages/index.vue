@@ -55,19 +55,22 @@
       </div>
     </div>
     <div class="table-body">
-      <data-row-type-one
-        v-for="(data, i) in datas"
-        :key="i"
-        v-intersect="dataIntersect"
-        :data="data"
-        @edit-data="editScaleData"
-        @print-receipt="printReceipt"
-        @print-invoice="printInvoice"
-        @delete-data="(a) => (deleteData = a)"
-      />
-      <div v-intersect="loadData" class="loader">
-        <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
-        <v-progress-circular v-else indeterminate :size="20" :width="3" />
+      <div class="head number">
+        <p>1231231231</p>
+      </div>
+      <div class="head name">
+        <p>Surti</p>
+      </div>
+      <div class="head rewards">
+        <p>90</p>
+      </div>
+      <div class="head transaction">
+        <p>2</p>
+      </div>
+      <div class="button-actions">
+        <div class="button-edit"></div>
+        <div class="button-transaction"></div>
+        <div class="button-delete"></div>
       </div>
     </div>
 
@@ -290,6 +293,44 @@ export default {
         text-transform: uppercase;
         color: $font-color;
         user-select: none;
+      }
+    }
+  }
+  .table-body {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+    height: 2rem;
+    background: $border-color;
+    padding: 0 2rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .head {
+      cursor: pointer;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      p {
+        position: relative;
+        font-weight: 600;
+        font-family: 'Quicksand';
+        font-size: 0.5rem;
+        text-transform: uppercase;
+        color: $font-color;
+        user-select: none;
+      }
+    }
+    .button-actions {
+      cursor: pointer;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      .button-edit{
+        
       }
     }
   }

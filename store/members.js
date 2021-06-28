@@ -62,7 +62,7 @@ export const actions = {
   async sunting() {
     const { data } = await this.$axios.get(`http://localhost:8000/members/`)
     if (data.message === 'SUCCESS') {
-      this.todos = data.todos
+      this.members = data.members
     }
   },
 
