@@ -1,12 +1,11 @@
 import Cookies from 'js-cookie'
 
-
 // deklarasi variabel global
 export const state = () => {
   return {
     idUser: null,
     name: null,
-    token: null, 
+    token: null,
     role: null,
   }
 }
@@ -55,7 +54,7 @@ export const actions = {
     commit('SET_NAME', name)
   },
 
-  async login({commit,dispatch }, { username, password }) {
+  async login({ commit, dispatch }, { username, password }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/users/signin',

@@ -329,8 +329,7 @@ export default {
       height: 100%;
       display: flex;
       align-items: center;
-      .button-edit{
-        
+      .button-edit {
       }
     }
   }
