@@ -35,14 +35,14 @@ router.post('/signup', async (req, res) => {
     body: { name, username, password, role }
   } = req
   try {
-    const count = await User.find({}).countDocuments().exec()
+    const count = await user.find({}).countDocuments().exec()
     if (!count) {
       if (
         typeof username !== 'string' || !username.length ||
         typeof password !== 'string' || !password.length
       ) throw new Error('INVALID_REQUEST')
       const salt = await genSalt(10)
-      const newUser = new User({
+      const newUser = new user({
         name,
         username,
         password: await hash(password, salt),
@@ -52,15 +52,14 @@ router.post('/signup', async (req, res) => {
       await newUser.save()
       return res.status(200).send({ message: 'SUCCESS', user :newUser  })
     } else {
-      if (!user || (user.role !== 'admin' && user.role !== 'owner')) throw new Error('UNAUTHORIZED')
+      // if (!user || (user.role !== 'admin' && user.role !== 'owner')) throw new Error('UNAUTHORIZED')
       if (
         typeof username !== 'string' || !username.length ||
-        typeof password !== 'string' || !password.length ||
-        typeof role !== 'string' || !availableRoles.includes(role)
+        typeof password !== 'string' || !password.length 
       ) throw new Error('INVALID_REQUEST')
-      if (await User.findOne({ username }).exec()) throw new Error('USER_ALREADY_EXIST')
+      if (await user.findOne({ username }).exec()) throw new Error('USER_ALREADY_EXIST')
       const salt = await genSalt(10)
-      const NewUser = new User({
+      const NewUser = new user({
         name,
         username,
         password: await hash(password, salt),
@@ -126,14 +125,14 @@ router.post('/signin', async (req, res) => {
   } = req
   try {
     //cek apakah sudah login
-    if (req.user) throw new Error('ALREADY_LOGGED_IN')
+    // if (req.user) throw new Error('ALREADY_LOGGED_IN')
     //cek username dan pass
     if (!username || !password) throw new Error('INVALID_REQUEST')
-    const user = await User.findOne({ username }).exec()
-    if (!user) throw new Error('INVALID_COMBINATION')
-    if (!await compare(password, user.password)) throw new Error('INVALID_COMBINATION')
-    const token = generateToken(user._id.toString(), { role: user.role, username })
-    return res.status(200).send({ message: 'SUCCESS', token, user: user._id, name: user.name, role: user.role})
+    const attendee = await user.findOne({ username }).exec()
+    if (!attendee) throw new Error('INVALID_COMBINATION')
+    if (!await compare(password, attendee.password)) throw new Error('INVALID_COMBINATION')
+    const token = generateToken(attendee._id.toString(), { role: attendee.role, username })
+    return res.status(200).send({ message: 'SUCCESS', token, user: attendee._id, name: attendee.name, role: attendee.role})
   } catch (e) {
     const { message } = e
     if (message === 'INVALID_REQUEST') res.status(404).send({ message })
