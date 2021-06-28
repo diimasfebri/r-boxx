@@ -106,7 +106,7 @@ export const actions = {
   // edit member
   async edit({ dispatch }, payload) {
     try {
-      const { data } = await $axios.put(
+      const { data } = await this.$axios.put(
         `http://localhost:8000/members/memberedit'`,
         payload
       )

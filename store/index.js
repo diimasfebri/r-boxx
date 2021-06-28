@@ -53,6 +53,9 @@ export const actions = {
   setName({ commit }, name) {
     commit('SET_NAME', name)
   },
+  setToken({ commit }, token) {
+    commit('SET_TOKEN', token)
+  },
 
   async login({ dispatch }, { username, password }) {
     try {
@@ -64,7 +67,7 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      commit('SET_TOKEN', data.token)
+      dispatch('setToken', data.token)
       dispatch('setIdUser', data.user)
       dispatch('setName', data.name)
       dispatch('setRole', data.role)
