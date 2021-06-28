@@ -54,23 +54,31 @@
         <p>Actions</p>
       </div>
     </div>
-    <div class="table-body">
-      <div class="head number">
-        <p>1231231231</p>
-      </div>
-      <div class="head name">
-        <p>Surti</p>
-      </div>
-      <div class="head rewards">
-        <p>90</p>
-      </div>
-      <div class="head transaction">
-        <p>2</p>
-      </div>
-      <div class="button-actions">
-        <div class="button-edit"></div>
-        <div class="button-transaction"></div>
-        <div class="button-delete"></div>
+    <div class="badan">
+      <div v-for="a in 100" :key="a" class="table-body">
+        <div class="body number">
+          <p>1231231231</p>
+        </div>
+        <div class="body name">
+          <p>Surti</p>
+        </div>
+        <div class="body rewards">
+          <p>90</p>
+        </div>
+        <div class="body transaction">
+          <p>2</p>
+        </div>
+        <div class="body actions">
+          <div class="button edit">
+            <v-icon class="icon">mdi-pencil</v-icon>
+          </div>
+          <div class="button transactions">
+            <v-icon class="icon">mdi-currency-usd</v-icon>
+          </div>
+          <div class="button delete">
+            <v-icon class="icon">mdi-delete</v-icon>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -121,9 +129,9 @@ export default {
     },
   },
 
-  mounted() {
-    this.$store.dispatch('members/sunting')
-  },
+  // mounted() {
+  //   this.$store.dispatch('members/sunting')
+  // },
 
   methods: {
     daftar() {
@@ -158,6 +166,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  overflow: hidden;
   .query-header {
     position: relative;
     width: 100%;
@@ -296,43 +305,73 @@ export default {
       }
     }
   }
-  .table-body {
+  .badan {
     position: relative;
     width: 100%;
-    margin-top: 1rem;
-    height: 2rem;
-    background: $border-color;
-    padding: 0 2rem;
+    height: calc(100% - 6rem);
+    overflow-y: auto;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    .head {
-      cursor: pointer;
+    .table-body {
       position: relative;
-      height: 100%;
+      width: 100%;
+      margin-top: 1rem;
+      height: 4rem;
+      padding: 0 2rem;
+      box-sizing: border-box;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      p {
+      border-radius: 0.5rem;
+      border: 1px solid $border-color;
+      .body {
+        cursor: pointer;
         position: relative;
-        font-weight: 600;
-        font-family: 'Quicksand';
-        font-size: 0.5rem;
-        text-transform: uppercase;
-        color: $font-color;
-        user-select: none;
-      }
-    }
-    .button-actions {
-      cursor: pointer;
-      position: relative;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      .button-edit{
-        
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: flex-start;
+        .button {
+          cursor: pointer;
+          width: 2rem;
+          height: 2rem;
+          margin-right: 2 rem;
+          border-radius: 1rem;
+          align-items: center;
+          .icon {
+            color: $font-color;
+          }
+        }
+        p {
+          position: relative;
+          font-weight: 600;
+          font-family: 'Quicksand';
+          font-size: 0.5rem;
+          text-transform: uppercase;
+          color: $font-color;
+          user-select: none;
+        }
       }
     }
   }
+}
+.number {
+  width: 20%;
+}
+.name {
+  width: 20%;
+}
+.rewards {
+  width: 20%;
+}
+.transaction {
+  width: 20%;
+}
+.actions {
+  width: 20%;
 }
 </style>
