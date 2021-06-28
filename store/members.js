@@ -137,7 +137,7 @@ export const actions = {
   async delete({ dispatch }, id) {
     try {
       const { $axios, $config } = this
-      const { data } = await $axios.delete(`${$config.apiURL}/scales/${id}`)
+      const { data } = await $axios.delete(`${$config.apiURL}/${id}`)
       if (data.message !== 'SUCCESS') throw new Error(data.message)
       dispatch(
         'alerts/add',
