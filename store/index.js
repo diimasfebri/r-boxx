@@ -56,7 +56,35 @@ export const actions = {
   setToken({ commit }, token) {
     commit('SET_TOKEN', token)
   },
-
+  async refreshToken({ commit, dispatch, getters }) {
+    try {
+      const { token } = getters
+      const { $axios, $config } = this
+      const { data } = await $axios.post(
+        `${$config.apiURL}/users/refresh-token`,
+        { token }
+      )
+      if (data.message !== 'SUCCESS') throw new Error(data)
+      const { token: newToken, role, username } = data
+      commit('SET_TOKEN', newToken)
+      commit('SET_ROLE', role)
+      commit('SET_USERNAME', username)
+      Cookies.set('token', newToken)
+      return { message: 'SUCCESS' }
+    } catch (e) {
+      dispatch('logout')
+      dispatch(
+        'alerts/add',
+        {
+          type: 'error',
+          message: 'Logged out',
+        },
+        {
+          root: true,
+        }
+      )
+    }
+  },
   async login({ dispatch }, { username, password }) {
     try {
       const { data } = await this.$axios.post(

@@ -6,7 +6,10 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const express = require('express')
 const socketIO = require('socket.io')
+const SerialPort = require('serialport')
 
+const { StringStream } = require('scramjet')
+const { verifyToken } = require('./plugins/tokens')
 
 //inisialisasi router
 const users = require ('./routes/users')
@@ -17,7 +20,7 @@ const app = express()
 
 
 //Panggil Database
-mongoose.connect('mongodb://localhost:27017/r-boxx', {
+mongoose.connect(process.env.MONGO_DATABASE || 'mongodb://localhost:27017/r-boxx', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -33,14 +36,35 @@ app
   .use(cookieParser())
   .use(express.json())
   .use(express.urlencoded({ extended: false }))
+  .use((req, res, next) => {
+    try {
+      const bearerHeader = req.headers['authorization']
+      if (typeof bearerHeader === 'string') {
+        const token = bearerHeader.split(' ')[1]
+        const { sub, role, username } = verifyToken(token)
+        if (!sub || !role || !username) throw new Error('UNAUTHORIZED')
+        req.user = {
+          _id: sub,
+          role,
+          username
+        }
+        req.token = token
+        next()
+      } else {
+        req.user = null
+        next()
+      }
+    } catch (e) {
+      req.user = null
+      next()
+    }
+  })
+
+
 
 // Routes and middleware
 // app.use(/* ... */)
 
-//panggil router  
-app
-.use('/users', users)
-.use('/members', members)
 
 // Error handlers
 app.use(function fourOhFourHandler (req, res) {
@@ -58,28 +82,12 @@ const io = socketIO(server, {
   }
 })
 
-//"nsp" adalah gedung 
-const nsp = io.of('/messages')
+//panggil router  
+app
+.use('/users', users)
+.use('/members', members)
 
-nsp.on('connection', (socket) => {
-  let room = ''
-  // socket.on merupakan  ruangannya dari gedung. socket sendiri adalah pelayannya
-  socket.on('message-sent', (payload) =>{
-    const { roomId, message } = payload
-    socket.in(roomId).emit ('new-message', message)
-  })
-  socket.on('join-room', (roomId) => {
-    room = roomId
-    socket.join(room)
-  })
-  socket.on('disconnect', () => {
-    socket.leave(room)
-    room = ''
-  })  
-
-})
-
-
+app.set('weighNSP', weighNSP)
 
 // Start server
 function start() {

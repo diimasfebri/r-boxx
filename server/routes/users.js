@@ -13,6 +13,21 @@ const user = require('../model/usermodel')
 
 const router = express.Router()
 
+router.post('/refresh-token', async (req, res) => {
+  const {
+    body: { token }
+  } = req
+  try {
+    if (!token) throw new Error('INVALID_REQUEST')
+    const { sub, role, username } = verifyToken(token)
+    if (!sub || !role || !username) throw new Error('UNAUTHORIZED')
+    const newToken = generateToken(sub, { role, username })
+    return res.status(200).send({ message: 'SUCCESS', token: newToken, role, username })
+  } catch (e) {
+    return errorHandler(e, res)
+  }
+})
+
 router.post('/signup', async (req, res) => {
   const {
     body: { name, username, password, role }
