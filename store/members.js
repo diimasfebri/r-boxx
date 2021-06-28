@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 // deklarasi variabel global
 export const state = () => {
   return {
@@ -58,7 +60,35 @@ export const actions = {
   setRewards({ commit }, rewards) {
     commit('SET_REWARDS', rewards)
   },
-
+  async refreshToken({ commit, dispatch, getters }) {
+    try {
+      const { token } = getters
+      const { $axios, $config } = this
+      const { data } = await $axios.post(
+        `${$config.apiURL}/users/refresh-token`,
+        { token }
+      )
+      if (data.message !== 'SUCCESS') throw new Error(data)
+      const { token: newToken, role, username } = data
+      commit('SET_TOKEN', newToken)
+      commit('SET_ROLE', role)
+      commit('SET_USERNAME', username)
+      Cookies.set('token', newToken)
+      return { message: 'SUCCESS' }
+    } catch (e) {
+      dispatch('logout')
+      dispatch(
+        'alerts/add',
+        {
+          type: 'error',
+          message: 'Logged out',
+        },
+        {
+          root: true,
+        }
+      )
+    }
+  },
   async sunting() {
     const { data } = await this.$axios.get(`http://localhost:8000/members/`)
     if (data.message === 'SUCCESS') {

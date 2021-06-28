@@ -20,7 +20,7 @@ router.post('/newmember', async (req, res) => {
       name, NIK, rewards: null, transaction: null, create_date: new Date()
     })
     await newMember.save()
-    return res.send({ message: 'SUCCESS', member: newMember })
+    return res.status(200).send({ message: 'SUCCESS', member: newMember })
   } catch (e) {
     const { message } = e
     if (message === 'INVALID_REQUEST') res.status(404).send({ message })
@@ -52,7 +52,7 @@ router.put('/edit', async (req, res) => {
       //"task" sudah mencakup notes,titles,is_done seperti script diatas
       $set: issuer 
     }).exec()
-    return res.send({ message: 'SUCCESS', member: issuer })
+    return res.status(200).send({ message: 'SUCCESS', member: issuer })
   } catch (e) {
     const {message} = e
     if (message === 'TASK_NOT_FOUND') res.status(404).send({ message })
@@ -71,7 +71,7 @@ router.post('/memberinput', async (req, res) => {
     if (!attendee)
       throw new Error('USER_NOT_FOUND')
     // mengambil id dari mongodb nya langsung 
-    return res.send({
+    return res.status(200).send({
       message: 'SUCCESS',  NIK: attendee.NIK, 
     })
 
@@ -96,7 +96,7 @@ router.delete('/delete/:_id', async (req, res) => {
     if (!issuer) throw new Error('issuer_NOT_FOUND')
     if (id !== issuer.u_id) throw new Error('UNAUTHORIZED')
     await member.deleteOne({ _id }).exec()
-    return res.send({ message : 'SUCCESS'})
+    return  res.status(200).send({ message : 'SUCCESS'})
   } 
   catch (e) { 
     const{message} = e
@@ -115,7 +115,7 @@ router.get('/', async  (req, res) => {
     //ngambil semua data dari database ke variabel "members"
     const members = await member.find({ u_id: id }).exec()
     //kita tambahhkan field "editMode" agar dapat diedit di frontend. "_doc" tempat menyimpan data members, memang dari mongoDB
-    return res.send({ message: 'SUCCESS', members: members  .map((member) => ({ ...member._doc, editMode: false })) })
+    return  res.status(200).send({ message: 'SUCCESS', members: members  .map((member) => ({ ...member._doc, editMode: false })) })
   } catch (e) {
     const { message } = e
     if (message === 'UNAUTHORIZED') res.status(401).send({ message })
