@@ -55,18 +55,18 @@
       </div>
     </div>
     <div class="badan">
-      <div v-for="a in 100" :key="a" class="table-body">
+      <div v-for="(data, i) in datas" :key="i" class="table-body">
         <div class="body number">
-          <p>1231231231</p>
+          <p>{{ data.NIK }}</p>
         </div>
         <div class="body name">
-          <p>Surti</p>
+          <p>{{ data.name }}</p>
         </div>
         <div class="body rewards">
-          <p>90</p>
+          <p>{{ data.rewards }}</p>
         </div>
         <div class="body transaction">
-          <p>2</p>
+          <p>{{ data.transaction }}</p>
         </div>
         <div class="body actions">
           <div v-ripple class="button edit">
@@ -108,8 +108,13 @@ export default {
     }
   },
 
+  computed: {
+    datas() {
+      return this.$store.getters[('members/members', { reset: true })]
+    },
+  },
+
   watch: {
-    // belum jadi
     searchModel(val) {
       this.searchModel = val.trim()
       if (this.searchModel)
@@ -129,9 +134,9 @@ export default {
     },
   },
 
-  // mounted() {
-  //   this.$store.dispatch('members/sunting')
-  // },
+  mounted() {
+    this.$store.dispatch('members/load')
+  },
 
   methods: {
     daftar() {
@@ -140,17 +145,20 @@ export default {
     masuk() {
       this.bukaMasuk = true
     },
-    async tambah(member) {
-      const { data } = await this.$axios.post(
-        `http://localhost:8000/members/newmember`,
-        member
-      ) // script  input untuk masuk server.
-      if (data.message === 'SUCCESS') {
-        console.log(data)
-        this.tambahMember = false
-      }
-    },
   },
+
+  //   async tambah(member) {
+  //     const { data } = await this.$axios.post(
+  //       `http://localhost:8000/members/newmember`,
+  //       member
+  //     ) // script  input untuk masuk server.
+  //     if (data.message === 'SUCCESS') {
+  //       console.log(data)
+  //       this.tambahMember = false
+  //     }
+  //   },
+  // },
+  // }
 }
 </script>
 
@@ -365,6 +373,7 @@ export default {
     }
   }
 }
+
 .number {
   width: 20%;
 }

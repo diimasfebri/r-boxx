@@ -23,6 +23,9 @@ export const getters = {
   rewards(state) {
     return state.rewards
   },
+  transaction(state) {
+    return state.transaction
+  },
 }
 
 // modifikasi atau merubah data
@@ -30,7 +33,7 @@ export const mutations = {
   SET_MEMBERS(state, members) {
     state.members = members
   },
-  PUSH_SCALES(state, data) {
+  PUSH_MEMBERS(state, data) {
     const { members } = state
     const newMembers = JSON.parse(JSON.stringify(members))
     newMembers.push(...data)
@@ -44,6 +47,9 @@ export const mutations = {
   },
   SET_REWARDS(state, rewards) {
     state.rewards = rewards
+  },
+  SET_TRANSACTION(state, transaction) {
+    state.transaction = transaction
   },
 }
 
@@ -59,10 +65,35 @@ export const actions = {
     commit('SET_REWARDS', rewards)
   },
 
-  async sunting() {
-    const { data } = await this.$axios.get(`http://localhost:8000/members/`)
-    if (data.message === 'SUCCESS') {
-      this.members = data.members
+  async load({ commit }, { reset }) {
+    try {
+      const { $axios } = this
+      const { data } = await $axios.get(`http://localhost:8000/members/`)
+      if (data.message !== 'SUCCESS') throw new Error(data.message)
+      const {
+        payload: { members, NIK, name, rewards, transaction },
+      } = data
+      if (reset) commit('SET_MEMBERS', members)
+      else commit('PUSH_MEMBERS', members)
+      commit(
+        'SET_NIK',
+        NIK.map((a) => a._id)
+      )
+      commit(
+        'SET_NAME',
+        name.filter((a) => a._id).map((a) => a._id)
+      )
+      commit(
+        'SET_REWARDS',
+        rewards.filter((a) => a._id).map((a) => a._id)
+      )
+      commit(
+        'SET_TRANSACTION',
+        transaction.filter((a) => a._id).map((a) => a._id)
+      )
+      return { message: 'SUCCESS' }
+    } catch (e) {
+      return { message: e.message }
     }
   },
 
