@@ -6,7 +6,7 @@ const hash = promisify(bcrypt.hash)
 const compare = promisify(bcrypt.compare)
 const genSalt = promisify(bcrypt.genSalt)
 
-const { generateToken, verifyToken } = require('../plugins/tokens')
+// const { generateToken, verifyToken } = require('../plugins/tokens')
 
 const user = require('../model/usermodel')
 

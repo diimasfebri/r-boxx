@@ -130,7 +130,7 @@ export default {
 
   computed: {
     datas() {
-      return this.$store.getters[('members/members', { reset: true })]
+      return this.$store.getters['members/members']
     },
   },
 
@@ -166,19 +166,6 @@ export default {
       this.bukaMasuk = true
     },
   },
-
-  //   async tambah(member) {
-  //     const { data } = await this.$axios.post(
-  //       `http://localhost:8000/members/newmember`,
-  //       member
-  //     ) // script  input untuk masuk server.
-  //     if (data.message === 'SUCCESS') {
-  //       console.log(data)
-  //       this.tambahMember = false
-  //     }
-  //   },
-  // },
-  // }
 }
 </script>
 

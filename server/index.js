@@ -6,10 +6,10 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const express = require('express')
 const socketIO = require('socket.io')
-const SerialPort = require('serialport')
+// const SerialPort = require('serialport')
 
-const { StringStream } = require('scramjet')
-const { verifyToken } = require('./plugins/tokens')
+// const { StringStream } = require('scramjet')
+// const { verifyToken } = require('./plugins/tokens')
 
 //inisialisasi router
 const users = require ('./routes/users')
@@ -87,7 +87,6 @@ app
 .use('/users', users)
 .use('/members', members)
 
-app.set('weighNSP', weighNSP)
 
 // Start server
 function start() {
