@@ -66,6 +66,7 @@
       />
       <div v-intersect="loadData" class="loader">
         <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
+        <v-progress-circular v-else indeterminate :size="20" :width="3" />
       </div>
     </div>
 
@@ -108,6 +109,9 @@ export default {
     datas() {
       return this.$store.getters['members/members']
     },
+    // limit() {
+    //   return !this.datas.length || this.datas.length % 20 !== 0
+    // },
   },
 
   watch: {
@@ -140,6 +144,16 @@ export default {
     },
     masuk() {
       this.bukaMasuk = true
+    },
+    loadData([entry]) {
+      const { isIntersecting } = entry
+      const { limit, $store } = this
+      if (isIntersecting && !limit) {
+        $store.dispatch('members/load', {
+          query: this.fullQuery,
+        })
+        this.skip += 20
+      }
     },
   },
 }

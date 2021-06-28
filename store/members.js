@@ -71,7 +71,7 @@ export const actions = {
       const { data } = await $axios.get(`http://localhost:8000/members/`)
       if (data.message !== 'SUCCESS') throw new Error(data.message)
       const {
-        payload: { members, NIK, name, rewards, transaction },
+        payload: { members },
       } = data
       if (reset) commit('SET_MEMBERS', members)
       else commit('PUSH_MEMBERS', members)

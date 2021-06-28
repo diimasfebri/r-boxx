@@ -12,11 +12,14 @@
     <div class="data transaction">
       <p>{{ data.transaction }}</p>
     </div>
-
     <div class="data action">
       <div v-ripple class="btn" @click="$emit('edit-data', data)">
         <v-icon class="icon">mdi-pencil</v-icon>
         <tooltips class="tooltips" :name="'Edit data'" />
+      </div>
+      <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
+        <v-icon class="icon">mdi-currency-usd</v-icon>
+        <tooltips class="tooltips" :name="'Hapus data'" />
       </div>
       <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-delete</v-icon>
