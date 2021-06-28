@@ -69,13 +69,13 @@
           <p>2</p>
         </div>
         <div class="body actions">
-          <div class="button edit">
+          <div v-ripple class="button edit">
             <v-icon class="icon">mdi-pencil</v-icon>
           </div>
-          <div class="button transactions">
+          <div v-ripple class="button transactions">
             <v-icon class="icon">mdi-currency-usd</v-icon>
           </div>
-          <div class="button delete">
+          <div v-ripple class="button delete">
             <v-icon class="icon">mdi-delete</v-icon>
           </div>
         </div>
@@ -317,16 +317,17 @@ export default {
     align-items: center;
     .table-body {
       position: relative;
-      width: 100%;
+      width: calc(100% - 2rem);
       margin-top: 1rem;
       height: 4rem;
-      padding: 0 2rem;
+      padding: 0.5rem calc(1rem - 1px);
       box-sizing: border-box;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-radius: 0.5rem;
       border: 1px solid $border-color;
+      flex-shrink: 0;
       .body {
         cursor: pointer;
         position: relative;
@@ -334,16 +335,21 @@ export default {
         display: flex;
         align-items: center;
         flex-direction: row;
-        justify-content: flex-start;
-        .button {
-          cursor: pointer;
-          width: 2rem;
-          height: 2rem;
-          margin-right: 2 rem;
-          border-radius: 1rem;
-          align-items: center;
-          .icon {
-            color: $font-color;
+        &.actions {
+          .button {
+            cursor: pointer;
+            position: relative;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid $border-color;
+            display: flex;
+            margin-left: 0.5rem;
+            justify-content: center;
+            align-items: center;
+            .icon {
+              color: $font-color;
+            }
           }
         }
         p {
@@ -373,5 +379,7 @@ export default {
 }
 .actions {
   width: 20%;
+  width: 7.5rem;
+  justify-content: flex-end;
 }
 </style>
