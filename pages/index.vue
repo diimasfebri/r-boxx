@@ -66,7 +66,6 @@
       />
       <div v-intersect="loadData" class="loader">
         <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
-        <<<<<<< HEAD
       </div>
     </div>
     <div class="badan">
@@ -94,9 +93,8 @@
             <v-icon class="icon">mdi-delete</v-icon>
           </div>
         </div>
-        =======
+
         <v-progress-circular v-else indeterminate :size="20" :width="3" />
-        >>>>>>> afd9b8ee553a85483bd906b17229dfaac4a30280
       </div>
     </div>
 
