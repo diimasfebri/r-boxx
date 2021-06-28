@@ -69,21 +69,21 @@
       </div>
     </div>
     <div class="badan">
-      <div v-for="(data, i) in datas" :key="i" class="table-body">
+      <div v-for="i in 100" :key="i" class="table-body">
         <div class="body number">
-          <p>{{ data.NIK }}</p>
+          <p>asdasd</p>
         </div>
         <div class="body name">
-          <p>{{ data.name }}</p>
+          <p>asdasd</p>
         </div>
         <div class="body rewards">
-          <p>{{ data.rewards }}</p>
+          <p>asddas</p>
         </div>
         <div class="body transaction">
-          <p>{{ data.transaction }}</p>
+          <p>asdsa</p>
         </div>
         <div class="body actions">
-          <div v-ripple class="button edit">
+          <div v-ripple class="button edit" @click="editMember = true">
             <v-icon class="icon">mdi-pencil</v-icon>
           </div>
           <div v-ripple class="button transactions">
@@ -106,13 +106,15 @@
       :id="deleteData"
       @close-panel="closeDeletePanel"
     />
+    <member-edit v-if="editMember" @tutup-popup="editMember = false" />
   </div>
 </template>
 
 <script>
+import MemberEdit from '../components/MemberEdit.vue'
 import NewMember from '../components/NewMember.vue'
 export default {
-  components: { NewMember },
+  components: { NewMember, MemberEdit },
   middleware: 'auth',
   data() {
     return {
@@ -125,6 +127,7 @@ export default {
       tambahMember: false,
       deleteData: null,
       editData: null,
+      editMember: false,
     }
   },
 

@@ -85,7 +85,8 @@ export const actions = {
       )
     }
   },
-  async login({ dispatch }, { username, password }) {
+
+  async login({ commit }, { username, password }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/users/signin',
@@ -95,11 +96,11 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      dispatch('setToken', data.token)
-      dispatch('setIdUser', data.user)
-      dispatch('setName', data.name)
-      dispatch('setRole', data.role)
-      Cookies.set('token', data.token)
+      const { role, token, name } = data
+      commit('setToken', token)
+      commit('setName', name)
+      commit('setRole', role)
+      Cookies.set('token', token)
       return { message: 'SUCCESS' }
     } catch (e) {
       console.log(e)

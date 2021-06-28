@@ -1,6 +1,8 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 
+const { promisify } = require('util')
+const { generateToken, verifyToken } = require('../plugins/tokens')
 
 const hash = promisify(bcrypt.hash)
 const compare = promisify(bcrypt.compare)
@@ -66,10 +68,9 @@ router.post('/signin', async (req, res) => {
     if (password !== attendee.password)
       throw new Error('PASSWORD_NOT_FOUND')
     // mengambil id dari mongodb nya langsung 
-    const token = generateToken(user._id.toString(), { role: user.role, username })
-    return  res.status(200).send({  message: 'SUCCESS', token, user: attendee._id, name: attendee.name , role: attendee.role 
-    })
-
+    const token = generateToken(attendee._id.toString(), { role: user.role, username })
+    console.log(attendee)
+    return  res.status(200).send({  message: 'SUCCESS', token, user: attendee._id, name: attendee.name , role: attendee.role })
   } catch (e) {
     const { message } = e
     if (message === 'INVALID_REQUEST') res.status(404).send({ message })

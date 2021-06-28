@@ -67,13 +67,13 @@ app
 
 
 // Error handlers
-app.use(function fourOhFourHandler (req, res) {
-  res.status(404).send()
-})
-app.use(function fiveHundredHandler (err, req, res, next) {
-  console.error(err)
-  res.status(500).send()
-})
+// app.use(function fourOhFourHandler (req, res) {
+//   res.status(404).send()
+// })
+// app.use(function fiveHundredHandler (err, req, res, next) {
+//   console.error(err)
+//   res.status(500).send()
+// })
 
 const server = http.createServer(app)
 const io = socketIO(server, {
@@ -84,8 +84,8 @@ const io = socketIO(server, {
 
 //panggil router  
 app
-.use('/users', users)
-.use('/members', members)
+  .use('/users', users)
+  .use('/members', members)
 
 
 // Start server
