@@ -99,17 +99,32 @@ router.delete('/delete/:_id', async (req, res) => {
 })
 
 //buat load member
-router.get('/', async  (res) => {
-  try {
-    const payload = {}
-    const memberPipeline = []
-    const members = await member.aggregate(memberPipeline).exec()
-    payload.members = members
+// router.get('/', async  (res) => {
+//   try {
+//     const payload = {}
+//     const memberPipeline = []
+//     const members = await member.aggregate(memberPipeline).exec()
+//     payload.members = members
+//     return res.send({ message: 'SUCCESS', payload })
+//   } catch (e) {
+//     const { message } = e
+//     if (message === 'UNAUTHORIZED') res.status(401).send({ message })
+//     return res.status(500).send({ message })
+//   }
+// })
+router.get('/', async (req, res)=>{
+	try{
+		const {
+			query: {}
+		} = req
+		
+		let payload = null
+	  payload = await userModel.find({}).exec()
+    console.log(payload)
     return res.send({ message: 'SUCCESS', payload })
-  } catch (e) {
+	}catch(e){
     const { message } = e
     if (message === 'UNAUTHORIZED') res.status(401).send({ message })
-    return res.status(500).send({ message })
-  }
+    return res.status(500).send({ message })	}
 })
 module.exports = router
