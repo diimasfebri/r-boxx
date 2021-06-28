@@ -2,6 +2,8 @@ const express = require('express')
 
 const user = require('../model/usermodel')
 
+const { generateToken, verifyToken } = require('../plugins/tokens')
+
 const router = express.Router()
 
 router.post('/signup', async (req, res) => {
@@ -38,13 +40,12 @@ router.post('/signin', async (req, res) => {
   try {
     //CEK
     const attendee = await user.findOne({ username }).exec()
-    if (!attendee)
-      throw new Error('USER_NOT_FOUND')
+    if (!attendee) throw new Error('USER_NOT_FOUND')
     if (password !== attendee.password)
       throw new Error('PASSWORD_NOT_FOUND')
     // mengambil id dari mongodb nya langsung 
-    return res.send({
-      message: 'SUCCESS', user: attendee._id, name: attendee.name , role: attendee.role 
+    const token = generateToken(user._id.toString(), { role: user.role, username })
+    return res.send({  message: 'SUCCESS', token, user: attendee._id, name: attendee.name , role: attendee.role 
     })
 
   } catch (e) {

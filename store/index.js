@@ -64,11 +64,11 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      // commit('SET_TOKEN', token)
+      commit('SET_TOKEN', data.token)
       dispatch('setIdUser', data.user)
       dispatch('setName', data.name)
       dispatch('setRole', data.role)
-      // Cookies.set('token', token)
+      Cookies.set('token', data.token)
       return { message: 'SUCCESS' }
     } catch (e) {
       console.log(e)
