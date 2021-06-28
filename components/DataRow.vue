@@ -40,11 +40,7 @@ export default {
       loadingInvoice: false,
     }
   },
-  computed: {
-    role() {
-      return this.$store.getters.role
-    },
-  },
+  computed: {},
   methods: {
     printReceipt(data) {
       this.loadingReceipt = true

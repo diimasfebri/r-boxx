@@ -40,11 +40,11 @@ app
       const bearerHeader = req.headers['authorization']
       if (typeof bearerHeader === 'string') {
         const token = bearerHeader.split(' ')[1]
-        const { sub, role, username } = verifyToken(token)
-        if (!sub || !role || !username) throw new Error('UNAUTHORIZED')
+        const { sub,  username } = verifyToken(token)
+        if (!sub  || !username) throw new Error('UNAUTHORIZED')
         req.user = {
           _id: sub,
-          role,
+          
           username
         }
         req.token = token

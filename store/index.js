@@ -6,7 +6,6 @@ export const state = () => {
     idUser: null,
     name: null,
     token: null,
-    role: null,
   }
 }
 
@@ -14,9 +13,6 @@ export const state = () => {
 export const getters = {
   token(state) {
     return state.token
-  },
-  role(state) {
-    return state.role
   },
   name(state) {
     return state.name
@@ -34,9 +30,6 @@ export const mutations = {
   SET_ID_USER(state, newidUser) {
     state.idUser = newidUser
   },
-  SET_ROLE(state, role) {
-    state.role = role
-  },
   SET_NAME(state, name) {
     state.name = name
   },
@@ -46,9 +39,6 @@ export const mutations = {
 export const actions = {
   setIdUser({ commit }, idUser) {
     commit('SET_ID_USER', idUser)
-  },
-  setRole({ commit }, role) {
-    commit('SET_ROLE', role)
   },
   setName({ commit }, name) {
     commit('SET_NAME', name)
@@ -66,9 +56,8 @@ export const actions = {
         { token }
       )
       if (data.message !== 'SUCCESS') throw new Error(data)
-      const { token: newToken, role, username } = data
+      const { token: newToken, username } = data
       commit('SET_TOKEN', newToken)
-      commit('SET_ROLE', role)
       commit('SET_USERNAME', username)
       Cookies.set('token', newToken)
       return { message: 'SUCCESS' }
@@ -97,10 +86,10 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      const { role, token, name } = data
-      commit('setToken', token)
-      commit('setName', name)
-      commit('setRole', role)
+      const { token, name, user } = data
+      commit('SET_ID_USER', user)
+      commit('SET_TOKEN', token)
+      commit('SET_NAME', name)
       Cookies.set('token', token)
       return { message: 'SUCCESS' }
     } catch (e) {
@@ -108,7 +97,7 @@ export const actions = {
       return { message: e.message }
     }
   },
-  async signup({ dispatch }, { name, username, password, role }) {
+  async signup({ dispatch }, { name, username, password }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/users/signup',
@@ -116,7 +105,6 @@ export const actions = {
           name,
           username,
           password,
-          role,
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
@@ -127,9 +115,7 @@ export const actions = {
   },
   logout({ commit }) {
     Cookies.remove('token')
-    commit('SET_TOKEN', null)
-    commit('SET_ID_USER', '')
-    commit('SET_ROLE', '')
-    commit('SET_NAME', '')
+    commit('SET_ID_USER', null)
+    commit('SET_NAME', null)
   },
 }

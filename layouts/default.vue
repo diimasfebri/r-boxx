@@ -8,7 +8,6 @@
       <div class="user-actions">
         <div class="user-details">
           <h1 class="name">{{ names }}</h1>
-          <h4 class="role subtext">{{ roles }}</h4>
         </div>
         <div v-ripple class="action-btn" @click="userActionsOpened = true">
           <v-icon
@@ -47,9 +46,6 @@ export default {
   computed: {
     names() {
       return this.$store.getters.name
-    },
-    roles() {
-      return this.$store.getters.role
     },
     pageTitle() {
       //  mencari yang navSelected atau yang Aktif
@@ -157,10 +153,6 @@ export default {
         align-items: flex-end;
         h1.name {
           font-family: 'Quicksand';
-        }
-        h4.role {
-          font-family: 'Quicksand';
-          text-transform: capitalize;
         }
       }
       .action-btn {

@@ -13,12 +13,6 @@ const UserSchema = Schema({
     type: String,
     required: true
   },
-
-  role:{
-    type: String,
-    required : true
-  },
-  
   create_date: {
     type: Date,
     default: Date.now()
