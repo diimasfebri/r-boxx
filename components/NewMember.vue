@@ -3,7 +3,7 @@
     <div class="main-card">
       <div class="header">
         <div class="name-container">
-          <h1 class="name">Member Edit</h1>
+          <h1 class="name">Member baru!</h1>
           <p class="message subtext-dark">Silahkan masukkan data</p>
         </div>
         <div class="button-close" @click="keluar">
@@ -94,8 +94,7 @@ export default {
     align-items: center;
     flex-direction: column;
     background: #1e1626;
-    width: 70%;
-    height: 80%;
+    width: 18rem;
     border-radius: 1rem;
     .header {
       width: 100%;

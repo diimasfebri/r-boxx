@@ -1,11 +1,10 @@
 <template>
   <div class="popup">
     <div class="main-card">
-      <div class="error-container"></div>
       <div class="header">
         <div class="name-container">
-          <h1 class="name">New Member</h1>
-          <p class="message subtext-dark">Silahkan masukkan data</p>
+          <h1 class="name">Edit Member</h1>
+          <p class="message subtext-dark">Silahkan masukkan data yang baru</p>
         </div>
         <div class="button-close" @click="keluar">
           <div v-ripple class="button">
@@ -36,17 +35,17 @@ export default {
   data() {
     return {
       name: {
-        label: 'Nama',
+        label: 'Nama Baru',
         type: 'text',
         icon: 'mdi-account-circle',
-        placeholder: 'masukkan nama di sini',
+        placeholder: 'masukkan nama baru di sini',
         model: '',
       },
       NIK: {
-        label: 'NIK',
+        label: 'NIK Baru ',
         type: 'number',
         icon: '',
-        placeholder: 'masukkan nomor induk/nomor kartu di sini',
+        placeholder: 'masukkan nomor kartu baru di sini',
         model: '',
       },
     }
@@ -104,8 +103,7 @@ export default {
     align-items: center;
     flex-direction: column;
     background: #1e1626;
-    width: 80%;
-    height: 80%;
+    width: 18rem;
     border-radius: 1rem;
     .header {
       width: 100%;
@@ -113,6 +111,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       .name-container {
         font-family: 'quicksand';
         padding: 1rem;

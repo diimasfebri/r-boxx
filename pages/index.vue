@@ -69,12 +69,12 @@
       </div>
     </div>
     <div class="badan">
-      <div v-for="i in 100" :key="i" class="table-body">
+      <div v-for="(data, i) in datas" :key="i" class="table-body">
         <div class="body number">
-          <p>asdasd</p>
+          <p></p>
         </div>
         <div class="body name">
-          <p>asdasd</p>
+          <p>d</p>
         </div>
         <div class="body rewards">
           <p>asddas</p>
