@@ -72,6 +72,15 @@ export default {
       this.$emit('tambah-member', member)
       this.$emit('tutup-popup')
     },
+
+    sunting() {
+      const member = {
+        _id: this.member._id,
+        NIK: this.NIK,
+        name: this.name,
+      }
+      this.$store.dispatch('members/sunting', member)
+    },
   },
 }
 </script>

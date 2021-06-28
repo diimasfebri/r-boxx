@@ -120,7 +120,7 @@ export const actions = {
   async cari({ dispatch }, { nik }) {
     try {
       const { data } = await this.$axios.post(
-        'http://localhost:8000/members/memberinput',
+        `http://localhost:8000/members/memberinput`,
         {
           nik,
         }
@@ -135,32 +135,13 @@ export const actions = {
   },
 
   // edit member
-  async edit({ dispatch }, payload) {
-    try {
-      const { data } = await this.$axios.put(
-        `http://localhost:8000/members/memberedit'`,
-        payload
-      )
-      if (data.message !== 'SUCCESS') throw new Error(data.message)
-      dispatch(
-        {
-          type: 'success',
-          message: 'Data berhasil diubah!',
-        },
-        { root: true }
-      )
-      return { message: 'SUCCESS', data: data.data }
-    } catch (e) {
-      dispatch(
-        {
-          type: 'error',
-          message: e.message,
-        },
-        {
-          root: true,
-        }
-      )
-      return { message: e.message }
+  async sunting(member) {
+    const { data } = await this.$axios.put(
+      `http://localhost:8000/members/memberedit`,
+      member
+    )
+    if (data.message === 'SUCCESS') {
+      console.log(data)
     }
   },
 

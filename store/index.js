@@ -56,6 +56,7 @@ export const actions = {
   setToken({ commit }, token) {
     commit('SET_TOKEN', token)
   },
+
   async refreshToken({ commit, dispatch, getters }) {
     try {
       const { token } = getters
@@ -89,7 +90,7 @@ export const actions = {
   async login({ commit }, { username, password }) {
     try {
       const { data } = await this.$axios.post(
-        'http://localhost:8000/users/signin',
+        `http://localhost:8000/users/signin`,
         {
           username,
           password,
