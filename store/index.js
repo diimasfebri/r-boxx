@@ -85,7 +85,8 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
-      const { token, name } = data
+      const { token, name, user } = data
+      commit('SET_ID_USER', user)
       commit('SET_TOKEN', token)
       commit('SET_NAME', name)
       Cookies.set('token', token)
@@ -114,7 +115,6 @@ export const actions = {
   logout({ commit }) {
     Cookies.remove('token')
     commit('SET_ID_USER', null)
-    commit('SET_ROLE', null)
     commit('SET_NAME', null)
   },
 }
