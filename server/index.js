@@ -1,15 +1,14 @@
 'use strict'
 const http = require('http')
 
-const cookieParser = require('cookie-parser')
-const mongoose = require('mongoose')
-const cors = require('cors')
 const express = require('express')
+const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser')
 const socketIO = require('socket.io')
-// const SerialPort = require('serialport')
+const cors = require('cors')
 
 // const { StringStream } = require('scramjet')
-// const { verifyToken } = require('./plugins/tokens')
+const { verifyToken } = require('./plugins/tokens')
 
 //inisialisasi router
 const users = require ('./routes/users')
