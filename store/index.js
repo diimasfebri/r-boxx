@@ -106,7 +106,6 @@ export const actions = {
       return { message: e.message }
     }
   },
-
   async signup({ dispatch }, { name, username, password, role }) {
     try {
       const { data } = await this.$axios.post(
@@ -124,7 +123,6 @@ export const actions = {
       return { message: e.message }
     }
   },
-
   logout({ commit }) {
     Cookies.remove('token')
     commit('SET_TOKEN', null)
