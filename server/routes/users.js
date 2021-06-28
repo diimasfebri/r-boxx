@@ -1,6 +1,8 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 
+const { promisify } = require('util')
+const { generateToken, verifyToken } = require('../plugins/tokens')
 
 const hash = promisify(bcrypt.hash)
 const compare = promisify(bcrypt.compare)
