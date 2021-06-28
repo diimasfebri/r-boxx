@@ -24,7 +24,6 @@
       <div class="actions">
         <div class="applied-filters">
           <div
-            v-if="!isExpired"
             v-ripple
             class="square-btn"
             style="margin: 0"
@@ -95,7 +94,6 @@ import NewMember from '../components/NewMember.vue'
 export default {
   components: { NewMember },
   middleware: 'auth',
-
   data() {
     return {
       type: 1,

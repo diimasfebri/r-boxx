@@ -1,10 +1,32 @@
 const express = require('express')
+const bcrypt = require('bcrypt')
 
-const user = require('../model/usermodel')
+
+const hash = promisify(bcrypt.hash)
+const compare = promisify(bcrypt.compare)
+const genSalt = promisify(bcrypt.genSalt)
 
 const { generateToken, verifyToken } = require('../plugins/tokens')
 
+const user = require('../model/usermodel')
+
+
 const router = express.Router()
+
+router.post('/refresh-token', async (req, res) => {
+  const {
+    body: { token }
+  } = req
+  try {
+    if (!token) throw new Error('INVALID_REQUEST')
+    const { sub, role, username } = verifyToken(token)
+    if (!sub || !role || !username) throw new Error('UNAUTHORIZED')
+    const newToken = generateToken(sub, { role, username })
+    return res.status(200).send({ message: 'SUCCESS', token: newToken, role, username })
+  } catch (e) {
+    return errorHandler(e, res)
+  }
+})
 
 router.post('/signup', async (req, res) => {
   const {
@@ -45,7 +67,7 @@ router.post('/signin', async (req, res) => {
       throw new Error('PASSWORD_NOT_FOUND')
     // mengambil id dari mongodb nya langsung 
     const token = generateToken(user._id.toString(), { role: user.role, username })
-    return res.send({  message: 'SUCCESS', token, user: attendee._id, name: attendee.name , role: attendee.role 
+    return  res.status(200).send({  message: 'SUCCESS', token, user: attendee._id, name: attendee.name , role: attendee.role 
     })
 
   } catch (e) {

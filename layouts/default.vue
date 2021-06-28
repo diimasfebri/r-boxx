@@ -5,22 +5,6 @@
         <h1 class="name">R-BOXX</h1>
         <h4 class="address subtext">Sumenep</h4>
       </div>
-      <div
-        v-if="status === 'trial'"
-        :class="
-          new Date(expiration).getTime() > new Date().getTime() ? '' : 'expired'
-        "
-        class="trial-notification"
-      >
-        <v-icon class="icon">mdi-alert-circle-outline</v-icon>
-        <h1 class="message">
-          {{
-            isExpired
-              ? 'Masa trial sudah habis!'
-              : `Masa trial akan habis pada: ${formatDateNoTime(expiration)}`
-          }}
-        </h1>
-      </div>
       <div class="user-actions">
         <div class="user-details">
           <h1 class="name">{{ names }}</h1>
