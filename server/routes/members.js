@@ -4,101 +4,8 @@ const member = require('../model/membermodel')
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
-  const {
-    query: { sort, license, material, customer, supplier, status, min_date, max_date, limit, skip, export_excel }
-  } = req
-  try {
-    const payload = {}
 
-    const scalePipeline = [
-      {
-        $match: {
-          $expr: {
-            $and: [
-              { $ne: ['$deleted', true] }
-            ]
-          }
-        }
-      },
-    ]
-    if (export_excel && scales.length) {
-      const xlsx = officegen({
-        type: 'xlsx'
-      })
-      const sheet = xlsx.makeNewSheet()
-      if (scales[0].entry_weight) {
-        sheet.data[0] = [
-          'Nomor Record',
-          'Tanggal Masuk',
-          'Tanggal Keluar',
-          'Nomor Polisi',
-          'Material',
-          'Customer',
-          'Supplier',
-          'Bruto',
-          'Tara',
-          'Netto'
-        ]
-        const filteredData = scales.filter(a => a.status === 'completed')
-        for (let i = 0; i < filteredData.length; i++) {
-          const data = filteredData[i]
-          sheet.data[i + 1] = [
-            data.record,
-            formatDate(data.entry_date),
-            formatDate(data.exit_date),
-            data.license,
-            data.material,
-            data.customer,
-            data.supplier,
-            data.entry_weight > data.exit_weight ? data.entry_weight : data.exit_weight,
-            data.entry_weight > data.exit_weight ? data.exit_weight : data.entry_weight,
-            Math.abs(data.entry_weight - data.exit_weight),
-          ]
-          if (i === filteredData.length - 1) {
-            const name = `export.xlsx`
-            res.writeHead(200, {
-              'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              'Content-disposition': `attachment; filename=${name}`
-            })
-            xlsx.generate(res)
-          }
-        }
-      } else {
-        sheet.data[0] = [
-          'Nomor Record',
-          'Tanggal Timbang',
-          'Material',
-          'Customer',
-          'Supplier',
-          'Berat',
-        ]
-        for (let i = 0; i < scales.length; i++) {
-          const data = scales[i]
-          sheet.data[i + 1] = [
-            data.record,
-            formatDate(data.entry_date),
-            data.material,
-            data.customer,
-            data.supplier,
-            data.weight
-          ]
-          if (i === scales.length - 1) {
-            const name = `export.xlsx`
-            res.writeHead(200, {
-              'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              'Content-disposition': `attachment; filename=${name}`
-            })
-            xlsx.generate(res)
-          }
-        }
-      }}
-   return res.status(200).send({ message: 'SUCCESS', payload })
-      } catch (e) {
-  return errorHandler(e, res)
-}
-})
-
+//buat bikin member baru
 router.post('/newmember', async (req, res) => {
   const {
     body: { name, NIK, }
@@ -121,6 +28,7 @@ router.post('/newmember', async (req, res) => {
   }
 })
 
+//buat edit member
 router.put('/edit', async (req, res) => {
   const {
     body: { name, NIK, transaction , rewards },
@@ -152,6 +60,7 @@ router.put('/edit', async (req, res) => {
   }
 })
 
+//buat cari member 
 router.post('/memberinput', async (req, res) => {
   const {
     body: { NIK , }
@@ -173,8 +82,30 @@ router.post('/memberinput', async (req, res) => {
   }
 })
 
+//buat delete member
+router.delete('/delete/:_id', async (req, res) => {
+  const {
+    params: { _id },
+    query : { id }
+  } = req
+  try {
+    //cek id
+    if (!id) throw new Error('UNAUTHORIZED')
+    //script delete task
+    const issuer = await member.findById({ _id }).exec()
+    if (!issuer) throw new Error('issuer_NOT_FOUND')
+    if (id !== issuer.u_id) throw new Error('UNAUTHORIZED')
+    await member.deleteOne({ _id }).exec()
+    return res.send({ message : 'SUCCESS'})
+  } 
+  catch (e) { 
+    const{message} = e
+    if (message === 'TASK_NOT_FOUND') res.status(404).send({ message })
+    else res.status(500).send({message})
+  }
+})
 
-
+//buat load member
 router.get('/', async  (req, res) => {
   try {
     const {

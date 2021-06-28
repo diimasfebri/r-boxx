@@ -118,6 +118,10 @@ export default {
     },
   },
 
+  mounted() {
+    this.$store.dispatch('members/sunting')
+  },
+
   methods: {
     daftar() {
       this.bukaDaftar = true

@@ -1,14 +1,21 @@
+import Cookies from 'js-cookie'
+
+
 // deklarasi variabel global
 export const state = () => {
   return {
     idUser: null,
     name: null,
+    token: null, 
     role: null,
   }
 }
 
 // ambil data ke variabel
 export const getters = {
+  token(state) {
+    return state.token
+  },
   role(state) {
     return state.role
   },
@@ -22,6 +29,9 @@ export const getters = {
 
 // modifikasi atau merubah data
 export const mutations = {
+  SET_TOKEN(state, token) {
+    state.token = token
+  },
   SET_ID_USER(state, newidUser) {
     state.idUser = newidUser
   },
@@ -45,7 +55,7 @@ export const actions = {
     commit('SET_NAME', name)
   },
 
-  async login({ dispatch }, { username, password }) {
+  async login({commit,dispatch }, { username, password }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/users/signin',
@@ -55,9 +65,11 @@ export const actions = {
         }
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
+      commit('SET_TOKEN', token)
       dispatch('setIdUser', data.user)
       dispatch('setName', data.name)
       dispatch('setRole', data.role)
+      Cookies.set('token', token)
       return { message: 'SUCCESS' }
     } catch (e) {
       console.log(e)
@@ -84,6 +96,8 @@ export const actions = {
   },
 
   logout({ commit }) {
+    Cookies.remove('token')
+    commit('SET_TOKEN', null)
     commit('SET_ID_USER', '')
     commit('SET_ROLE', '')
     commit('SET_NAME', '')

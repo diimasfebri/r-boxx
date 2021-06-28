@@ -55,47 +55,18 @@ export const actions = {
   setName({ commit }, name) {
     commit('SET_NAME', name)
   },
-  // setRewards({ commit }, rewards) {
-  //   commit('SET_REWARDS', rewards)
-  // },
-  async load({ commit, dispatch }, { query, reset }) {
-    try {
-      const { $axios, $config } = this
-      const { data } = await $axios.get(`${$config.apiURL}/scales${query}`)
-      if (data.message !== 'SUCCESS') throw new Error(data.message)
-      const {
-        payload: { scales, materials, customers, suppliers },
-      } = data
-      if (reset) commit('SET_SCALES', scales)
-      else commit('PUSH_SCALES', scales)
-      commit(
-        'SET_MATERIALS',
-        materials.map((a) => a._id)
-      )
-      commit(
-        'SET_CUSTOMERS',
-        customers.filter((a) => a._id).map((a) => a._id)
-      )
-      commit(
-        'SET_SUPPLIERS',
-        suppliers.filter((a) => a._id).map((a) => a._id)
-      )
-      return { message: 'SUCCESS' }
-    } catch (e) {
-      dispatch(
-        'alerts/add',
-        {
-          type: 'error',
-          message: e.message,
-        },
-        {
-          root: true,
-        }
-      )
-      return { message: e.message }
+  setRewards({ commit }, rewards) {
+    commit('SET_REWARDS', rewards)
+  },
+
+  async sunting() {
+    const { data } = await this.$axios.get(`http://localhost:8000/members/`)
+    if (data.message === 'SUCCESS') {
+      this.todos = data.todos
     }
   },
 
+  // bikin member baru
   async daftar({ dispatch }, { name, NIK }) {
     try {
       const { data } = await this.$axios.post(
@@ -114,7 +85,8 @@ export const actions = {
     }
   },
 
-  async masuk({ dispatch }, { nik }) {
+  // cari member
+  async cari({ dispatch }, { nik }) {
     try {
       const { data } = await this.$axios.post(
         'http://localhost:8000/members/memberinput',
@@ -131,6 +103,7 @@ export const actions = {
     }
   },
 
+  // edit member
   async edit({ dispatch }, payload) {
     try {
       const { data } = await $axios.put(
@@ -159,6 +132,8 @@ export const actions = {
       return { message: e.message }
     }
   },
+
+  // hapus member
   async delete({ dispatch }, id) {
     try {
       const { $axios, $config } = this
