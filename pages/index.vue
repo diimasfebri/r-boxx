@@ -93,8 +93,6 @@
             <v-icon class="icon">mdi-delete</v-icon>
           </div>
         </div>
-
-        <v-progress-circular v-else indeterminate :size="20" :width="3" />
       </div>
     </div>
 
