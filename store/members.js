@@ -126,7 +126,7 @@ export const actions = {
     try {
       const { $axios } = this
       const { data } = await $axios.put(
-        `http://localhost:8000/members//member-edit/${member._id}`,
+        `http://localhost:8000/members/member-edit/${member._id}`,
         member
       )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
@@ -150,8 +150,10 @@ export const actions = {
   // hapus member
   async delete({ dispatch }, id) {
     try {
-      const { $axios, $config } = this
-      const { data } = await $axios.delete(`${$config.apiURL}/${id}`)
+      const { $axios } = this
+      const { data } = await $axios.delete(
+        `http://localhost:8000/members/${id}`
+      )
       if (data.message !== 'SUCCESS') throw new Error(data.message)
       dispatch(
         'alerts/add',

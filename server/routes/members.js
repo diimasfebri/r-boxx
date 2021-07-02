@@ -76,18 +76,14 @@ router.post('/memberinput', async (req, res) => {
 })
 
 //buat delete member
-router.delete('/delete/:_id', async (req, res) => {
+router.delete('/:_id', async (req, res) => {
   const {
     params: { _id },
-    query : { id }
   } = req
   try {
-    //cek id
-    if (!id) throw new Error('UNAUTHORIZED')
     //script delete task
     const issuer = await member.findById({ _id }).exec()
     if (!issuer) throw new Error('issuer_NOT_FOUND')
-    if (id !== issuer.u_id) throw new Error('UNAUTHORIZED')
     await member.deleteOne({ _id }).exec()
     return  res.status(200).send({ message : 'SUCCESS'})
   } 
