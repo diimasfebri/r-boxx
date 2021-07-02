@@ -57,22 +57,16 @@
       </div>
     </div>
     <div class="badan">
-      <data-row
-        v-for="(data, i) in datas"
-        :key="i"
-        v-intersect="dataIntersect"
-        :data="data"
-        @edit-data="editMember"
-        @print-receipt="printReceipt"
-        @print-invoice="printWeight"
-        @delete-data="(a) => (deleteData = a)"
-      />
+      <data-row v-for="(data, i) in datas" :key="i" v-intersect="dataIntersect"
+      :data="data" <<<<<<< h-e-a-d ======= @edit-data="editMember"
+      @print-receipt="printReceipt" @print-invoice="printWeight"
+      @edit-data="editData" >>>>>>> 5330a0233b87e8927485d1e8ecf76b9d77618a49
+      @delete-data="(a) => (deleteData = a)" />
       <div v-intersect="loadData" class="loader">
         <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
         <v-progress-circular v-else indeterminate :size="20" :width="3" />
       </div>
     </div>
-
     <new-member
       v-if="tambahMember"
       @tutup-popup="tambahMember = false"
@@ -107,7 +101,7 @@ export default {
       bukaMasuk: false,
       tambahMember: false,
       deleteData: null,
-      editData: null,
+      Handler: null,
       editMember: null,
       searchModel: '',
       skip: 0,
@@ -180,7 +174,9 @@ export default {
         this.skip += 20
       }
     },
-
+    editData(data) {
+      this.editMember = data
+    },
     async tambah(member) {
       const { data } = await this.$axios.post(
         `http://localhost:8000/members/newmember`,
@@ -327,6 +323,7 @@ export default {
     padding: 0 2rem;
     box-sizing: border-box;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     .head {
       cursor: pointer;
@@ -334,9 +331,6 @@ export default {
       height: 100%;
       display: flex;
       align-items: center;
-      &.actions {
-        width: 20%;
-      }
       p {
         position: relative;
         font-weight: 600;
@@ -431,16 +425,18 @@ export default {
   width: 20%;
 }
 .rewards {
-  width: 15%;
+  width: 10%;
+  justify-content: flex-end;
 }
 .transaction {
-  width: 30%;
+  width: 10%;
+  justify-content: flex-end;
 }
 .progress {
-  width: 10%;
+  width: calc(30% - 7.5rem);
+  justify-content: center;
 }
 .actions {
-  width: 40%;
   width: 7.5rem;
   justify-content: flex-end;
 }

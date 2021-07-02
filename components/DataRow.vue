@@ -13,7 +13,9 @@
       <span>{{ data.transaction }}</span>
     </div>
     <div class="data progress">
-      <span> 0 </span>
+      <div class="bar-container">
+        <div class="filled"></div>
+      </div>
     </div>
     <div class="data actions">
       <div v-ripple class="btn" @click="$emit('edit-data', data)">
@@ -44,29 +46,6 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      loadingReceipt: false,
-      loadingInvoice: false,
-    }
-  },
-  computed: {},
-  methods: {
-    printReceipt(data) {
-      this.loadingReceipt = true
-      this.$emit('print-receipt', data)
-      setTimeout(() => {
-        this.loadingReceipt = false
-      }, 500)
-    },
-    printInvoice(data) {
-      this.loadingInvoice = true
-      this.$emit('print-invoice', data)
-      setTimeout(() => {
-        this.loadingInvoice = false
-      }, 500)
-    },
-  },
 }
 </script>
 
@@ -88,9 +67,19 @@ export default {
     position: relative;
     height: 100%;
     display: flex;
-    width: 15%;
     align-items: center;
     flex-direction: row;
+    &.progress {
+      .bar-container {
+        display: flex;
+        position: relative;
+        align-items: center;
+        width: 100%;
+        height: 1rem;
+        border-radius: 1rem;
+        background-color: white;
+      }
+    }
     &.actions {
       .btn {
         cursor: pointer;
@@ -127,24 +116,25 @@ export default {
     }
   }
   .number {
-    width: calc(20% - 2rem);
+    width: 20%;
   }
   .name {
-    width: calc(20% - 2rem);
+    width: 20%;
   }
   .rewards {
-    width: calc(15% - 2rem);
-    padding-left: 0.5rem;
+    width: 10%;
+    justify-content: flex-end;
   }
   .transaction {
-    width: calc(30% - 2rem);
-    padding-left: 1.5rem;
+    width: 10%;
+    justify-content: flex-end;
   }
   .progress {
-    width: calc(10% - 2rem);
+    width: calc(30% - 7.5rem);
+    justify-content: center;
   }
   .actions {
-    width: calc(20% - 2rem);
+    width: 7.5rem;
     justify-content: flex-end;
   }
 }
