@@ -54,31 +54,16 @@
       </div>
     </div>
     <div class="badan">
-      <div v-for="(data, i) in datas" :key="i" class="table-body">
-        <div class="body number">
-          <span>{{ data.NIK }}</span>
-        </div>
-        <div class="body name">
-          <span>{{ data.name }}</span>
-        </div>
-        <div class="body rewards">
-          <span>{{ data.rewards }}</span>
-        </div>
-        <div class="body transaction">
-          <span>{{ data.transaction }}</span>
-        </div>
-        <div class="body actions">
-          <div v-ripple class="button edit" @click="editMember = data">
-            <v-icon class="icon">mdi-pencil</v-icon>
-          </div>
-          <div v-ripple class="button transactions">
-            <v-icon class="icon">mdi-currency-usd</v-icon>
-          </div>
-          <div v-ripple class="button delete">
-            <v-icon class="icon">mdi-delete</v-icon>
-          </div>
-        </div>
-      </div>
+      <data-row
+        v-for="(data, i) in datas"
+        :key="i"
+        v-intersect="dataIntersect"
+        :data="data"
+        @edit-data="editScaleData"
+        @print-receipt="printReceipt"
+        @print-invoice="printWeight"
+        @delete-data="(a) => (deleteData = a)"
+      />
     </div>
 
     <new-member

@@ -1,25 +1,25 @@
 <template>
   <div class="data-row">
-    <div class="data NIK">
-      <p>{{ data.nik }}</p>
-      <div class="data name">
-        <p>{{ data.name }}</p>
-      </div>
+    <div class="data number">
+      <span>{{ data.NIK }}</span>
+    </div>
+    <div class="data name">
+      <span>{{ data.name }}</span>
     </div>
     <div class="data rewards">
-      <p>{{ data.rewards }}</p>
+      <span>{{ data.rewards }}</span>
     </div>
     <div class="data transaction">
-      <p>{{ data.transaction }}</p>
+      <span>{{ data.transaction }}</span>
     </div>
-    <div class="data action">
+    <div class="data actions">
       <div v-ripple class="btn" @click="$emit('edit-data', data)">
         <v-icon class="icon">mdi-pencil</v-icon>
         <tooltips class="tooltips" :name="'Edit data'" />
       </div>
       <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-currency-usd</v-icon>
-        <tooltips class="tooltips" :name="'Hapus data'" />
+        <tooltips class="tooltips" :name="'data'" />
       </div>
       <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-delete</v-icon>
@@ -67,143 +67,72 @@ export default {
 .data-row {
   position: relative;
   width: calc(100% - 2rem);
-  height: 4rem;
-  margin: 0 1rem 0.5rem 1rem;
-  border-radius: 0.5rem;
+  height: 3rem;
+  margin-top: 1rem;
   padding: 0.5rem calc(1rem - 1px);
   box-sizing: border-box;
-  border: 1px solid $border-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: 0.5rem;
+  border: 1px solid $border-color;
+  flex-shrink: 0;
   .data {
     position: relative;
     height: 100%;
     display: flex;
     align-items: center;
-    &.status {
-      p {
-        position: relative;
-        width: 90%;
-        height: 1.5rem;
-        border-radius: 0.25rem;
-        font-weight: 600;
-        background: rgba(0, 0, 0, 0.1);
-        color: rgba(0, 0, 0, 0.5);
-        box-sizing: border-box;
-        text-transform: capitalize;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &.completed {
-          background: rgba($primary-color, 0.2);
-          color: $primary-color;
-        }
-      }
-    }
-    &.action {
+    flex-direction: row;
+    &.actions {
       .btn {
         cursor: pointer;
         position: relative;
         width: 1.5rem;
         height: 1.5rem;
         border-radius: 0.25rem;
-        border: 1px solid rgba(0, 0, 0, 0.1);
+        border: 1px solid $border-color;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: 0.5rem;
         .icon {
-          color: rgba(0, 0, 0, 0.3);
+          color: $font-color;
         }
         &:hover {
           > .tooltips {
             transform: translateX(-50%) scale(1);
             opacity: 1;
+            color: $background-light-color;
           }
         }
       }
     }
-  }
-  &:first-child {
-    margin-top: 1rem;
-  }
-  .record {
-    width: 3rem;
-    justify-content: flex-start;
-    &.data {
-      padding: 0.25rem;
-      box-sizing: border-box;
-      &:hover {
-        .tooltips {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
+    span {
+      position: relative;
+      font-weight: 600;
+      font-family: 'Quicksand';
+      font-size: 0.5rem;
+      text-transform: uppercase;
+      color: $font-color;
+      user-select: none;
     }
   }
-  .entry-date {
-    width: 10%;
-    justify-content: flex-start;
+  .number {
+    width: 20%;
   }
-  .exit-date {
-    width: 10%;
-    justify-content: flex-start;
+  .name {
+    width: 20%;
   }
-  .license-plate {
-    width: 10%;
-    justify-content: flex-start;
-    text-align: left;
+  .rewards {
+    width: 20%;
   }
-  .material {
-    width: 5%;
-    justify-content: flex-start;
-    text-align: left;
+  .transaction {
+    width: 20%;
   }
-  .customer {
-    width: 5%;
-    justify-content: flex-start;
-    text-align: left;
-  }
-  .supplier {
-    width: 5%;
-    justify-content: flex-start;
-    text-align: left;
-  }
-  .weight {
-    width: 5%;
-    justify-content: flex-end;
-    text-align: right;
-  }
-  .entry-weight {
-    width: 5%;
-    justify-content: flex-end;
-    text-align: right;
-  }
-  .exit-weight {
-    width: 5%;
-    justify-content: flex-end;
-    text-align: right;
-  }
-  .net {
-    width: 5%;
-    justify-content: flex-end;
-    text-align: right;
-  }
-  .status {
-    width: 8%;
-    margin: 0 0.5rem 0 1rem;
-    justify-content: center;
-    text-align: center;
-  }
-  .action {
+  .actions {
+    width: 20%;
     width: 7.5rem;
     justify-content: flex-end;
-  }
-  &:hover {
-    > .tooltips {
-      transform: translateX(-50%) scale(1);
-      opacity: 1;
-    }
   }
 }
 </style>
