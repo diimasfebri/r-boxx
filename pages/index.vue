@@ -57,11 +57,16 @@
       </div>
     </div>
     <div class="badan">
-      <data-row v-for="(data, i) in datas" :key="i" v-intersect="dataIntersect"
-      :data="data" <<<<<<< h-e-a-d ======= @edit-data="editMember"
-      @print-receipt="printReceipt" @print-invoice="printWeight"
-      @edit-data="editData" >>>>>>> 5330a0233b87e8927485d1e8ecf76b9d77618a49
-      @delete-data="(a) => (deleteData = a)" />
+      <data-row
+        v-for="(data, i) in datas"
+        :key="i"
+        v-intersect="dataIntersect"
+        :data="data"
+        @edit-data="editMember"
+        @print-receipt="printReceipt"
+        @print-invoice="printWeight"
+        @delete-data="(a) => (deleteData = a)"
+      />
       <div v-intersect="loadData" class="loader">
         <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
         <v-progress-circular v-else indeterminate :size="20" :width="3" />
