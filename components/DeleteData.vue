@@ -77,7 +77,7 @@ export default {
   .panel {
     position: relative;
     width: 15rem;
-    background: #fff;
+    background: $background-light-color;
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
@@ -103,7 +103,7 @@ export default {
         font-family: 'Quicksand';
         font-weight: 600;
         letter-spacing: 0.02rem;
-        color: #fff;
+        color: $background-light-color;
       }
       &.active {
         transform: translateY(-1.125rem);
@@ -113,7 +113,7 @@ export default {
       position: relative;
       width: 100%;
       padding: 1rem 1rem 0.5rem 1rem;
-      background: #fff;
+      background: $background-light-color;
       border-radius: 1rem;
       box-sizing: border-box;
       display: flex;
@@ -133,12 +133,15 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        .icon {
+          color: $subtext-color;
+        }
       }
     }
     .body {
       position: relative;
       width: 100%;
-      padding: 0 1rem 1rem 1rem;
+      padding: 0.5rem 1rem 1rem 1rem;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
