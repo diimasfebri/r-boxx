@@ -43,7 +43,7 @@ export default {
       },
       NIK: {
         label: 'NIK',
-        type: 'number',
+        type: 'text',
         icon: '',
         placeholder: 'masukkan nomor induk/nomor kartu di sini',
         model: '',
