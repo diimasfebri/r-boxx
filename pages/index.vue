@@ -53,34 +53,19 @@
         <p>Actions</p>
       </div>
     </div>
-    <div class="tables-body">
-      <data-row
-        v-for="(data, i) in datas"
-        :key="i"
-        v-intersect="dataIntersect"
-        :data="data"
-        @edit-data="editScaleData"
-        @print-receipt="printReceipt"
-        @print-invoice="printInvoice"
-        @delete-data="(a) => (deleteData = a)"
-      />
-      <div v-intersect="loadData" class="loader">
-        <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
-      </div>
-    </div>
     <div class="badan">
       <div v-for="(data, i) in datas" :key="i" class="table-body">
         <div class="body number">
-          <p></p>
+          <span>{{ data.NIK }}</span>
         </div>
         <div class="body name">
-          <p>d</p>
+          <span>{{ data.name }}</span>
         </div>
         <div class="body rewards">
-          <p>asddas</p>
+          <span>{{ data.rewards }}</span>
         </div>
         <div class="body transaction">
-          <p>asdsa</p>
+          <span>{{ data.transaction }}</span>
         </div>
         <div class="body actions">
           <div v-ripple class="button edit" @click="editMember = true">
@@ -135,9 +120,6 @@ export default {
     datas() {
       return this.$store.getters['members/members']
     },
-    // limit() {
-    //   return !this.datas.length || this.datas.length % 20 !== 0
-    // },
   },
 
   watch: {
@@ -161,7 +143,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('members/load')
+    this.$store.dispatch('members/load', { reset: true })
   },
 
   methods: {
@@ -179,6 +161,17 @@ export default {
           query: this.fullQuery,
         })
         this.skip += 20
+      }
+    },
+
+    async tambah(member) {
+      const { data } = await this.$axios.post(
+        `http://localhost:8000/members/newmember`,
+        member
+      ) // script  input untuk masuk server.
+      if (data.message === 'SUCCESS') {
+        console.log(data)
+        this.tambahMember = false
       }
     },
   },
@@ -383,7 +376,7 @@ export default {
             }
           }
         }
-        p {
+        span {
           position: relative;
           font-weight: 600;
           font-family: 'Quicksand';

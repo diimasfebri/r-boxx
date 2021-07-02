@@ -24,7 +24,7 @@
           style="margin-bottom: 1rem"
           @update-val="changeNIKVal"
         />
-        <div v-ripple class="button" @click="daftar">Enter</div>
+        <div v-ripple class="button" @click="sunting">Enter</div>
       </div>
     </div>
   </div>

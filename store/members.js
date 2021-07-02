@@ -1,7 +1,7 @@
 // deklarasi variabel global
 export const state = () => {
   return {
-    members: null,
+    members: [],
     NIK: null,
     name: null,
     rewards: null,
@@ -75,22 +75,10 @@ export const actions = {
       } = data
       if (reset) commit('SET_MEMBERS', members)
       else commit('PUSH_MEMBERS', members)
-      commit(
-        'SET_NIK',
-        NIK.map((a) => a._id)
-      )
-      commit(
-        'SET_NAME',
-        name.filter((a) => a._id).map((a) => a._id)
-      )
-      commit(
-        'SET_REWARDS',
-        rewards.filter((a) => a._id).map((a) => a._id)
-      )
-      commit(
-        'SET_TRANSACTION',
-        transaction.filter((a) => a._id).map((a) => a._id)
-      )
+      commit('SET_NIK')
+      commit('SET_NAME')
+      commit('SET_REWARDS')
+      commit('SET_TRANSACTION')
       return { message: 'SUCCESS' }
     } catch (e) {
       return { message: e.message }
