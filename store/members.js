@@ -122,16 +122,30 @@ export const actions = {
     }
   },
 
-  // edit member
-  async sunting(member) {
-    const { data } = await this.$axios.put(
-      `http://localhost:8000/members/memberedit`,
-      member
-    )
-    if (data.message === 'SUCCESS') {
-      console.log(data)
+  async sunting({ dispatch }, member) {
+    try {
+      const { $axios } = this
+      const { data } = await $axios.put(
+        `http://localhost:8000/members//member-edit/${member._id}`,
+        member
+      )
+      if (data.message !== 'SUCCESS') throw new Error(data.message)
+      return { message: 'SUCCESS', data: data.data }
+    } catch (e) {
+      return { message: e.message }
     }
   },
+
+  // // edit member
+  // async sunting(member) {
+  //   const { data } = await this.$axios.put(
+  //     `http://localhost:8000/members/memberedit`,
+  //     member
+  //   )
+  //   if (data.message !=== 'SUCCESS') {
+  //     console.log(sukses)
+  //   }
+  // },
 
   // hapus member
   async delete({ dispatch }, id) {

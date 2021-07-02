@@ -15,11 +15,13 @@
       <!-- body menggunakan componen TextInput.vue -->
       <div class="body">
         <text-input
+          ref="nameInput"
           :input="name"
           style="margin-bottom: 0.5rem"
           @update-val="changeNameVal"
         />
         <text-input
+          ref="nikInput"
           :input="NIK"
           style="margin-bottom: 1rem"
           @update-val="changeNIKVal"
@@ -32,6 +34,12 @@
 
 <script>
 export default {
+  props: {
+    member: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       name: {
@@ -48,6 +56,15 @@ export default {
         placeholder: 'masukkan nomor kartu baru di sini',
         model: '',
       },
+    }
+  },
+
+  mounted() {
+    if (this.member.name) {
+      this.name.model = this.member.name
+    }
+    if (this.member.NIK) {
+      this.NIK.model = this.member.NIK
     }
   },
 
@@ -72,13 +89,14 @@ export default {
       this.$emit('tutup-popup')
     },
 
-    sunting() {
+    async sunting() {
       const member = {
         _id: this.member._id,
-        NIK: this.NIK,
-        name: this.name,
+        name: this.name.model,
+        NIK: this.NIK.model,
       }
-      this.$store.dispatch('members/sunting', member)
+      const { message } = await this.$store.dispatch('members/sunting', member)
+      console.log(message)
     },
   },
 }

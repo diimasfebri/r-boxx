@@ -17,7 +17,7 @@ router.post('/newmember', async (req, res) => {
       throw new Error('INVALID_REQUEST')
     //INPUT DATA KE DATABASE
     const newMember = new member({
-      name, NIK, rewards: null, transaction: null, create_date: new Date()
+      name, NIK, rewards: 0, transaction: 0, create_date: new Date()
     })
     await newMember.save()
     return res.status(200).send({ message: 'SUCCESS', member: newMember })
@@ -120,18 +120,4 @@ router.get('/', async  (req, res) => {
   }
 })
 
-// router.get('/', async (req, res)=>{
-// 	try{
-// 		const {
-// 			query: {}
-// 		} = req
-// 		let payload = null
-// 	  payload = await userModel.find({}).exec()
-//     console.log(payload)
-//     return res.send({ message: 'SUCCESS', payload })
-// 	}catch(e){
-//     const { message } = e
-//     if (message === 'UNAUTHORIZED') res.status(401).send({ message })
-//     return res.status(500).send({ message })	}
-// })
 module.exports = router

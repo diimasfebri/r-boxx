@@ -68,7 +68,7 @@
           <span>{{ data.transaction }}</span>
         </div>
         <div class="body actions">
-          <div v-ripple class="button edit" @click="editMember = true">
+          <div v-ripple class="button edit" @click="editMember = data">
             <v-icon class="icon">mdi-pencil</v-icon>
           </div>
           <div v-ripple class="button transactions">
@@ -91,7 +91,11 @@
       :id="deleteData"
       @close-panel="closeDeletePanel"
     />
-    <member-edit v-if="editMember" @tutup-popup="editMember = false" />
+    <member-edit
+      v-if="editMember"
+      :member="editMember"
+      @tutup-popup="editMember = null"
+    />
   </div>
 </template>
 
@@ -112,33 +116,14 @@ export default {
       tambahMember: false,
       deleteData: null,
       editData: null,
-      editMember: false,
+      editMember: null,
+      searchModel: '',
     }
   },
 
   computed: {
     datas() {
       return this.$store.getters['members/members']
-    },
-  },
-
-  watch: {
-    searchModel(val) {
-      this.searchModel = val.trim()
-      if (this.searchModel)
-        this.searchModel = this.licenseModel = val
-          .match(/[a-zA-Z]+|[0-9]+/g)
-          .join(' ')
-          .toUpperCase()
-      else this.licenseModel = ''
-    },
-    queryFilter() {
-      this.skip = 0
-      this.$store.dispatch('members/load', {
-        query: this.fullQuery,
-        reset: true,
-      })
-      this.skip += 20
     },
   },
 
@@ -373,6 +358,7 @@ export default {
             align-items: center;
             .icon {
               color: $font-color;
+              font-size: 0.75rem;
             }
           }
         }

@@ -50,12 +50,19 @@ export default {
       model: '',
     }
   },
-  watch: {
-    model(val) {
-      this.$emit('update-val', val)
+  computed: {
+    initModel() {
+      return this.input.model
     },
   },
-
+  watch: {
+    initModel(val) {
+      if (val) this.model = val
+    },
+    model(val, oldVal) {
+      if (val !== oldVal) this.$emit('update-val', val)
+    },
+  },
   methods: {
     disable(bool) {
       if (typeof bool === 'boolean') {
@@ -81,6 +88,9 @@ export default {
           input.classList.remove('err')
         }
       }
+    },
+    changeValue(val) {
+      this.model = val
     },
   },
 }
