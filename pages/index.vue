@@ -114,8 +114,14 @@ export default {
     }
   },
   computed: {
+    limit() {
+      return !this.datas.length || this.datas.length % 20 !== 0
+    },
     datas() {
       return this.$store.getters['members/members']
+    },
+    fullQuery() {
+      return `?limit=20&skip=${this.skip}${this.queryFilter}`
     },
   },
   watch: {
@@ -399,6 +405,20 @@ export default {
           user-select: none;
         }
       }
+    }
+  }
+  .loader {
+    position: relative;
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p.limit {
+      position: relative;
+      font-family: 'Quicksand';
     }
   }
 }
