@@ -22,13 +22,13 @@
         <v-icon class="icon">mdi-pencil</v-icon>
         <tooltips class="tooltips" :name="'Edit data'" />
       </div>
-      <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
+      <div v-ripple class="btn" @click="$emit('data', data._id)">
         <v-icon class="icon">mdi-currency-usd</v-icon>
-        <tooltips class="tooltips" :name="'data'" />
+        <tooltips class="tooltips" :name="'Tambah transaksi'" />
       </div>
-      <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
+      <div v-ripple class="btn" @click="$emit('data', data._id)">
         <v-icon class="icon">mdi-license</v-icon>
-        <tooltips class="tooltips" :name="'Hapus data'" />
+        <tooltips class="tooltips" :name="'Rewars'" />
       </div>
       <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-delete</v-icon>

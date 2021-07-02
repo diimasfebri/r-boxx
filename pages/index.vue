@@ -112,9 +112,11 @@ export default {
   },
   computed: {
     limit() {
+      //
       return !this.datas.length || this.datas.length % 20 !== 0
     },
     datas() {
+      // mengambil data dari member dari store
       return this.$store.getters['members/members']
     },
     fullQuery() {
