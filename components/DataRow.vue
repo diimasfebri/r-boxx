@@ -25,6 +25,10 @@
         <tooltips class="tooltips" :name="'data'" />
       </div>
       <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
+        <v-icon class="icon">mdi-license</v-icon>
+        <tooltips class="tooltips" :name="'Hapus data'" />
+      </div>
+      <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-delete</v-icon>
         <tooltips class="tooltips" :name="'Hapus data'" />
       </div>
@@ -101,7 +105,7 @@ export default {
         margin-left: 0.5rem;
         .icon {
           color: $font-color;
-          font-size: 0.5rem;
+          font-size: 0.75rem;
         }
         &:hover {
           > .tooltips {
@@ -123,20 +127,24 @@ export default {
     }
   }
   .number {
-    width: 20%;
+    width: calc(20% - 2rem);
   }
   .name {
-    width: 20%;
+    width: calc(20% - 2rem);
   }
   .rewards {
-    width: 20%;
+    width: calc(15% - 2rem);
+    padding-left: 0.5rem;
   }
   .transaction {
-    width: 20%;
+    width: calc(30% - 2rem);
+    padding-left: 1.5rem;
+  }
+  .progress {
+    width: calc(10% - 2rem);
   }
   .actions {
-    width: 20%;
-    width: 7.5rem;
+    width: calc(20% - 2rem);
     justify-content: flex-end;
   }
 }

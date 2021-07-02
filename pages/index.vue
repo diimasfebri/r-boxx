@@ -331,7 +331,6 @@ export default {
       position: relative;
       height: 100%;
       display: flex;
-      width: 25%;
       align-items: center;
       &.actions {
         width: 20%;
@@ -430,13 +429,16 @@ export default {
   width: 20%;
 }
 .rewards {
-  width: 20%;
+  width: 15%;
 }
 .transaction {
-  width: 20%;
+  width: 30%;
+}
+.progress {
+  width: 10%;
 }
 .actions {
-  width: 20%;
+  width: 40%;
   width: 7.5rem;
   justify-content: flex-end;
 }
