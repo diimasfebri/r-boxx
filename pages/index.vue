@@ -62,7 +62,7 @@
         :key="i"
         v-intersect="dataIntersect"
         :data="data"
-        @edit-data="editScaleData"
+        @edit-data="editMember"
         @print-receipt="printReceipt"
         @print-invoice="printWeight"
         @delete-data="(a) => (deleteData = a)"
@@ -86,7 +86,7 @@
     <member-edit
       v-if="editMember"
       :member="editMember"
-      @tutup-popup="editMember = null"
+      @tutup-popup="closeEditMember"
     />
   </div>
 </template>
