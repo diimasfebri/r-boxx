@@ -44,10 +44,13 @@
         <p>Nama</p>
       </div>
       <div class="head rewards">
-        <p>rewards</p>
+        <p>Rewards</p>
       </div>
       <div class="head transaction">
-        <p>transaction</p>
+        <p>Transaction</p>
+      </div>
+      <div class="head progress">
+        <p>Progress</p>
       </div>
       <div class="head actions">
         <p>Actions</p>
@@ -130,6 +133,15 @@ export default {
         reset: true,
       })
       this.skip += 20
+    },
+    searchModel(val) {
+      this.searchModel = val.trim()
+      if (this.searchModel)
+        this.searchModel = this.licenseModel = val
+          .match(/[a-zA-Z]+|[0-9]+/g)
+          .join(' ')
+          .toUpperCase()
+      else this.licenseModel = ''
     },
   },
 
@@ -315,7 +327,6 @@ export default {
     padding: 0 2rem;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     .head {
       cursor: pointer;
@@ -323,6 +334,9 @@ export default {
       height: 100%;
       display: flex;
       align-items: center;
+      &.actions {
+        width: 20%;
+      }
       p {
         position: relative;
         font-weight: 600;
@@ -352,7 +366,6 @@ export default {
       padding: 0.5rem calc(1rem - 1px);
       box-sizing: border-box;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       border-radius: 0.5rem;
       border: 1px solid $border-color;
@@ -361,8 +374,9 @@ export default {
         cursor: pointer;
         position: relative;
         height: 100%;
+        width: 15%;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         flex-direction: row;
         &.actions {
           .button {
@@ -417,13 +431,16 @@ export default {
   width: 20%;
 }
 .rewards {
-  width: 20%;
+  width: 15%;
 }
 .transaction {
-  width: 20%;
+  width: 30%;
+}
+.progress {
+  width: 10%;
 }
 .actions {
-  width: 20%;
+  width: 40%;
   width: 7.5rem;
   justify-content: flex-end;
 }

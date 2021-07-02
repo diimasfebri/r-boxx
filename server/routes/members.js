@@ -53,6 +53,25 @@ router.put('/member-edit/:_id', async (req, res) => {
   }
 })
 
+//buat delete member
+router.delete('/:_id', async (req, res) => {
+  const {
+    params: { _id },
+  } = req
+  try {
+    //script delete task
+    const issuer = await member.findById({ _id }).exec()
+    if (!issuer) throw new Error('issuer_NOT_FOUND')
+    await member.deleteOne({ _id }).exec()
+    return  res.status(200).send({ message : 'SUCCESS'})
+  } 
+  catch (e) { 
+    const{message} = e
+    if (message === 'TASK_NOT_FOUND') res.status(404).send({ message })
+    else res.status(500).send({message})
+  }
+})
+
 //buat cari member 
 router.post('/memberinput', async (req, res) => {
   const {
@@ -75,24 +94,6 @@ router.post('/memberinput', async (req, res) => {
   }
 })
 
-//buat delete member
-router.delete('/:_id', async (req, res) => {
-  const {
-    params: { _id },
-  } = req
-  try {
-    //script delete task
-    const issuer = await member.findById({ _id }).exec()
-    if (!issuer) throw new Error('issuer_NOT_FOUND')
-    await member.deleteOne({ _id }).exec()
-    return  res.status(200).send({ message : 'SUCCESS'})
-  } 
-  catch (e) { 
-    const{message} = e
-    if (message === 'TASK_NOT_FOUND') res.status(404).send({ message })
-    else res.status(500).send({message})
-  }
-})
 
 // buat load member
 router.get('/', async  (req, res) => {

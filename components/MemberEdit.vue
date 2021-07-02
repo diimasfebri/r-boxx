@@ -97,6 +97,7 @@ export default {
       }
       const { message } = await this.$store.dispatch('members/sunting', member)
       console.log(message)
+      this.$store.dispatch('members/load', { reset: true })
     },
   },
 }
