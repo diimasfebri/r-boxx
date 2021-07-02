@@ -44,40 +44,32 @@
         <p>Nama</p>
       </div>
       <div class="head rewards">
-        <p>rewards</p>
+        <p>Rewards</p>
       </div>
       <div class="head transaction">
-        <p>transaction</p>
+        <p>Transaction</p>
+      </div>
+      <div class="head progress">
+        <p>Progress</p>
       </div>
       <div class="head actions">
         <p>Actions</p>
       </div>
     </div>
     <div class="badan">
-      <div v-for="(data, i) in datas" :key="i" class="table-body">
-        <div class="body number">
-          <span>{{ data.NIK }}</span>
-        </div>
-        <div class="body name">
-          <span>{{ data.name }}</span>
-        </div>
-        <div class="body rewards">
-          <span>{{ data.rewards }}</span>
-        </div>
-        <div class="body transaction">
-          <span>{{ data.transaction }}</span>
-        </div>
-        <div class="body actions">
-          <div v-ripple class="button edit" @click="editMember = data">
-            <v-icon class="icon">mdi-pencil</v-icon>
-          </div>
-          <div v-ripple class="button transactions">
-            <v-icon class="icon">mdi-currency-usd</v-icon>
-          </div>
-          <div v-ripple class="button delete">
-            <v-icon class="icon">mdi-delete</v-icon>
-          </div>
-        </div>
+      <data-row
+        v-for="(data, i) in datas"
+        :key="i"
+        v-intersect="dataIntersect"
+        :data="data"
+        @edit-data="editScaleData"
+        @print-receipt="printReceipt"
+        @print-invoice="printWeight"
+        @delete-data="(a) => (deleteData = a)"
+      />
+      <div v-intersect="loadData" class="loader">
+        <p v-if="limit" class="limit">Tidak ada lagi data untuk ditampilkan.</p>
+        <v-progress-circular v-else indeterminate :size="20" :width="3" />
       </div>
     </div>
 
@@ -118,17 +110,22 @@ export default {
       editData: null,
       editMember: null,
       searchModel: '',
-      licenseModel: '',
+      skip: 0,
     }
   },
-
   computed: {
     datas() {
       return this.$store.getters['members/members']
     },
   },
-
   watch: {
+    mounted() {
+      this.$store.dispatch('members/load', {
+        query: this.fullQuery,
+        reset: true,
+      })
+      this.skip += 20
+    },
     searchModel(val) {
       this.searchModel = val.trim()
       if (this.searchModel)
@@ -142,14 +139,28 @@ export default {
 
   mounted() {
     this.$store.dispatch('members/load', { reset: true })
+    this.skip += 20
   },
 
   methods: {
+    closeDeletePanel() {
+      this.deleteData = null
+      this.skip = 0
+      this.$store.dispatch('members/load', {
+        query: this.fullQuery,
+        reset: true,
+      })
+    },
     daftar() {
       this.bukaDaftar = true
     },
     masuk() {
       this.bukaMasuk = true
+    },
+    dataIntersect([entry]) {
+      const { isIntersecting, target } = entry
+      if (isIntersecting) target.style.visibility = 'visible'
+      else target.style.visibility = 'hidden'
     },
     loadData([entry]) {
       const { isIntersecting } = entry
@@ -308,14 +319,17 @@ export default {
     padding: 0 2rem;
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     .head {
       cursor: pointer;
       position: relative;
       height: 100%;
       display: flex;
+      width: 25%;
       align-items: center;
+      &.actions {
+        width: 20%;
+      }
       p {
         position: relative;
         font-weight: 600;
@@ -345,7 +359,6 @@ export default {
       padding: 0.5rem calc(1rem - 1px);
       box-sizing: border-box;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       border-radius: 0.5rem;
       border: 1px solid $border-color;
@@ -354,8 +367,9 @@ export default {
         cursor: pointer;
         position: relative;
         height: 100%;
+        width: 15%;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         flex-direction: row;
         &.actions {
           .button {
