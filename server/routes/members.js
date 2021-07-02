@@ -53,28 +53,6 @@ router.put('/member-edit/:_id', async (req, res) => {
   }
 })
 
-//buat cari member 
-router.post('/memberinput', async (req, res) => {
-  const {
-    body: { NIK , }
-  } = req
-  try {
-    //CEK
-    const attendee = await member.findOne({ NIK }).exec()
-    if (!attendee)
-      throw new Error('USER_NOT_FOUND')
-    // mengambil id dari mongodb nya langsung 
-    return res.status(200).send({
-      message: 'SUCCESS',  NIK: attendee.NIK, 
-    })
-
-  } catch (e) {
-    const { message } = e
-    if (message === 'INVALID_REQUEST') res.status(404).send({ message })
-    else res.status(500).send({ message })
-  }
-})
-
 //buat delete member
 router.delete('/delete/:_id', async (req, res) => {
   const {
@@ -97,6 +75,29 @@ router.delete('/delete/:_id', async (req, res) => {
     else res.status(500).send({message})
   }
 })
+
+//buat cari member 
+router.post('/memberinput', async (req, res) => {
+  const {
+    body: { NIK , }
+  } = req
+  try {
+    //CEK
+    const attendee = await member.findOne({ NIK }).exec()
+    if (!attendee)
+      throw new Error('USER_NOT_FOUND')
+    // mengambil id dari mongodb nya langsung 
+    return res.status(200).send({
+      message: 'SUCCESS',  NIK: attendee.NIK, 
+    })
+
+  } catch (e) {
+    const { message } = e
+    if (message === 'INVALID_REQUEST') res.status(404).send({ message })
+    else res.status(500).send({ message })
+  }
+})
+
 
 // buat load member
 router.get('/', async  (req, res) => {

@@ -118,12 +118,25 @@ export default {
       editData: null,
       editMember: null,
       searchModel: '',
+      licenseModel: '',
     }
   },
 
   computed: {
     datas() {
       return this.$store.getters['members/members']
+    },
+  },
+
+  watch: {
+    searchModel(val) {
+      this.searchModel = val.trim()
+      if (this.searchModel)
+        this.searchModel = this.licenseModel = val
+          .match(/[a-zA-Z]+|[0-9]+/g)
+          .join(' ')
+          .toUpperCase()
+      else this.licenseModel = ''
     },
   },
 
