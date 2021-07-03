@@ -14,7 +14,15 @@
     </div>
     <div class="data progress">
       <div class="bar-container">
-        <div class="filled"></div>
+        <div
+          :style="`width: ${((data.transaction % 10) / 10) * 100}%`"
+          class="filled"
+        ></div>
+        <div class="counter">
+          <span>{{ data.transaction % 10 }}</span>
+          <v-icon class="icon">mdi-slash-forward</v-icon>
+          <span>10</span>
+        </div>
       </div>
     </div>
     <div class="data actions">
@@ -77,7 +85,40 @@ export default {
         width: 100%;
         height: 1rem;
         border-radius: 1rem;
-        background-color: white;
+        background-color: $font-color;
+        overflow: hidden;
+        .filled {
+          position: absolute;
+          height: 100%;
+          background-color: $primary-color;
+        }
+        .counter {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          color: $background-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          span {
+            position: absolute;
+            font-family: 'Quicksand';
+            font-size: 0.65rem;
+            font-weight: 700;
+            line-height: 1;
+            color: inherit;
+            &:first-child {
+              transform: translateX(-0.75rem);
+            }
+            &:last-child {
+              transform: translateX(0.75rem);
+            }
+          }
+          .icon {
+            font-size: 0.75rem;
+            color: inherit;
+          }
+        }
       }
     }
     &.actions {
