@@ -31,17 +31,17 @@
           </div>
         </div>
         <div class="action">
-          <div v-ripple class="add-btn" @click="addItem">
+          <div v-ripple class="add-btn" @click="transaction++">
             <v-icon class="icon">mdi-plus</v-icon>
           </div>
           <div class="counter">
-            <span> </span>
+            <span> {{ transaction }} </span>
           </div>
-          <div v-ripple class="sub-btn" @click="subItem">
+          <div v-ripple class="sub-btn" @click="transaction--">
             <v-icon class="icon">mdi-minus</v-icon>
           </div>
         </div>
-        <div v-ripple class="button">Enter</div>
+        <div v-ripple class="button" @click="transaksi">Enter</div>
       </div>
     </div>
   </div>
@@ -59,13 +59,8 @@ export default {
   data() {
     return {
       model: '',
-      transaction: null,
+      transaction: 0,
     }
-  },
-  computed: {
-    qty() {
-      return this.transaction
-    },
   },
 
   mounted() {
@@ -78,13 +73,23 @@ export default {
     changetransactionVal(val) {
       this.transaction.model = val
     },
+
     keluar() {
       this.$emit('tutup-popup')
     },
 
-    // addItem() {
-    //   const newTransaction =  transaction : this.transaction + 1,
-    // },
+    async transaksi() {
+      const member = {
+        _id: this.member._id,
+        name: this.member.name,
+        NIK: this.member.NIK,
+        transaction: this.transaction,
+      }
+      const { message } = await this.$store.dispatch('members/sunting', member)
+      console.log(message)
+      this.$store.dispatch('members/load', { reset: true })
+      this.$emit('tutup-popup')
+    },
   },
 }
 </script>
@@ -207,7 +212,7 @@ export default {
         font-size: 0.55rem;
         font-family: 'Quicksand';
         flex-direction: row-reverse;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         .icon {
           pointer-events: none;
@@ -215,8 +220,8 @@ export default {
         .add-btn {
           z-index: 2;
           position: relative;
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 3rem;
+          height: 2rem;
           border-radius: 0.3rem;
           background: $primary-color;
           color: #fff;
@@ -243,8 +248,8 @@ export default {
         }
         .sub-btn {
           position: relative;
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 3rem;
+          height: 2rem;
           border-radius: 0.3rem;
           border: 1px solid $primary-color !important;
           box-sizing: border-box;
