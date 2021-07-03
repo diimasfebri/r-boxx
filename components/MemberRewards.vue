@@ -3,7 +3,7 @@
     <div class="main-card">
       <div class="header">
         <div class="name-container">
-          <h1 class="name">Member baru!</h1>
+          <h1 class="name">Member</h1>
           <p class="message subtext-dark">Silahkan masukkan data</p>
         </div>
         <div class="button-close" @click="keluar">
@@ -14,16 +14,17 @@
       </div>
       <!-- body menggunakan componen TextInput.vue -->
       <div class="body">
-        <text-input
-          :input="name"
-          style="margin-bottom: 0.5rem"
-          @update-val="changeNameVal"
-        />
-        <text-input
-          :input="NIK"
-          style="margin-bottom: 1rem"
-          @update-val="changeNIKVal"
-        />
+        <div class="info">
+          <span>NIK</span>
+          <span>Nama</span>
+          <div class="nik">
+            {{ member.NIK }}
+          </div>
+          <div class="name">
+            {{ member.name }}
+          </div>
+        </div>
+
         <div v-ripple class="button" @click="daftar">Enter</div>
       </div>
     </div>
@@ -32,24 +33,40 @@
 
 <script>
 export default {
+  props: {
+    member: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
-      name: {
-        label: 'Nama',
-        type: 'text',
-        icon: 'mdi-account-circle',
-        placeholder: 'masukkan nama di sini',
-        model: '',
-      },
-      NIK: {
-        label: 'NIK',
-        type: 'number',
-        icon: 'mdi-card-account-details',
-        placeholder: 'masukkan nomor induk/nomor kartu di sini',
-        model: '',
-      },
+      // name: null,
+      // nik: null,
+      // name: {
+      //   label: 'Nama',
+      //   type: 'text',
+      //   icon: 'mdi-account-circle',
+      //   placeholder: 'masukkan nama di sini',
+      //   model: '',
+      // },
+      // NIK: {
+      //   label: 'NIK',
+      //   type: 'number',
+      //   icon: '',
+      //   placeholder: 'masukkan nomor induk/nomor kartu di sini',
+      //   model: '',
+      // },
     }
   },
+  // mounted() {
+  //   if (this.member.name) {
+  //     this.name = this.member.name
+  //   }
+  //   if (this.member.NIK) {
+  //     this.NIK = this.member.NIK
+  //   }
+  // },
 
   methods: {
     changeNameVal(val) {
@@ -60,16 +77,6 @@ export default {
     },
     keluar() {
       this.$emit('close-panel')
-    },
-    daftar() {
-      const member = {
-        name: this.name.model,
-        NIK: this.NIK.model,
-        rewards: null,
-        transaction: null,
-      }
-      this.$emit('tambah-member', member)
-      this.$emit('tutup-popup')
     },
   },
 }
@@ -148,6 +155,13 @@ export default {
       align-items: center;
       width: 100%;
       padding: 0 1rem 1rem 1rem;
+      .info {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+      }
       .button {
         position: relative;
         display: flex;
