@@ -10,7 +10,7 @@ const membersSchema = Schema({
     required: true
   },
   transaction: {
-    type: String,
+    type: Number,
     required: false,
   }, 
   rewards: {

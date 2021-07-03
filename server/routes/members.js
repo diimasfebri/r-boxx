@@ -31,7 +31,7 @@ router.post('/newmember', async (req, res) => {
 //buat edit member
 router.put('/member-edit/:_id', async (req, res) => {
   const {
-    body: { name, NIK},
+    body: { name, NIK, transaction, rewards},
     params: { _id },
   }= req
   try {
@@ -40,6 +40,8 @@ router.put('/member-edit/:_id', async (req, res) => {
     if (!issuer) throw new Error('MEMBER_NOT_FOUND')
     if (typeof name === 'string') issuer.name = name 
     if (typeof NIK === 'string') issuer.NIK = NIK
+    if (typeof transaction === 'number') issuer.transaction = transaction
+    if (typeof rewards === 'number') issuer.rewards = rewards
     //script untuk update data 
     await member.updateOne({ _id }, {
       //"task" sudah mencakup notes,titles,is_done seperti script diatas
