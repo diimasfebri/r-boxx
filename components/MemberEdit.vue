@@ -52,7 +52,7 @@ export default {
       NIK: {
         label: 'NIK Baru ',
         type: 'number',
-        icon: '',
+        icon: 'mdi-card-account-details',
         placeholder: 'masukkan nomor kartu baru di sini',
         model: '',
       },
@@ -78,16 +78,6 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-    daftar() {
-      const member = {
-        name: this.name.model,
-        NIK: this.NIK.model,
-        rewards: null,
-        transaction: null,
-      }
-      this.$emit('tambah-member', member)
-      this.$emit('tutup-popup')
-    },
 
     async sunting() {
       const member = {
@@ -98,6 +88,7 @@ export default {
       const { message } = await this.$store.dispatch('members/sunting', member)
       console.log(message)
       this.$store.dispatch('members/load', { reset: true })
+      this.$emit('tutup-popup')
     },
   },
 }

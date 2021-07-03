@@ -6,18 +6,19 @@
     >
       <div class="search-bar">
         <input
-          v-model="searchModel"
-          type="text"
-          class="text-input"
-          placeholder="Cari ID (KTP / Kartu Pelajar )"
+          ref="searchInput"
+          v-model="searchQuery"
+          type="search"
+          class="search-input subtext"
+          placeholder="Cari (ID/KTP)"
         />
         <span
           class="icon-container"
-          :style="!searchModel ? 'pointer-events: none' : ''"
-          @click="searchModel = ''"
+          :style="!searchQuery ? 'pointer-events: none' : ''"
+          @click="searchQuery = ''"
         >
           <v-icon class="icon">{{
-            !searchModel ? 'mdi-magnify' : 'mdi-close'
+            !searchQuery ? 'mdi-magnify' : 'mdi-close'
           }}</v-icon>
         </span>
       </div>
@@ -63,8 +64,6 @@
         v-intersect="dataIntersect"
         :data="data"
         @member-edit="editMember"
-        @print-receipt="printReceipt"
-        @print-invoice="printWeight"
         @delete-data="(a) => (deleteData = a)"
       />
       <div v-intersect="loadData" class="loader">
@@ -85,7 +84,7 @@
     <member-edit
       v-if="openEditData"
       :member="memberEdit"
-      @tutup-popup="closeEdit"
+      @tutup-popup="openEditData = false"
     />
   </div>
 </template>
@@ -98,6 +97,9 @@ export default {
   middleware: 'auth',
   data() {
     return {
+      searchQuery: '',
+      searchResults: null,
+      searchTimeout: null,
       type: 1,
       // insialisasi object
       openEditData: false,
@@ -109,7 +111,6 @@ export default {
       deleteData: null,
       Handler: null,
       memberEdit: null,
-      searchModel: '',
       skip: 0,
     }
   },
@@ -134,14 +135,27 @@ export default {
       })
       this.skip += 20
     },
-    searchModel(val) {
-      this.searchModel = val.trim()
-      if (this.searchModel)
-        this.searchModel = this.licenseModel = val
-          .match(/[a-zA-Z]+|[0-9]+/g)
-          .join(' ')
-          .toUpperCase()
-      else this.licenseModel = ''
+
+    searchQuery(val) {
+      this.searchResults = null
+      if (val && val.length > 2) {
+        this.searching = true
+        clearTimeout(this.searchTimeout)
+        this.searchTimeout = setTimeout(async () => {
+          const { $axios } = this
+          const { data } = await $axios.get(
+            `http://localhost:8000/members/memberinput?query=${val}`
+          )
+          if (data.message === 'SUCCESS')
+            this.$store.dispatch('members/setMembers', data.members)
+          this.searching = false
+        }, 500)
+      } else {
+        this.searchQuery = val.trim()
+        this.searching = false
+        clearTimeout(this.searchTimeout)
+        this.$store.dispatch('members/load', { reset: true })
+      }
     },
   },
 
@@ -243,7 +257,7 @@ export default {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      input.text-input {
+      input.search-input {
         position: relative;
         width: calc(100% - 1rem);
         line-height: 1;

@@ -64,6 +64,9 @@ export const actions = {
   setRewards({ commit }, rewards) {
     commit('SET_REWARDS', rewards)
   },
+  setMembers({ commit }, members) {
+    commit('SET_MEMBERS', members)
+  },
 
   async load({ commit }, { reset }) {
     try {

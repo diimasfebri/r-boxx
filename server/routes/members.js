@@ -73,19 +73,43 @@ router.delete('/:_id', async (req, res) => {
 })
 
 //buat cari member 
-router.post('/memberinput', async (req, res) => {
+router.get('/memberinput', async (req, res) => {
   const {
-    body: { NIK , }
+    query: { query }
   } = req
   try {
-    //CEK
-    const attendee = await member.findOne({ NIK }).exec()
-    if (!attendee)
-      throw new Error('USER_NOT_FOUND')
-    // mengambil id dari mongodb nya langsung 
-    return res.status(200).send({
-      message: 'SUCCESS',  NIK: attendee.NIK, 
-    })
+    if (!query) throw new Error ('INVALID REQUEST')
+    const regex = query.split(' ').map((a) => `(${a})`).join('|')
+    const membersPipeline = [
+      {
+        $match: {
+          $expr: {
+            $and: [
+              {
+                $or: [
+                  {
+                    $regexMatch: {
+                      input: '$name',
+                      options: 'i',
+                      regex
+                    }
+                  },
+                  {
+                    $regexMatch: {
+                      input: '$NIK',
+                      options: 'i',
+                      regex
+                    }
+                  }
+                ]
+              },
+            ]
+          },
+        }
+      }
+    ] 
+    const members = await member.aggregate(membersPipeline).exec()
+    return res.status(200).send({message: 'SUCCESS',  members })
 
   } catch (e) {
     const { message } = e

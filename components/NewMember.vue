@@ -44,7 +44,7 @@ export default {
       NIK: {
         label: 'NIK',
         type: 'number',
-        icon: '',
+        icon: 'mdi-card-account-details',
         placeholder: 'masukkan nomor induk/nomor kartu di sini',
         model: '',
       },

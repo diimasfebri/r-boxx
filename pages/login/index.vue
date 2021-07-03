@@ -3,8 +3,8 @@
     <div class="main-card">
       <div class="error-container"></div>
       <div class="header">
-        <h1 class="name">Welcome to Susmed!</h1>
-        <p class="message subtext-dark">Social media yang suspicious</p>
+        <h1 class="name">Selamat datang di R-BOXX!</h1>
+        <p class="message subtext-dark">ticketing untuk ATV</p>
       </div>
       <!-- body menggunakan componen TextInput.vue -->
       <div class="body">
@@ -19,7 +19,7 @@
         </div>
         <div v-ripple class="button" @click="masukAkun">Enter</div>
         <div class="sign-up">
-          don't have a sus account?
+          belum punya akun?
           <span @click="buatAkun">Sign up</span>
         </div>
       </div>

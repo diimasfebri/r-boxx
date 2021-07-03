@@ -36,7 +36,7 @@
       </div>
       <div v-ripple class="btn" @click="$emit('data', data._id)">
         <v-icon class="icon">mdi-license</v-icon>
-        <tooltips class="tooltips" :name="'Rewars'" />
+        <tooltips class="tooltips" :name="'Rewards'" />
       </div>
       <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-delete</v-icon>
