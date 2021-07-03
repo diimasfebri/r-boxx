@@ -16,37 +16,21 @@
         </div>
       </div>
       <div class="body">
-        <div class="head">
-          <div class="head kanan">
-            <p class="message subtext-dark">NIK</p>
-          </div>
-          <div class="head kiri">
-            <p class="message subtext-dark">Nama</p>
-          </div>
+        <div class="atas">
+          <text-input ref="NIK" :input="NIK" style="margin: 0 1rem 0.5rem 0" />
+          <text-input ref="name" :input="name" style="margin-bottom: 0.5rem" />
         </div>
-        <div class="data">
-          <div class="data kiri">
-            {{ member.NIK }}
-          </div>
-          <div class="data kanan">
-            {{ member.name }}
-          </div>
-        </div>
-        <div class="head">
-          <div class="head kanan">
-            <p class="message subtext-dark">Jumlah transaksi</p>
-          </div>
-          <div class="head kiri">
-            <p class="message subtext-dark">Jumlah Rewads</p>
-          </div>
-        </div>
-        <div class="data">
-          <div class="data kiri">
-            {{ member.transaction }}
-          </div>
-          <div class="data kanan">
-            {{ member.rewards }}
-          </div>
+        <div class="bawah">
+          <text-input
+            ref="transaction"
+            :input="transaction"
+            style="margin: 0 1rem 0.5rem 0"
+          />
+          <text-input
+            ref="rewards"
+            :input="rewards"
+            style="margin-bottom: 0.5rem"
+          />
         </div>
         <div class="message-container">
           <p class="message subtext-dark">Progress rewards terkini</p>
@@ -83,9 +67,41 @@ export default {
   data() {
     return {
       errorMessage: '',
-      transaction: null,
-      rewards: this.member.rewards - 1,
+      name: {
+        label: 'Nama',
+        type: 'text',
+        icon: 'mdi-account-circle',
+        model: '',
+        readonly: true,
+      },
+      NIK: {
+        label: 'NIK',
+        type: 'number',
+        icon: 'mdi-card-account-details',
+        model: '',
+        readonly: true,
+      },
+      rewards: {
+        label: 'Jumlah rewards',
+        type: 'number',
+        icon: 'mdi-account-circle',
+        model: '',
+        readonly: true,
+      },
+      transaction: {
+        label: 'Jumlah transaction',
+        type: 'number',
+        icon: 'mdi-card-account-details',
+        model: '',
+        readonly: true,
+      },
     }
+  },
+  mounted() {
+    this.name.model = this.member.name
+    this.NIK.model = this.member.NIK
+    this.rewards.model = this.member.rewards || 0
+    this.transaction.model = this.member.transaction || 0
   },
   methods: {
     changeNameVal(val) {
@@ -97,23 +113,23 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-    async update() {
-      const member = {
-        _id: this.member._id,
-        name: this.member.name,
-        NIK: this.member.NIK,
-        transaction: this.member.transaction,
-        rewards: this.rewards,
-      }
-      const { message } = await this.$store.dispatch('members/sunting', member)
-      console.log(message)
-      this.$store.dispatch('members/load', { reset: true })
-      this.$emit('tutup-popup')
-    },
-    ambil() {
-      if (this.transaction <= 0)
-        this.errorMessage = 'Tidak ada rewards tersersEdia'
-      else this.update()
+    async ambil() {
+      if (this.member.rewards >= 1) {
+        const member = {
+          _id: this.member._id,
+          name: this.member.name,
+          NIK: this.member.NIK,
+          transaction: this.member.transaction,
+          rewards: this.member.rewards - 1,
+        }
+        const { message } = await this.$store.dispatch(
+          'members/sunting',
+          member
+        )
+        console.log(message)
+        this.$store.dispatch('members/load', { reset: true })
+        this.$emit('tutup-popup')
+      } else this.errorMessage = 'Tidak ada rewards tersedia'
     },
   },
 }
@@ -148,8 +164,9 @@ export default {
       height: 2rem;
       border-top-right-radius: 1rem;
       border-top-left-radius: 1rem;
-      background: $primary-color;
+      background: $error-color;
       transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 0;
       p.message {
         position: relative;
         width: 100%;
@@ -160,7 +177,7 @@ export default {
         font-family: 'Quicksand';
         font-weight: 600;
         letter-spacing: 0.02rem;
-        color: $background-light-color;
+        color: $font-color;
       }
       &.active {
         transform: translateY(-1.125rem);
@@ -170,8 +187,12 @@ export default {
       width: 100%;
       position: relative;
       display: flex;
+      background: $background-light-color;
+      border-top-right-radius: 1rem;
+      border-top-left-radius: 1rem;
       justify-content: space-between;
       align-items: center;
+      z-index: 2;
 
       .name-container {
         font-family: 'quicksand';
@@ -219,42 +240,23 @@ export default {
       align-items: center;
       width: 100%;
       padding: 0 1rem 1rem 1rem;
-      .head {
+      .atas {
         position: relative;
         display: flex;
         width: 100%;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0.1rem;
-        .kiri {
-          width: 48%;
-        }
-        .kanan {
-          width: 48%;
-        }
       }
-      .data {
+      .bawah {
         position: relative;
         display: flex;
+        width: 100%;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
-        margin-bottom: 0.5rem;
-        .kiri {
-          padding: 0 0 0 0.5rem;
-          background-color: $background-color;
-          height: 2rem;
-          width: 48%;
-          border-radius: 0.5rem;
-        }
-        .kanan {
-          padding: 0 0 0 0.5rem;
-          background-color: $background-color;
-          height: 2rem;
-          width: 48%;
-          border-radius: 0.5rem;
-        }
+        margin-bottom: 0.1rem;
       }
+
       .message-container {
         margin-bottom: 0.3rem;
       }
@@ -265,7 +267,7 @@ export default {
         width: 100%;
         height: 1.5rem;
         border-radius: 1rem;
-        background-color: $font-color;
+        background-color: $subtext-color;
         overflow: hidden;
         margin-bottom: 1rem;
         .filled {

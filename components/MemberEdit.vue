@@ -48,6 +48,7 @@ export default {
         icon: 'mdi-account-circle',
         placeholder: 'masukkan nama baru di sini',
         model: '',
+        readonly: true,
       },
       NIK: {
         label: 'NIK Baru ',

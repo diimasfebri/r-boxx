@@ -57,7 +57,7 @@ export default {
   },
   watch: {
     initModel(val) {
-      if (val) this.model = val
+      if (val !== undefined) this.model = val
     },
     model(val, oldVal) {
       if (val !== oldVal) this.$emit('update-val', val)
