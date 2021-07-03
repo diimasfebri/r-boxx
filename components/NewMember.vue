@@ -59,7 +59,7 @@ export default {
       this.NIK.model = val
     },
     keluar() {
-      this.$emit('close-panel')
+      this.$emit('tutup-popup')
     },
     daftar() {
       const member = {

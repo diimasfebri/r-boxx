@@ -65,6 +65,7 @@
         :data="data"
         @member-edit="editMember"
         @member-rewards="rewardsMember"
+        @member-transaction="transactionMember"
         @delete-data="(a) => (deleteData = a)"
       />
       <div v-intersect="loadData" class="loader">
@@ -80,17 +81,22 @@
     <member-rewards
       v-if="openRewards"
       :member="memberRewards"
-      @close-panel="closeEdit"
+      @tutup-popup="closeEdit"
     />
     <delete-data
       v-if="deleteData"
       :id="deleteData"
-      @close-panel="closeDeletePanel"
+      @tutup-popup="closeDeletePanel"
     />
     <member-edit
       v-if="openEditData"
       :member="memberEdit"
       @tutup-popup="openEditData = false"
+    />
+    <member-transaction
+      v-if="openTransaction"
+      :member="memberTransaction"
+      @tutup-popup="openTransaction = false"
     />
   </div>
 </template>
@@ -110,6 +116,7 @@ export default {
       // insialisasi object
       openRewards: false,
       openEditData: false,
+      openTransaction: false,
       messageSelected: null,
       bukaPopup: false,
       bukaDaftar: false,
@@ -117,6 +124,7 @@ export default {
       tambahMember: false,
       deleteData: null,
       Handler: null,
+      memberTransaction: null,
       memberEdit: null,
       skip: 0,
     }
@@ -209,6 +217,10 @@ export default {
         })
         this.skip += 20
       }
+    },
+    transactionMember(data) {
+      this.openTransaction = true
+      this.memberTransaction = data
     },
     editMember(data) {
       this.openEditData = true
