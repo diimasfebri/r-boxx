@@ -34,9 +34,9 @@
         <v-icon class="icon">mdi-currency-usd</v-icon>
         <tooltips class="tooltips" :name="'Tambah transaksi'" />
       </div>
-      <div v-ripple class="btn" @click="$emit('data', data._id)">
+      <div v-ripple class="btn" @click="$emit('member-rewards', data)">
         <v-icon class="icon">mdi-license</v-icon>
-        <tooltips class="tooltips" :name="'Rewars'" />
+        <tooltips class="tooltips" :name="'Rewards'" />
       </div>
       <div v-ripple class="btn delete" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-delete</v-icon>

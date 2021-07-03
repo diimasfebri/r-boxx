@@ -63,6 +63,7 @@
         v-intersect="dataIntersect"
         :data="data"
         @member-edit="editMember"
+        @member-rewards="rewardsMember"
         @print-receipt="printReceipt"
         @print-invoice="printWeight"
         @delete-data="(a) => (deleteData = a)"
@@ -76,6 +77,11 @@
       v-if="tambahMember"
       @tutup-popup="tambahMember = false"
       @tambah-member="tambah"
+    />
+    <member-rewards
+      v-if="openRewards"
+      :member="memberRewards"
+      @close-panel="closeEdit"
     />
     <delete-data
       v-if="deleteData"
@@ -100,6 +106,7 @@ export default {
     return {
       type: 1,
       // insialisasi object
+      openRewards: false,
       openEditData: false,
       messageSelected: null,
       bukaPopup: false,
@@ -160,6 +167,7 @@ export default {
       })
     },
     closeEdit() {
+      this.openRewards = false
       this.openEditData = false
       this.skip = 0
       this.$store.dispatch('members/load', {
@@ -191,6 +199,10 @@ export default {
     editMember(data) {
       this.openEditData = true
       this.memberEdit = data
+    },
+    rewardsMember(data) {
+      this.openRewards = true
+      this.memberRewards = data
     },
     async tambah(member) {
       const { data } = await this.$axios.post(
