@@ -30,7 +30,7 @@
         <v-icon class="icon">mdi-license</v-icon>
         <tooltips class="tooltips" :name="'Rewars'" />
       </div>
-      <div v-ripple class="btn" @click="$emit('delete-data', data._id)">
+      <div v-ripple class="btn delete" @click="$emit('delete-data', data._id)">
         <v-icon class="icon">mdi-delete</v-icon>
         <tooltips class="tooltips" :name="'Hapus data'" />
       </div>
@@ -102,6 +102,9 @@ export default {
             opacity: 1;
             color: $background-light-color;
           }
+        }
+        &.delete {
+          background-color: $error-color;
         }
       }
     }
