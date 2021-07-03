@@ -62,7 +62,9 @@
         :key="i"
         v-intersect="dataIntersect"
         :data="data"
-        @edit-data="editData"
+        @member-edit="editMember"
+        @print-receipt="printReceipt"
+        @print-invoice="printWeight"
         @delete-data="(a) => (deleteData = a)"
       />
       <div v-intersect="loadData" class="loader">
@@ -81,23 +83,24 @@
       @close-panel="closeDeletePanel"
     />
     <member-edit
-      v-if="editMember"
-      :member="editMember"
-      @tutup-popup="editMember = null"
+      v-if="openEditData"
+      :member="memberEdit"
+      @tutup-popup="closeEdit"
     />
   </div>
 </template>
 
 <script>
-import MemberEdit from '../components/MemberEdit.vue'
-import NewMember from '../components/NewMember.vue'
+// import MemberEdit from '../components/MemberEdit.vue'
+// import NewMember from '../components/NewMember.vue'
 export default {
-  components: { NewMember, MemberEdit },
+  // components: { NewMember, MemberEdit },
   middleware: 'auth',
   data() {
     return {
       type: 1,
       // insialisasi object
+      openEditData: false,
       messageSelected: null,
       bukaPopup: false,
       bukaDaftar: false,
@@ -105,7 +108,7 @@ export default {
       tambahMember: false,
       deleteData: null,
       Handler: null,
-      editMember: null,
+      memberEdit: null,
       searchModel: '',
       skip: 0,
     }
@@ -156,6 +159,14 @@ export default {
         reset: true,
       })
     },
+    closeEdit() {
+      this.openEditData = false
+      this.skip = 0
+      this.$store.dispatch('members/load', {
+        query: this.fullQuery,
+        reset: true,
+      })
+    },
     daftar() {
       this.bukaDaftar = true
     },
@@ -177,8 +188,9 @@ export default {
         this.skip += 20
       }
     },
-    editData(data) {
-      this.editMember = data
+    editMember(data) {
+      this.openEditData = true
+      this.memberEdit = data
     },
     async tambah(member) {
       const { data } = await this.$axios.post(
@@ -186,7 +198,10 @@ export default {
         member
       ) // script  input untuk masuk server.
       if (data.message === 'SUCCESS') {
-        console.log(data)
+        this.$store.dispatch('members/load', {
+          query: this.fullQuery,
+          reset: true,
+        })
         this.tambahMember = false
       }
     },

@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="data actions">
-      <div v-ripple class="btn" @click="$emit('edit-data', data)">
+      <div v-ripple class="btn" @click="$emit('member-edit', data)">
         <v-icon class="icon">mdi-pencil</v-icon>
         <tooltips class="tooltips" :name="'Edit data'" />
       </div>
