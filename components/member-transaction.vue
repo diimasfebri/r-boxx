@@ -1,0 +1,242 @@
+<template>
+  <div class="popup">
+    <div class="main-card">
+      <div class="header">
+        <div class="name-container">
+          <h1 class="name">Tambah Transaksi</h1>
+          <p class="message subtext-dark">menambah transaksi baru</p>
+        </div>
+        <div v-ripple class="button-close" @click="keluar">
+          <div v-ripple class="button">
+            <v-icon class="icon">mdi-close</v-icon>
+          </div>
+        </div>
+      </div>
+      <!-- body menggunakan componen TextInput.vue -->
+      <div class="body">
+        <div class="action">
+          <div v-ripple class="add-btn" @click="addItem">
+            <v-icon class="icon">mdi-plus</v-icon>
+          </div>
+          <div class="counter">
+            <span>
+              {{ qty }}
+            </span>
+          </div>
+          <div v-ripple class="sub-btn" @click="subItem">
+            <v-icon class="icon">mdi-minus</v-icon>
+          </div>
+        </div>
+        <div v-ripple class="button">Enter</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    member: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      model: '',
+    }
+  },
+  computed: {
+    qty() {
+      return this.member.transaction
+    },
+  },
+
+  mounted() {
+    if (this.member.transaction) {
+      this.transaction = this.member.transaction
+    }
+  },
+
+  methods: {
+    changetransactionVal(val) {
+      this.transaction.model = val
+    },
+    keluar() {
+      this.$emit('tutup-popup')
+    },
+
+    // addItem() {
+    //   const newTransaction =  transaction : this.transaction + 1,
+    // },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(#000, 0.5);
+  .main-card {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #1e1626;
+    width: 18rem;
+    border-radius: 1rem;
+    .header {
+      width: 100%;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .name-container {
+        font-family: 'quicksand';
+        padding: 1rem;
+        position: relative;
+        display: flex;
+        width: 70%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      .button-close {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+        .button {
+          border-radius: 0.2rem;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          width: 2rem;
+          height: 2rem;
+          .icon {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $subtext-color;
+            width: 1rem;
+            height: 1rem;
+          }
+        }
+      }
+    }
+    .body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 0 1rem 1rem 1rem;
+      .action {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        font-size: 0.55rem;
+        font-family: 'Quicksand';
+        flex-direction: row-reverse;
+        justify-content: center;
+        align-items: center;
+        .icon {
+          pointer-events: none;
+        }
+        .add-btn {
+          z-index: 2;
+          position: relative;
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 0.3rem;
+          background: $primary-color;
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .icon {
+            color: #fff;
+            font-size: 0.65rem;
+          }
+        }
+        .counter {
+          position: relative;
+          width: 2rem;
+          height: 1.5rem;
+          will-change: transform;
+          transition: 0.25s transform ease-in-out;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          span {
+            font-size: 1rem;
+          }
+        }
+        .sub-btn {
+          position: relative;
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 0.3rem;
+          border: 1px solid $primary-color !important;
+          box-sizing: border-box;
+          will-change: transform;
+          transition: 0.25s transform cubic-bezier(0.17, 0.67, 0.36, 0.89);
+          color: $primary-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .icon {
+            color: $primary-color;
+            font-size: 0.65rem;
+          }
+          &.disabled {
+            filter: grayscale(100);
+            pointer-events: none;
+          }
+        }
+        &.minimalize {
+          .counter {
+            transform: translateX(1rem);
+          }
+          .sub-btn {
+            transform: translateX(2rem);
+          }
+        }
+      }
+      .button {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 2rem;
+        width: 100%;
+        flex-shrink: 0;
+        margin-top: 1rem;
+        background-color: $primary-color;
+        border-radius: 0.25rem;
+        font-size: 0.65rem;
+        cursor: pointer;
+        font-family: 'quicksand';
+      }
+    }
+  }
+}
+</style>

@@ -6,7 +6,7 @@
       </div>
       <div class="header">
         <h3 class="name">Hapus Data</h3>
-        <div v-ripple class="close-btn" @click="$emit('close-panel')">
+        <div v-ripple class="close-btn" @click="$emit('tutup-popup')">
           <v-icon class="icon">mdi-close</v-icon>
         </div>
       </div>
