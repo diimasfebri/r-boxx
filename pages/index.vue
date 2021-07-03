@@ -96,7 +96,7 @@
     <member-transaction
       v-if="openTransaction"
       :member="memberTransaction"
-      @tutup-popup="openTransaction = false"
+      @tutup-popup="closeEdit"
     />
   </div>
 </template>
@@ -189,6 +189,7 @@ export default {
       })
     },
     closeEdit() {
+      this.openTransaction = false
       this.openRewards = false
       this.openEditData = false
       this.skip = 0

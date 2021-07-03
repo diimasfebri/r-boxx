@@ -1,6 +1,6 @@
 <template>
   <div class="popup">
-    <div class="main-card">
+    <div v-click-outside="{ handler: () => keluar() }" class="main-card">
       <div class="header">
         <div class="name-container">
           <h1 class="name">Tambah Transaksi</h1>
@@ -14,14 +14,28 @@
       </div>
       <!-- body menggunakan componen TextInput.vue -->
       <div class="body">
+        <div class="head">
+          <div class="head kanan">
+            <p class="message subtext-dark">NIK</p>
+          </div>
+          <div class="head kiri">
+            <p class="message subtext-dark">Nama</p>
+          </div>
+        </div>
+        <div class="data">
+          <div class="data kiri">
+            {{ member.NIK }}
+          </div>
+          <div class="data kanan">
+            {{ member.name }}
+          </div>
+        </div>
         <div class="action">
           <div v-ripple class="add-btn" @click="addItem">
             <v-icon class="icon">mdi-plus</v-icon>
           </div>
           <div class="counter">
-            <span>
-              {{ qty }}
-            </span>
+            <span> </span>
           </div>
           <div v-ripple class="sub-btn" @click="subItem">
             <v-icon class="icon">mdi-minus</v-icon>
@@ -45,11 +59,12 @@ export default {
   data() {
     return {
       model: '',
+      transaction: null,
     }
   },
   computed: {
     qty() {
-      return this.member.transaction
+      return this.transaction
     },
   },
 
@@ -116,8 +131,9 @@ export default {
         position: relative;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         width: 30%;
+        margin-right: 1rem;
         .button {
           border-radius: 0.2rem;
           position: relative;
@@ -147,6 +163,42 @@ export default {
       align-items: center;
       width: 100%;
       padding: 0 1rem 1rem 1rem;
+      .head {
+        position: relative;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.1rem;
+        .kiri {
+          width: 48%;
+        }
+        .kanan {
+          width: 48%;
+        }
+      }
+      .data {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 0.5rem;
+        .kiri {
+          padding: 0 0 0 0.5rem;
+          background-color: $background-color;
+          height: 2rem;
+          width: 48%;
+          border-radius: 0.5rem;
+        }
+        .kanan {
+          padding: 0 0 0 0.5rem;
+          background-color: $background-color;
+          height: 2rem;
+          width: 48%;
+          border-radius: 0.5rem;
+        }
+      }
       .action {
         position: relative;
         width: 100%;

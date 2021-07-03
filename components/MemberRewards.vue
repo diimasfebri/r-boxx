@@ -1,6 +1,9 @@
 <template>
   <div class="popup">
     <div v-click-outside="{ handler: () => keluar() }" class="main-card">
+      <div class="error-container" :class="errorMessage ? 'active' : ''">
+        <p class="message">{{ errorMessage }}</p>
+      </div>
       <div class="header">
         <div class="name-container">
           <h1 class="name">Member Rewards</h1>
@@ -79,8 +82,9 @@ export default {
   },
   data() {
     return {
+      errorMessage: '',
       transaction: null,
-      rewards: null,
+      rewards: this.member.rewards - 1,
     }
   },
   methods: {
@@ -93,17 +97,23 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-    async ambil() {
+    async update() {
       const member = {
         _id: this.member._id,
         name: this.member.name,
         NIK: this.member.NIK,
         transaction: this.member.transaction,
+        rewards: this.rewards,
       }
-      const { message } = await this.$store.dispatch('members/ambil', member)
+      const { message } = await this.$store.dispatch('members/sunting', member)
       console.log(message)
       this.$store.dispatch('members/load', { reset: true })
       this.$emit('tutup-popup')
+    },
+    ambil() {
+      if (this.transaction <= 0)
+        this.errorMessage = 'Tidak ada rewards tersersEdia'
+      else this.update()
     },
   },
 }
@@ -130,6 +140,32 @@ export default {
     background: #1e1626;
     width: 30rem;
     border-radius: 1rem;
+    .error-container {
+      position: absolute;
+      top: 0.125rem;
+      left: 0;
+      width: 100%;
+      height: 2rem;
+      border-top-right-radius: 1rem;
+      border-top-left-radius: 1rem;
+      background: $primary-color;
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      p.message {
+        position: relative;
+        width: 100%;
+        height: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Quicksand';
+        font-weight: 600;
+        letter-spacing: 0.02rem;
+        color: $background-light-color;
+      }
+      &.active {
+        transform: translateY(-1.125rem);
+      }
+    }
     .header {
       width: 100%;
       position: relative;
