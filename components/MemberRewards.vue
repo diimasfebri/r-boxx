@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       transaction: null,
-      rewards: null
+      rewards: null,
     }
   },
   methods: {
@@ -98,7 +98,7 @@ export default {
         _id: this.member._id,
         name: this.member.name,
         NIK: this.member.NIK,
-        transaction: this.
+        transaction: this.member.transaction,
       }
       const { message } = await this.$store.dispatch('members/ambil', member)
       console.log(message)
