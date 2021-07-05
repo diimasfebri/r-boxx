@@ -1,6 +1,9 @@
 <template>
   <div class="popup">
     <div v-click-outside="{ handler: () => keluar() }" class="main-card">
+      <div class="error-container" :class="errorMessage ? 'active' : ''">
+        <p class="message">{{ errorMessage }}</p>
+      </div>
       <div class="header">
         <div class="name-container">
           <h1 class="name">Tambah Transaksi</h1>
@@ -58,6 +61,7 @@ export default {
 
   data() {
     return {
+      errorMessage: '',
       model: '',
       transaction: null,
       rewards: null,
@@ -78,16 +82,14 @@ export default {
       this.$emit('tutup-popup')
     },
     mulai() {
-      if (
-        this.transaction !== 0 ||
-        this.transaction !== this.member.transaction ||
-        this.transaction % 10 === 0
-      ) {
-        this.rewards++
-        this.transaksi()
-      } else {
-        this.transaksi()
-      }
+      if (this.transaction !== this.member.transaction) {
+        console.log(this.member.transaction)
+        console.log(this.transaction)
+        if (this.transaction !== 0 || this.transaction % 10 === 0) {
+          this.rewards++
+          this.transaksi()
+        } else this.transaksi()
+      } else this.errorMessage = 'Tidak ada transaksi terjadi'
     },
     async transaksi() {
       const member = {
@@ -128,12 +130,43 @@ export default {
     background: #1e1626;
     width: 18rem;
     border-radius: 1rem;
+    .error-container {
+      position: absolute;
+      top: 0.125rem;
+      left: 0;
+      width: 100%;
+      height: 2rem;
+      border-top-right-radius: 1rem;
+      border-top-left-radius: 1rem;
+      background: $error-color;
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 0;
+      p.message {
+        position: relative;
+        width: 100%;
+        height: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Quicksand';
+        font-weight: 600;
+        letter-spacing: 0.02rem;
+        color: $font-color;
+      }
+      &.active {
+        transform: translateY(-1.125rem);
+      }
+    }
     .header {
       width: 100%;
       position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background-color: $background-light-color;
+      border-top-right-radius: 1rem;
+      border-top-left-radius: 1rem;
+      z-index: 2;
 
       .name-container {
         font-family: 'quicksand';
