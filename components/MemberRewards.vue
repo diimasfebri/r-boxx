@@ -84,7 +84,7 @@ export default {
       rewards: {
         label: 'Jumlah rewards',
         type: 'number',
-        icon: 'mdi-account-circle',
+        icon: 'mdi-license',
         model: '',
         readonly: true,
       },

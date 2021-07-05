@@ -41,7 +41,7 @@
             <v-icon class="icon">mdi-minus</v-icon>
           </div>
         </div>
-        <div v-ripple class="button" @click="transaksi">Enter</div>
+        <div v-ripple class="button" @click="mulai">Enter</div>
       </div>
     </div>
   </div>
@@ -59,14 +59,14 @@ export default {
   data() {
     return {
       model: '',
-      transaction: 0,
+      transaction: null,
+      rewards: null,
     }
   },
 
   mounted() {
-    if (this.member.transaction) {
-      this.transaction = this.member.transaction
-    }
+    this.transaction = this.member.transaction
+    this.rewards = this.member.rewards
   },
 
   methods: {
@@ -77,15 +77,28 @@ export default {
     keluar() {
       this.$emit('tutup-popup')
     },
-
+    mulai() {
+      if (
+        this.transaction !== 0 ||
+        this.transaction !== this.member.transaction ||
+        this.transaction % 10 === 0
+      ) {
+        this.rewards++
+        this.transaksi()
+      } else {
+        this.transaksi()
+      }
+    },
     async transaksi() {
       const member = {
         _id: this.member._id,
         name: this.member.name,
         NIK: this.member.NIK,
         transaction: this.transaction,
+        rewards: this.rewards,
       }
       const { message } = await this.$store.dispatch('members/sunting', member)
+      console.log(member)
       console.log(message)
       this.$store.dispatch('members/load', { reset: true })
       this.$emit('tutup-popup')
