@@ -1,6 +1,10 @@
 <template>
   <div class="popup">
-    <div v-click-outside="{ handler: () => keluar() }" class="main-card">
+    <div
+      v-click-outside="{ handler: () => keluar() }"
+      class="main-card"
+      @keypress.enter="mulai"
+    >
       <div class="header">
         <div class="name-container">
           <h1 class="name">Tambah Transaksi</h1>

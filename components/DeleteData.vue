@@ -47,8 +47,10 @@ export default {
           'members/delete',
           this.id
         )
-        if (message === 'SUCCESS') this.$emit('close-panel')
-        else throw new Error(message)
+        if (message === 'SUCCESS') {
+          this.$emit('tutup-popup')
+          this.$store.dispatch('members/load', { reset: true })
+        } else throw new Error(message)
       } catch (e) {
         this.loading = false
         switch (e.message) {

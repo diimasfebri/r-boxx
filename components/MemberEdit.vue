@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <div class="popup" @keypress.enter="sunting">
     <div class="main-card">
       <div class="header">
         <div class="name-container">
@@ -48,7 +48,6 @@ export default {
         icon: 'mdi-account-circle',
         placeholder: 'masukkan nama baru di sini',
         model: '',
-        readonly: true,
       },
       NIK: {
         label: 'NIK Baru ',
