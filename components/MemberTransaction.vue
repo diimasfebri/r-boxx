@@ -17,21 +17,9 @@
       </div>
       <!-- body menggunakan componen TextInput.vue -->
       <div class="body">
-        <div class="head">
-          <div class="head kanan">
-            <p class="message subtext-dark">NIK</p>
-          </div>
-          <div class="head kiri">
-            <p class="message subtext-dark">Nama</p>
-          </div>
-        </div>
-        <div class="data">
-          <div class="data kiri">
-            {{ member.NIK }}
-          </div>
-          <div class="data kanan">
-            {{ member.name }}
-          </div>
+        <div class="atas">
+          <text-input ref="NIK" :input="NIK" style="margin: 0 1rem 0.5rem 0" />
+          <text-input ref="name" :input="name" style="margin-bottom: 0.5rem" />
         </div>
         <div class="action">
           <div v-ripple class="add-btn" @click="transaction++">
@@ -65,12 +53,28 @@ export default {
       model: '',
       transaction: null,
       rewards: null,
+      name: {
+        label: 'Nama',
+        type: 'text',
+        icon: 'mdi-account-circle',
+        model: '',
+        readonly: true,
+      },
+      NIK: {
+        label: 'NIK',
+        type: 'number',
+        icon: 'mdi-card-account-details',
+        model: '',
+        readonly: true,
+      },
     }
   },
 
   mounted() {
     this.transaction = this.member.transaction
     this.rewards = this.member.rewards
+    this.name.model = this.member.name
+    this.NIK.model = this.member.NIK
   },
 
   methods: {
@@ -86,7 +90,7 @@ export default {
         if (
           this.transaction !== 0 &&
           this.transaction % 10 === 0 &&
-          this.transaction >> this.member.transaction
+          this.transaction > this.member.transaction
         ) {
           this.rewards++
           this.transaksi()
@@ -130,7 +134,7 @@ export default {
     align-items: center;
     flex-direction: column;
     background: #1e1626;
-    width: 18rem;
+    width: 22rem;
     border-radius: 1rem;
     .error-container {
       position: absolute;
@@ -216,42 +220,15 @@ export default {
       align-items: center;
       width: 100%;
       padding: 0 1rem 1rem 1rem;
-      .head {
+      .atas {
         position: relative;
         display: flex;
         width: 100%;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0.1rem;
-        .kiri {
-          width: 48%;
-        }
-        .kanan {
-          width: 48%;
-        }
       }
-      .data {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 0.5rem;
-        .kiri {
-          padding: 0 0 0 0.5rem;
-          background-color: $background-color;
-          height: 2rem;
-          width: 48%;
-          border-radius: 0.5rem;
-        }
-        .kanan {
-          padding: 0 0 0 0.5rem;
-          background-color: $background-color;
-          height: 2rem;
-          width: 48%;
-          border-radius: 0.5rem;
-        }
-      }
+
       .action {
         position: relative;
         width: 100%;
