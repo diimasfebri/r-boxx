@@ -1,5 +1,5 @@
 <template>
-  <div class="popup">
+  <div class="popup" @keypress.enter="sunting">
     <div v-click-outside="{ handler: () => keluar() }" class="main-card">
       <div class="header">
         <div class="name-container">
