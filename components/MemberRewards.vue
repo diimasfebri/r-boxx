@@ -91,7 +91,7 @@ export default {
       transaction: {
         label: 'Jumlah transaction',
         type: 'number',
-        icon: 'mdi-card-account-details',
+        icon: 'mdi-currency-usd',
         model: '',
         readonly: true,
       },

@@ -83,9 +83,11 @@ export default {
     },
     mulai() {
       if (this.transaction !== this.member.transaction) {
-        console.log(this.member.transaction)
-        console.log(this.transaction)
-        if (this.transaction !== 0 || this.transaction % 10 === 0) {
+        if (
+          this.transaction !== 0 &&
+          this.transaction % 10 === 0 &&
+          this.transaction >> this.member.transaction
+        ) {
           this.rewards++
           this.transaksi()
         } else this.transaksi()

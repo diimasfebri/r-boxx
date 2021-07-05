@@ -1,6 +1,6 @@
 <template>
   <div class="popup">
-    <div class="main-card">
+    <div v-click-outside="{ handler: () => keluar() }" class="main-card">
       <div class="header">
         <div class="name-container">
           <h1 class="name">Edit Member</h1>
@@ -48,7 +48,6 @@ export default {
         icon: 'mdi-account-circle',
         placeholder: 'masukkan nama baru di sini',
         model: '',
-        readonly: true,
       },
       NIK: {
         label: 'NIK Baru ',

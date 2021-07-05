@@ -1,6 +1,6 @@
 <template>
   <div class="popup">
-    <div class="main-card">
+    <div v-click-outside="{ handler: () => keluar() }" class="main-card">
       <div class="header">
         <div class="name-container">
           <h1 class="name">Member baru!</h1>
